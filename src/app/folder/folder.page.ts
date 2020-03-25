@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { WatchService } from '../services/watch/watch.service';
 
 @Component({
   selector: 'app-folder',
@@ -8,11 +9,15 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class FolderPage implements OnInit {
   public folder: string;
-
-  constructor(private activatedRoute: ActivatedRoute) { }
+  timer
+  constructor(private activatedRoute: ActivatedRoute,private watchService:WatchService) {
+    this.initTimer()
+   }
 
   ngOnInit() {
     this.folder = this.activatedRoute.snapshot.paramMap.get('id');
   }
-
+  initTimer(){
+    this.timer = this.watchService.timer
+  }
 }
