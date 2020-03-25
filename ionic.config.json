@@ -1,0 +1,7 @@
+{
+  "name": "stop-watch-othecos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
