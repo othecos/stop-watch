@@ -15,6 +15,23 @@
   </ion-header>
 
   <div id="container">
-    <strong class="capitalize big-text">0</strong>
+    <strong class="capitalize big-text">{{watchService.timer}}</strong>
+    <strong class="capitalize ">{{watchService.exercise}}</strong>
   </div>
 </ion-content>
+<ion-footer>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-button color="dark" shape="round" size="large" [disabled]="watchService.isRunning" (click)="playTimer()">
+        <ion-icon color="secondary" name="play" ></ion-icon>
+      </ion-button>
+      <ion-button color="dark" shape="round" size="large" (click)="pauseTimer()" [disabled]="!watchService.isRunning">
+        <ion-icon color="danger" name="pause"></ion-icon>
+      </ion-button>
+      <ion-button color="dark" shape="round" size="large" (click)="openSideMenu()">
+        <ion-icon color="light" name="alarm"></ion-icon>
+      </ion-button>
+      <ion-button color="dark" shape="round" size="large" (click)="refreshTimer()">
+        <ion-icon color="light" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-row>
+</ion-footer>
