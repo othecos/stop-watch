@@ -7,31 +7,62 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{ folder }}</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <div id="container">
-    <strong class="capitalize big-text">{{watchService.timer}}</strong>
-    <strong class="capitalize ">{{watchService.exercise}}</strong>
+    <ion-slides  #slides >
+      <ion-slide  >
+        <div class="flex">
+          <div class="capitalize big-text">{{watchService.timer}}</div>
+          <p class="capitalize ">Pull Ups!</p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="flex">
+          <div class="capitalize big-text">{{watchService.timer}}</div>
+          <p class="capitalize ">Squat</p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="flex">
+          <div class="capitalize big-text">{{watchService.timer}}</div>
+          <p class="capitalize ">Push Up</p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="flex">
+          <div class="capitalize big-text">{{watchService.timer}}</div>
+          <p class="capitalize ">Push Up</p>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div class="flex">
+          <div class="capitalize big-text">{{watchService.timer}}</div>
+          <p class="capitalize ">Push Up</p>
+        </div>
+      </ion-slide>
+    </ion-slides>
   </div>
 </ion-content>
 <ion-footer>
-    <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-button color="dark" shape="round" size="large" [disabled]="watchService.isRunning" (click)="playTimer()">
-        <ion-icon color="secondary" name="play" ></ion-icon>
-      </ion-button>
-      <ion-button color="dark" shape="round" size="large" (click)="pauseTimer()" [disabled]="!watchService.isRunning">
-        <ion-icon color="danger" name="pause"></ion-icon>
-      </ion-button>
-      <ion-button color="dark" shape="round" size="large" (click)="openSideMenu()">
-        <ion-icon color="light" name="alarm"></ion-icon>
-      </ion-button>
-      <ion-button color="dark" shape="round" size="large" (click)="refreshTimer()">
-        <ion-icon color="light" name="refresh"></ion-icon>
-      </ion-button>
-    </ion-row>
+  <ion-row class=" ion-padding-vertical ion-align-items-center ion-justify-content-center">
+
+    <ion-button color="dark" shape="round" size="large" [disabled]="previousButton.disabled"  (click)="goPrevious()">
+      <ion-icon color="light" name="play-skip-back"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="watchService.isRunning" color="dark" shape="round" size="large" (click)="pauseTimer()" >
+      <ion-icon color="danger" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="!watchService.isRunning" color="dark" shape="round" size="large"  (click)="playTimer()">
+      <ion-icon color="light" name="play"></ion-icon>
+    </ion-button>
+    <ion-button color="dark" shape="round" size="large" [disabled]="nextButton.disabled" (click)="goNext()">
+      <ion-icon color="light" name="play-skip-forward"></ion-icon>
+    </ion-button>
+    
+  </ion-row>
 </ion-footer>

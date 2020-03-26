@@ -2,7 +2,7 @@
   <ion-menu contentId="main-content" menuId="menu" type="overlay">
     <ion-content scrollY="false">
       <ion-list id="inbox-list">
-        <ion-list-header>SmartWatch</ion-list-header>
+        <ion-list-header>Smart Stop-Watch</ion-list-header>
         <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
           <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
             detail="false" [class.selected]="selectedIndex == i">

@@ -5,7 +5,11 @@ import { Exercise } from '../pages/pages.models';
   providedIn: 'root'
 })
 export class WatchService {
+
+  isRunning = false
   timers:Set<Subscription> = new Set()
+  queue:Array<any> = []
+
   private _timer = 0;
   public get timer() {
     return this._timer;
@@ -14,10 +18,13 @@ export class WatchService {
     this._timer = value;
   }
   constructor() { }
+
+
+
+
   setTimer(seconds){
     this.timer = seconds
   }
-  isRunning = false
   /**
    * Init countDown of timer
    * @param {number} delay 
@@ -68,8 +75,10 @@ export class WatchService {
     this.isRunning = false
   }
   initRoutine(exercises:Array<Exercise>){
-    exercises.forEach((exercise)=>{
+    this.queue = [...exercises]
+    for (let index = 0; index < this.queue.length; index++) {
+      const element = this.queue[index];
       
-    })
+    }
   }
 }
