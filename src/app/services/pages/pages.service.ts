@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Exercise, Pages } from './pages.models';
 
 
@@ -15,18 +15,20 @@ export class PagesService {
     new Pages('Donate: )','/donate','happy'),
   ];
   public exercises:Array<Exercise> = []
+  onExerciseChanged:EventEmitter<Array<Exercise>> = new EventEmitter()
   constructor() { 
     
   }
   addExercise(exercise:Exercise){
     if(exercise){
       this.exercises.push(exercise)
+      this.onExerciseChanged.emit(this.exercises)
     }
   }
   removeExercise(exercise:Exercise){
     if(exercise){
       let findIndex = this.exercises.findIndex((ex)=> ex.id == exercise.id)
-      if(findIndex != -1) this.exercises.splice(findIndex,1);  console.log('Removed');
+      if(findIndex != -1) this.exercises.splice(findIndex,1);  this.onExerciseChanged.emit(this.exercises);
     }
   }
   

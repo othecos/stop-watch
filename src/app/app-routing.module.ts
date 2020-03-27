@@ -18,6 +18,18 @@ const routes: Routes = [
   {
     path: 'donate',
     loadChildren: () => import('./pages/donate/donate.module').then( m => m.DonatePageModule)
+  },
+  {
+    path: 'count-down',
+    loadChildren: () => import('./pages/count-down/count-down.module').then( m => m.CountDownPageModule)
+  },
+  {
+    path: 'count-up',
+    loadChildren: () => import('./pages/count-up/count-up.module').then( m => m.CountUpPageModule)
+  },
+  {
+    path: 'interval',
+    loadChildren: () => import('./pages/interval/interval.module').then( m => m.IntervalPageModule)
   }
 ];
 

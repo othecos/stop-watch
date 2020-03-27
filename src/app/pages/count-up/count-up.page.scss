@@ -1,0 +1,42 @@
+ion-menu-button {
+    color: var(--ion-color-primary);
+  }
+  ion-title{
+    text-transform: capitalize;
+  }
+  
+  #container {
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #container strong {
+    line-height: 26px;
+  
+  }
+  ion-slide{
+    // width: 100% !important;
+  }
+  .big-text{
+    font-size:  calc(10em + 10vw);
+  }
+  #container p {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8c8c8c;
+    margin: 0;
+  }
+  
+  #container a {
+    text-decoration: none;
+  }
+  
+  ion-content ion-toolbar {
+    --background: transparent;
+  }
+  ion-fab{
+    flex-direction: row;
+  }

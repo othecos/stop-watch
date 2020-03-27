@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title>{{ folder }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button color="light" shape="round" size="large" (click)="refreshTimer()">
+      <ion-button *ngIf="allowButtons(exerciseQueue)" color="light" shape="round" size="large" (click)="onRefresh()">
         <ion-icon color="dark" name="refresh"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -20,53 +20,50 @@
     </ion-toolbar>
   </ion-header>
   <div id="container">
-    <ion-slides  #slides >
-      <ion-slide  >
+    <ion-slides  #slides *ngIf="this.exerciseQueue.length > 0; else noExercise"  >
+      <ion-slide *ngFor="let slide of this.exerciseQueue; index as i " class="full"  >
         <div class="flex">
-          <div class="capitalize big-text">{{watchService.timer}}</div>
-          <p class="capitalize ">Pull Ups!</p>
-        </div>
-      </ion-slide>
-      <ion-slide>
-        <div class="flex">
-          <div class="capitalize big-text">{{watchService.timer}}</div>
-          <p class="capitalize ">Squat</p>
-        </div>
-      </ion-slide>
-      <ion-slide>
-        <div class="flex">
-          <div class="capitalize big-text">{{watchService.timer}}</div>
-          <p class="capitalize ">Push Up</p>
-        </div>
-      </ion-slide>
-      <ion-slide>
-        <div class="flex">
-          <div class="capitalize big-text">{{watchService.timer}}</div>
-          <p class="capitalize ">Push Up</p>
-        </div>
-      </ion-slide>
-      <ion-slide>
-        <div class="flex">
-          <div class="capitalize big-text">{{watchService.timer}}</div>
-          <p class="capitalize ">Push Up</p>
+          <div class="capitalize big-text" [ngClass]="getTextClass()">{{this.watchService.intervalTimer.value}}</div>
+          <h1 class="capitalize ">{{slide.name}}</h1>
+          <h1 class="capitalize ">{{ (i+1) + "/" + (this.exerciseQueue.length)}}</h1>
         </div>
       </ion-slide>
     </ion-slides>
+    <ng-template #noExercise>
+      <div>
+        <div class="flex">
+          <div class="message ion-padding-vertical">
+            <h2 class="capitalize ">Vamos começar!</h2>
+            <p class="capitalize ">Adicione exércicios no menu lateral</p>
+          </div>
+          <ion-button color="dark" shape="round" size="large"  (click)="openSideMenu()" class="ion-hide-lg-up">
+            <ion-icon color="light" name="rocket"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ng-template>
   </div>
 </ion-content>
 <ion-footer>
   <ion-row class=" ion-padding-vertical ion-align-items-center ion-justify-content-center">
 
-    <ion-button color="dark" shape="round" size="large" [disabled]="previousButton.disabled"  (click)="goPrevious()">
+    <ion-button color="dark" shape="round" size="large" [disabled]="previousButton.disabled || !allowButtons(exerciseQueue) "  (click)="goPrevious()">
       <ion-icon color="light" name="play-skip-back"></ion-icon>
     </ion-button>
-    <ion-button *ngIf="watchService.isRunning" color="dark" shape="round" size="large" (click)="pauseTimer()" >
-      <ion-icon color="danger" name="pause"></ion-icon>
-    </ion-button>
-    <ion-button *ngIf="!watchService.isRunning" color="dark" shape="round" size="large"  (click)="playTimer()">
-      <ion-icon color="light" name="play"></ion-icon>
-    </ion-button>
-    <ion-button color="dark" shape="round" size="large" [disabled]="nextButton.disabled" (click)="goNext()">
+    <ng-container *ngIf="!watchService.intervalTimer.isFinished; else isFinished">
+      <ion-button *ngIf="watchService.intervalTimer.isRunning" [disabled]="!allowButtons(exerciseQueue)" color="dark" shape="round" size="large" (click)="onPause()" >
+        <ion-icon color="danger" name="pause"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="!watchService.intervalTimer.isRunning" [disabled]="!allowButtons(exerciseQueue)" color="dark" shape="round" size="large"  (click)="onPlay()">
+        <ion-icon color="light" name="play"></ion-icon>
+      </ion-button>
+    </ng-container>
+    <ng-template #isFinished>
+      <ion-button color="light" shape="round" size="large" (click)="onRefresh()">
+        <ion-icon color="dark" name="refresh"></ion-icon>
+      </ion-button>
+    </ng-template>
+    <ion-button color="dark" shape="round" size="large" [disabled]="nextButton.disabled || !allowButtons(exerciseQueue)" (click)="goNext()">
       <ion-icon color="light" name="play-skip-forward"></ion-icon>
     </ion-button>
     

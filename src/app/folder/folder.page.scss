@@ -1,3 +1,4 @@
+
 ion-menu-button {
   color: var(--ion-color-primary);
 }
@@ -17,11 +18,10 @@ ion-title{
   line-height: 26px;
 
 }
-ion-slide{
-  // width: 100% !important;
-}
 .big-text{
+  width: 100%;
   font-size:  calc(10em + 10vw);
+  transition: all .5s;
 }
 #container p {
   font-size: 16px;
@@ -29,7 +29,9 @@ ion-slide{
   color: #8c8c8c;
   margin: 0;
 }
-
+ion-slide.full{
+  width: var(--ion-slide-width) !important
+}
 #container a {
   text-decoration: none;
 }
@@ -39,4 +41,12 @@ ion-content ion-toolbar {
 }
 ion-fab{
   flex-direction: row;
+}
+.exercise{
+  color: green;
+  transition: all .5s;
+}
+.delay{
+  color: red;
+  transition: all .5s;
 }

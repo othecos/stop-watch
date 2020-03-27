@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Count Up</ion-title>
+   
+  </ion-toolbar>
+  
+</ion-header>
+
+<ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">{{ folder }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div id="container">
+      <div class="flex">
+        <div class="capitalize big-text">{{watchService.timer}}</div>
+      </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-row class=" ion-padding-vertical ion-align-items-center ion-justify-content-center">
+    <ion-button color="dark" shape="round" size="large" [disabled]="previousButton.disabled"  (click)="goPrevious()">
+      <ion-icon color="light" name="play-skip-back"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="watchService.isRunning" color="dark" shape="round" size="large" (click)="pauseTimer()" >
+      <ion-icon color="danger" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="!watchService.isRunning" color="dark" shape="round" size="large"  (click)="playTimer()">
+      <ion-icon color="light" name="play"></ion-icon>
+    </ion-button>
+    <ion-buttons slot="end">
+      <ion-button color="light" shape="round" size="large" (click)="refreshTimer()">
+        <ion-icon color="dark" name="refresh"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-row>
+</ion-footer>
