@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { PagesService } from 'src/app/services/pages/pages.service';
-import { ExerciseInterface, Exercise } from 'src/app/services/pages/pages.models';
+import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercises.models';
+import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 
 @Component({
   selector: 'app-list',
@@ -13,8 +13,7 @@ export class ListComponent implements OnInit {
   items: FormArray;
   constructor(
     private formBuilder: FormBuilder,
-    public pagesServices:PagesService,
-    
+    public exercisesService:ExercisesService,
   ) {
     this.exercisesForm = new FormGroup({
       name:   new FormControl('Pull Ups!',null),
@@ -35,11 +34,11 @@ export class ListComponent implements OnInit {
   onAddExercise(){
     if(this.exercisesForm.valid){
       let exercise:ExerciseInterface = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
-      this.pagesServices.addExercise(exercise)
+      this.exercisesService.add(exercise)
       console.log(this.exercisesForm);
     }
   }
   onDelete(exercise){
-    this.pagesServices.removeExercise(exercise)
+    this.exercisesService.remove(exercise)
   }
 }

@@ -4,16 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/interval',
+    redirectTo: 'interval',
     pathMatch: 'full'
   },
   {
-    path: 'folder',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  },
-  {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'interval',
+    loadChildren: () => import('./pages/interval/interval.module').then( m => m.IntervalPageModule)
   },
   {
     path: 'donate',
@@ -27,10 +23,7 @@ const routes: Routes = [
     path: 'count-up',
     loadChildren: () => import('./pages/count-up/count-up.module').then( m => m.CountUpPageModule)
   },
-  {
-    path: 'interval',
-    loadChildren: () => import('./pages/interval/interval.module').then( m => m.IntervalPageModule)
-  }
+ 
 ];
 
 @NgModule({

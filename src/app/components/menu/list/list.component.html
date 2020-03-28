@@ -24,7 +24,7 @@
   </ion-label>
 </ion-item-divider>
 <ion-list id="labels-list" class="overflow-auto">
-  <ion-item *ngFor="let exercise of pagesServices.exercises" lines="none" [ngStyle]="{'text-decoration': exercise.progress.finished ?  'line-through' : 'initial'}">
+  <ion-item *ngFor="let exercise of exercisesService.exercises" lines="none" [ngStyle]="{'text-decoration': exercise.progress.finished ?  'line-through' : 'initial'}">
     <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
     <ion-label>
       <ion-text color="primary">
