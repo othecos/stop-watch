@@ -120,6 +120,12 @@ ion-menu ion-content {
     --color: var(--ion-color-primary);
   }
   .overflow-auto{
-      overflow: auto;
-      
+      height: 45%;
+      overflow-y: auto;
+  }
+  .form-list{
+    height: 45%;
+  }
+  .divider-list{
+    height: 10%;
   }

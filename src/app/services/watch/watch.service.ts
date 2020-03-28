@@ -86,25 +86,21 @@ export class WatchService {
     return this.timers
   }
   enableCounter() {
-    console.log('Activating');
     this.intervalTimer.isRunning = true
   }
   disableCounter() {
-    console.log('Desabling');
     this.intervalTimer.isRunning = false
   }
   public async play(exercise: Exercise) {
     
     try{
-      console.log('Init play');
-    
       let clock = new Clock()
       this.intervalTimer = clock.time;
       this.init(exercise)
       await clock.runDelay(exercise)
       await clock.runExercise(exercise)
       exercise.progress.finished = true
-      clock = null
+      clock.onDestroy()
     }catch(err){
       throw { status: 'stopped'}
     }

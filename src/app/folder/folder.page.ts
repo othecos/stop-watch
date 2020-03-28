@@ -52,17 +52,17 @@ export class FolderPage implements OnInit {
 
   }
   async initRoutine(indexToBegin) {
-    if(this.watchService.intervalTimer.isFinished){
-      this.exerciseQueue = await this.watchService.refresh(this.exerciseQueue)
-    }
     await this.playNextExercise(this.exerciseQueue[indexToBegin],indexToBegin)
   }
   async playNextExercise(exercise:Exercise,index:number){
+    this.fixIonBug()
     try{
       await this.cleanCurrentExercise()
       await this.playExercise(exercise,index)
       if((index + 1) < this.exerciseQueue.length ){
         await this.playNextExercise(this.exerciseQueue[index+1],index+1)
+      }else{
+        this.watchService.refresh(this.exerciseQueue)
       }
     }catch{
 
@@ -99,6 +99,12 @@ export class FolderPage implements OnInit {
   }
   async onRefresh(){
     this.watchService.intervalTimer.isRefreshing = true
+    this.watchService.queue = this.exerciseQueue = await this.watchService.refresh(this.exerciseQueue)
+    if (this.slides) {
+      this.slides.lockSwipes(true)
+      this.previousButton.disabled = await this.slides.isBeginning()
+      this.nextButton.disabled = await this.slides.isEnd()
+    }
     await this.stopCurrentExercise()
     this.initRoutine(0)
     this.watchService.intervalTimer.isRefreshing = false
@@ -115,7 +121,6 @@ export class FolderPage implements OnInit {
         await this.updateSlides()
         this.previousButton.disabled = await this.slides.isBeginning()
         this.nextButton.disabled = await this.slides.isEnd()
-        await Utils.sleep(2000)
     }
     
     let currentElementIndex = await this.getCurrentExerciseIndex()
@@ -132,7 +137,6 @@ export class FolderPage implements OnInit {
         await this.slides.lockSwipes(true)
         this.nextButton.disabled = await this.slides.isEnd()
         this.previousButton.disabled = await this.slides.isBeginning()
-        await Utils.sleep(2000)
     }
   
     let currentElementIndex = await this.getCurrentExerciseIndex()

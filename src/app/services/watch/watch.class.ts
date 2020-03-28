@@ -27,10 +27,8 @@ export class Clock {
             this.time.value= JSON.parse(JSON.stringify(exercise.delay))
             this.time.isRunningDelay = this.time.isRunning = true
             exercise.progress.stage.delay.running = true
-            console.count("Init delay counter");
             
-            let counter = timer(0, 1000).subscribe(async (time) => {
-                // console.log("Running delay", time,this.time);
+            let counter = timer(1000, 1000).subscribe(async (time) => {
                 
                 if (exercise.progress.stage.delay.running) {
                     if (this.time.value > 0) {
@@ -63,7 +61,7 @@ export class Clock {
             this.time.isRunningExercise = this.time.isRunning  = true
             exercise.progress.stage.exercise.running = true
             console.count("Init exercise counter");
-            let counter = timer(0, 1000).subscribe((time) => {
+            let counter = timer(1000, 50).subscribe((time) => {
                 // console.log("Running exercise", time,this.time);
                 if (exercise.progress.stage.exercise.running) {
                     if (this.time.value > 0) {
@@ -88,5 +86,14 @@ export class Clock {
             this.counters.push(counter)
         })
 
+    }
+    onDestroy(){
+        try{
+            this.counters.forEach((counter)=>{ counter.unsubscribe()})
+        }catch(err){
+            console.warn(err);
+            
+        }
+      
     }
 }
