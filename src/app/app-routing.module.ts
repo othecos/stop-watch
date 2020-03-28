@@ -23,7 +23,10 @@ const routes: Routes = [
     path: 'count-up',
     loadChildren: () => import('./pages/count-up/count-up.module').then( m => m.CountUpPageModule)
   },
- 
+  {
+    path: '**',
+    redirectTo: 'interval',
+  }
 ];
 
 @NgModule({

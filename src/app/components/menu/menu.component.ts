@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PagesService } from 'src/app/services/pages/pages.service';
 import { FormBuilder } from '@angular/forms';
 import { MenuController } from '@ionic/angular';
+import { Pages } from 'src/app/services/pages/pages.models';
+import { Utils } from 'src/app/classes/utils';
+import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -11,21 +14,25 @@ import { MenuController } from '@ionic/angular';
 export class MenuComponent implements OnInit {
   public selectedIndex = 0;
 
-  appPages = []
+  appPages: Array<Pages> = []
   constructor(
+    private router: Router,
     private pagesServices: PagesService,
-    private menu: MenuController
-  ) { 
+  ) {
     this.appPages = this.pagesServices.appPages
   }
-
   ngOnInit() {
-    const path = window.location.pathname.split('/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
-    console.log(this.menu);
-    
+    this.setSelectedIndex(this.router.url)
+    let subscription = this.router.events.subscribe((routerEvent:RouterEvent) => {
+      const path = window.location.pathname.split('/')[1]
+      if (path !== undefined) {
+        if(this.setSelectedIndex(path) != -1)  subscription.unsubscribe()
+      }
+    })
   }
 
+  private setSelectedIndex(path:string){
+    this.selectedIndex = this.appPages.findIndex(page => Utils.removeSpecialCharacter(page.url.toLowerCase()) === path.toLowerCase());
+    return this.selectedIndex
+  }
 }

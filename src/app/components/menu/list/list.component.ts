@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercises.models';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
+import { MenuController } from '@ionic/angular';
+import { EventsService } from 'src/app/services/events/events.service';
 
 @Component({
   selector: 'app-list',
@@ -12,8 +14,9 @@ export class ListComponent implements OnInit {
   exercisesForm: FormGroup;
   items: FormArray;
   constructor(
-    private formBuilder: FormBuilder,
     public exercisesService:ExercisesService,
+    public menu:MenuController,
+    public eventsService:EventsService
   ) {
     this.exercisesForm = new FormGroup({
       name:   new FormControl('Pull Ups!',null),
@@ -40,5 +43,10 @@ export class ListComponent implements OnInit {
   }
   onDelete(exercise){
     this.exercisesService.remove(exercise)
+  }
+  async onPlay(){
+    await this.menu.get('menu')
+    await this.menu.close('menu')
+    this.eventsService.menuEvent.emit('close')
   }
 }

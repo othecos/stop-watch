@@ -38,7 +38,6 @@ export class IntervalPage implements OnInit {
     }
   }
   
-  public folder: string;
   stayOpen = true;
   exerciseQueue: Array<Exercise> = []
   previousButton = {
@@ -48,17 +47,11 @@ export class IntervalPage implements OnInit {
     disabled: false
   }
   constructor(
-    private activatedRoute: ActivatedRoute,
     private clockerService: ClockerService,
     private menu: MenuController,
   ) {
   }
   ngOnInit() {
-    this.folder = this.activatedRoute.snapshot.paramMap.get('id');
-    this.activatedRoute.paramMap.subscribe((response) => {
-      this.folder = response.get('id')
-      console.log(response);
-    })
 
   }
   async ngAfterViewInit() {
