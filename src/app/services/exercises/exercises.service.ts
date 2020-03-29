@@ -5,6 +5,9 @@ import { Exercise } from './exercises.models';
   providedIn: 'root'
 })
 export class ExercisesService {
+
+  public eventEmitter:EventEmitter<'add' | 'remove' | 'replace' | 'clear'> = new EventEmitter()
+
   private _exercises: Array<Exercise> = [];
   
   public get exercises(): Array<Exercise> {
@@ -13,32 +16,40 @@ export class ExercisesService {
   onExerciseChanged:EventEmitter<Array<Exercise>> = new EventEmitter()
   constructor() { }
 
-  public addMany(exercises:Array<Exercise>){
+  public async addMany(exercises:Array<Exercise>){
     if(Array.isArray(exercises)&& exercises.length > 0){
-      exercises.forEach(element => {
-        this.exercises.push(element)
+      await exercises.forEach(async element => {
+        this.add(element,false)
       });
     }
+    this.eventEmitter.emit('add')
   }
-  public add(exercise:Exercise){
+  public add(exercise:Exercise,emitEvent:boolean = true){
     if(exercise){
       this.exercises.push(exercise)
       this.onExerciseChanged.emit(this.exercises)
     }
+    if(emitEvent)this.eventEmitter.emit('add')
   }
-  public remove(exercise:Exercise){
+  public async remove(exercise:Exercise){
     if(exercise){
-      let findIndex = this.exercises.findIndex((ex)=> ex.id == exercise.id)
-      if(findIndex != -1) this.exercises.splice(findIndex,1);  this.onExerciseChanged.emit(this.exercises);
+      let findIndex = await this.exercises.findIndex(async (ex)=> ex.id == exercise.id)
+      if(findIndex != -1) await this.exercises.splice(findIndex,1);  this.onExerciseChanged.emit(this.exercises);
     }
+    this.eventEmitter.emit('remove')
+
   }
   public clear(){
     this._exercises = []
+    this.eventEmitter.emit('clear')
   }
   public replace(exercises:Array<Exercise>,passBy: 'ref' | 'value' = 'ref' ){
     if(Array.isArray(exercises)) this._exercises = [...exercises]
+    this.eventEmitter.emit('replace')
+
   }
   public hasExercises(){
     return this.exercises.length > 0
   }
+
 }

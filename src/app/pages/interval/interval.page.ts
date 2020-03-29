@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { IonSlides, MenuController, ModalController } from '@ionic/angular';
 import { Exercise } from 'src/app/services/exercises/exercises.models';
 import { ActivatedRoute } from '@angular/router';
@@ -6,17 +6,19 @@ import { ClockerService } from 'src/app/services/clocker/clocker.service';
 import { Utils } from 'src/app/classes/utils';
 import { ExercisesPage } from 'src/app/modals/exercises/exercises.page';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-interval',
   templateUrl: './interval.page.html',
   styleUrls: ['./interval.page.scss'],
 })
-export class IntervalPage implements OnInit {
+export class IntervalPage implements OnInit, OnDestroy {
 
   @ViewChild('slides', { static: false }) slides: IonSlides;
 
 
+  subscriptions: Array<Subscription> = []
   buttonsController = {
     previous: {
       disabled: false,
@@ -34,153 +36,174 @@ export class IntervalPage implements OnInit {
       disabled: false,
       show: false,
     },
-    restart:{
+    stop: {
+      disabled: false,
+      show: false,
+    },
+    restart: {
       disabled: true,
       show: false,
     },
-    clear:{
+    clear: {
       disabled: true,
-      show: true, 
+      show: true,
     },
-    exerciseModal:{
+    exerciseModal: {
       disabled: false,
       show: true,
     }
   }
-  
+
   stayOpen = true;
   exerciseQueue: Array<Exercise> = []
   constructor(
     private clockerService: ClockerService,
-    private exercisesService:ExercisesService,
+    private exercisesService: ExercisesService,
     private menu: MenuController,
-    private modalController:ModalController
+    private modalController: ModalController
   ) {
   }
   ngOnInit() {
 
   }
   async ngAfterViewInit() {
-    console.log(this.slides);
-    
-    if (this.slides) {
-      this.slides.lockSwipes(true)
-    }
+
     await this.checkNavigationButtonState()
+    let exerciseSubscription = this.exercisesService.eventEmitter.subscribe((event: 'add' | 'remove' | 'replace' | 'clear') => {
+      console.log("Exercise subs", event);
 
-  }
-  async initRoutine(indexToBegin) {
-    await this.playNextExercise(this.exercisesService.exercises[indexToBegin],indexToBegin)
-  }
-  async playNextExercise(exercise:Exercise,index:number){
-    this.fixIonBug()
-    try{
-      await this.cleanCurrentExercise()
-      await this.playExercise(exercise,index)
-      if((index + 1) < this.exercisesService.exercises.length ){
-        await this.playNextExercise(this.exercisesService.exercises[index+1],index+1)
-      }else{
-        this.clockerService.refresh(this.exercisesService.exercises)
-      }
-    }catch{
 
-    }
-  }
-  async playExercise(exercise,index){
-    try{
-      if(index < this.exercisesService.exercises.length){
-        await this.goTo(index)
-        return await this.clockerService.play(exercise)
+      if (this.slides) {
+        this.slides.lockSwipes(true)
       }
-    }catch(err){
-      console.error(err);
-      throw { status: 'stopped' }
-    }
-  
+      switch (event) {
+        case 'add':
+        case 'remove':
+        case 'replace':
+        case 'clear':
+          this.fixIonBug()
+          this.updateButtonController()
+        default:
+      }
+    })
+    this.subscriptions.push(exerciseSubscription)
+    let clockerSubscription = this.clockerService.eventsEmitter.subscribe(async (event) => {
+      console.log("Clocker subs", event);
+
+      switch (event) {
+        case "stop":
+        case "pause":
+        case "refresh":
+        case "rebuild":
+        case "resume":
+        case 'general':
+          this.updateButtonController()
+        default:
+          break;
+      }
+    })
+    this.subscriptions.push(clockerSubscription)
   }
-  async onPlay(){
-    this.fixIonBug()
-    let currentElementIndex = this.exercisesService.exercises.findIndex((exercise) => { return exercise.progress.initiated && !exercise.progress.finished })
-    console.log('Play Current Element', this.exercisesService.exercises[currentElementIndex])
+
+  public async onPlay() {
+    let currentElementIndex = await this.getCurrentExerciseIndex()
+    console.log(this.exercisesService.exercises,this.exercisesService.exercises[currentElementIndex]);
+    
     if (currentElementIndex != -1) {
       this.clockerService.resume(this.exercisesService.exercises[currentElementIndex])
     } else {
       this.initRoutine(0)
     }
   }
-  async onPause(){
+  public async onPause() {
     let currentElementIndex = await this.getCurrentExerciseIndex()
-    console.log('Pause Current Element', this.exercisesService.exercises[currentElementIndex])
     if (currentElementIndex != -1) {
       this.clockerService.pause(this.exercisesService.exercises[currentElementIndex])
     }
   }
-  async onRefresh(){
-    this.clockerService.intervalTimer.isRefreshing = true
+  public async onRefresh() {
+    await this.clockerService.stopAll()
     let refreshedExercises = await this.clockerService.refresh(this.exercisesService.exercises)
     this.exercisesService.replace(refreshedExercises)
-    if (this.slides) {
-      this.slides.lockSwipes(true)
-      await this.checkNavigationButtonState()
-    }
-    await this.stopCurrentExercise()
     this.initRoutine(0)
-    this.clockerService.intervalTimer.isRefreshing = false
   }
-  async onOpenModalExercise() {
+  public async onStop() {
+    await this.clockerService.stopAll()
+    let refreshedExercises = await this.clockerService.refresh(this.exercisesService.exercises)
+    this.exercisesService.replace(refreshedExercises)
+    await this.goTo(0)
+  }
+  public async onOpenModalExercise() {
     await this.presentModal()
   }
-  async onClearExerciseList(){
+  public async onClearExerciseList() {
+    await this.clockerService.stopAll()
     this.exercisesService.clear()
   }
-  async presentModal() {
+
+  public async goPrevious() {
+    if (this.slides) {
+      await this.slides.lockSwipes(false)
+      await this.slides.slidePrev()
+      await this.slides.lockSwipes(true)
+      await this.fixIonBug()
+      await this.checkNavigationButtonState()
+    }
+
+    let currentElementIndex = await this.getCurrentExerciseIndex()
+    if (currentElementIndex != -1 && ((currentElementIndex - 1) >= 0)) {
+      await this.playNextExercise(this.exercisesService.exercises[currentElementIndex - 1], currentElementIndex - 1)
+    }
+
+  }
+  public async goNext() {
+    if (this.slides) {
+      await this.slides.lockSwipes(false)
+      await this.slides.slideNext()
+      await this.slides.lockSwipes(true)
+      await this.fixIonBug()
+      await this.checkNavigationButtonState()
+    }
+
+    let currentElementIndex = await this.getCurrentExerciseIndex()
+
+    if (currentElementIndex != -1 && ((currentElementIndex + 1) < this.exercisesService.exercises.length)) {
+      await this.playNextExercise(this.exercisesService.exercises[currentElementIndex + 1], currentElementIndex + 1)
+    }
+
+  }
+  public async goTo(index) {
+    if (this.slides) {
+      await this.slides.lockSwipes(false)
+      await this.slides.slideTo(index)
+      await this.slides.lockSwipes(true)
+      await this.fixIonBug()
+      await this.checkNavigationButtonState()
+    }
+  }
+
+  public getTextClass(exercise:Exercise) {
+    if(exercise){
+      if (exercise.progress.initiated) {
+        if(exercise.progress.stage.exercise.running){
+          return 'exercise'
+        }else if(exercise.progress.stage.delay.running){
+          return 'delay'
+        }
+      } else {
+        return ''
+      }
+    }
+  }
+  private async presentModal() {
     const modal = await this.modalController.create({
       component: ExercisesPage,
       swipeToClose: true
     });
     return await modal.present();
   }
-  async goPrevious() {
-    if (this.slides) {
-        await this.slides.lockSwipes(false)
-        await this.slides.slidePrev()
-        await this.slides.lockSwipes(true)
-        await this.updateSlides()
-        await this.checkNavigationButtonState()
-    }
-    
-    let currentElementIndex = await this.getCurrentExerciseIndex()
-    console.log("Current element index",currentElementIndex);
-    if(currentElementIndex != -1 && ((currentElementIndex - 1) >= 0)){
-      await this.playNextExercise(this.exercisesService.exercises[currentElementIndex-1],currentElementIndex-1)
-    }
-    
-  }
-  async goNext() {
-    if (this.slides) {
-        await this.slides.lockSwipes(false)
-        await this.slides.slideNext()
-        await this.slides.lockSwipes(true)
-        await this.checkNavigationButtonState()
-    }
-  
-    let currentElementIndex = await this.getCurrentExerciseIndex()
-    console.log("Current element index",currentElementIndex);
-    
-    if(currentElementIndex != -1 && ((currentElementIndex + 1) < this.exercisesService.exercises.length)){
-      await this.playNextExercise(this.exercisesService.exercises[currentElementIndex+1],currentElementIndex+1)
-    }
-    
-  }
-  async goTo(index) {
-    if (this.slides) {
-      await this.slides.lockSwipes(false)
-      await this.slides.slideTo(index)
-      await this.slides.lockSwipes(true)
-      await this.checkNavigationButtonState()
-    }
-  }
-  async updateSlides(counter = 0) {
+
+  private async updateSlides(counter = 0) {
     if (this.slides) {
       await this.slides.update()
       return true
@@ -191,20 +214,38 @@ export class IntervalPage implements OnInit {
       return false
     }
   }
-  getTextClass() {
-    if (this.clockerService.intervalTimer.isRunningDelay) {
-      return 'delay'
-    } else if (this.clockerService.intervalTimer.isRunningExercise) {
-      return 'exercise'
-    } else {
-      return ''
+
+  private async initRoutine(indexToBegin) {
+    await this.playNextExercise(this.exercisesService.exercises[indexToBegin], indexToBegin)
+  }
+  private async playNextExercise(exercise: Exercise, index: number) {
+   
+    try {
+      await this.cleanCurrentExercise()
+      await this.playExercise(exercise, index)
+      if ((index + 1) < this.exercisesService.exercises.length) {
+        await this.playNextExercise(this.exercisesService.exercises[index + 1], index + 1)
+      } else {
+        this.clockerService.refresh(this.exercisesService.exercises)
+      }
+    } catch{
+
     }
   }
-  allowButtons(exercises: Array<Exercise>) {
-    
-    return this.exercisesService.exercises.length > 0 && !this.clockerService.intervalTimer.isFinished && !this.clockerService.intervalTimer.isRefreshing
+  private async playExercise(exercise, index) {
+    try {
+      if (index < this.exercisesService.exercises.length) {
+        await this.goTo(index)
+        return await this.clockerService.play(exercise)
+      }
+    } catch (err) {
+      console.error(err);
+      throw { status: 'stopped' }
+    }
+
   }
-  async fixIonBug() {
+
+  private async fixIonBug() {
     let ionSlide = document.body.getElementsByTagName('ion-slide')
     for (let index = 0; index < ionSlide.length; index++) {
       const element = ionSlide.item(index);
@@ -212,36 +253,56 @@ export class IntervalPage implements OnInit {
     }
     await this.updateSlides()
   }
-  async getCurrentExerciseIndex(){
-     return await this.exercisesService.exercises.findIndex((exercise) => { return exercise.progress.initiated && !exercise.progress.finished })
+  private async getCurrentExerciseIndex() {
+    return await this.exercisesService.exercises.findIndex((exercise) => { return exercise.progress.initiated && !exercise.progress.finished })
   }
-  async cleanCurrentExercise(){
+  private async cleanCurrentExercise() {
     let currentElementIndex = await this.getCurrentExerciseIndex()
     if (currentElementIndex != -1) {
       await this.clockerService.stop(this.exercisesService.exercises[currentElementIndex])
       this.exercisesService.exercises[currentElementIndex] = await this.clockerService.rebuild(this.exercisesService.exercises[currentElementIndex])
-      console.warn('Clean Was NEEDED',this.exercisesService.exercises[currentElementIndex]);
-      await Utils.sleep(100)
     }
-    console.log('Clean Was not needed');
-  }
-  async stopCurrentExercise(){
-    let currentElementIndex = await this.getCurrentExerciseIndex()
-    if (currentElementIndex != -1) {
-      await this.clockerService.stop(this.exercisesService.exercises[currentElementIndex])
-      this.clockerService.intervalTimer.isFinished = true
-      console.warn('Clean Was NEEDED',this.exercisesService.exercises[currentElementIndex]);
-      await Utils.sleep(100)
-    }
-    console.log('Clean Was not needed');
   }
 
-  async checkNavigationButtonState(){
-    if (this.slides) {
+  private async checkNavigationButtonState() {
+    try{
       this.buttonsController.previous.disabled = await this.slides.isBeginning()
-      this.buttonsController.next.disabled = await this.slides.isEnd() 
-    }
+      this.buttonsController.next.disabled = await this.slides.isEnd()
+    }catch{ }
     this.buttonsController.previous.show = this.exercisesService.hasExercises()
     this.buttonsController.next.show = this.exercisesService.hasExercises()
+  }
+  private updateButtonController() {
+    //Play
+    this.buttonsController.play.disabled = !this.exercisesService.hasExercises()
+    this.buttonsController.play.show = !this.clockerService.intervalTimer.isRunning;
+
+    //Stop
+    this.buttonsController.stop.disabled = !this.clockerService.intervalTimer.isRunning;
+    this.buttonsController.stop.show = this.exercisesService.hasExercises()
+
+    //Pause
+    this.buttonsController.pause.disabled = !this.clockerService.intervalTimer.isRunning;
+    this.buttonsController.pause.show = this.exercisesService.hasExercises()
+
+    //Restart
+    this.buttonsController.restart.disabled = !this.clockerService.intervalTimer.isRunning;
+    this.buttonsController.restart.show = this.exercisesService.hasExercises();
+
+    //Clear
+    this.buttonsController.clear.disabled = !this.exercisesService.hasExercises();
+    this.buttonsController.clear.show = !this.clockerService.intervalTimer.isRunning;;
+
+    //ExerciseModal
+    this.buttonsController.exerciseModal.disabled = this.clockerService.intervalTimer.isRunning;
+    this.buttonsController.exerciseModal.show = true
+
+    //Next
+    //Previous
+    this.checkNavigationButtonState()
+    
+  }
+  ngOnDestroy() {
+    this.subscriptions.forEach((subs) => subs.unsubscribe())
   }
 }

@@ -9,13 +9,19 @@ import { ExercisesService } from '../exercises/exercises.service';
 })
 export class ClockerService {
 
-  queueEmmiter: EventEmitter<void> = new EventEmitter()
-
+  public eventsEmitter:EventEmitter<'stop' | 'play' | 'pause' | 'init' | 'resume' | 'refresh' | 'rebuild' | 'general'> = new EventEmitter()
   private _intervalTimer: ClockerInterface = {
-    value: 0,
+    stages: {
+      delay: {
+        isRunning: false,
+        isFinished: false
+      },
+      exercise: {
+        isRunning: false,
+        isFinished: false
+      },
+    },
     isRunning: false,
-    isRunningDelay: false,
-    isRunningExercise: false,
     isFinished: false,
     isRefreshing: false,
   };
@@ -31,53 +37,87 @@ export class ClockerService {
   }
 
   public async play(exercise: Exercise) {
-
+    this.eventsEmitter.emit('play')
     try {
       let clock = new Clock()
-      this.intervalTimer = clock.time;
+      this.intervalTimer = clock.timer;
+      this.watchChanges(clock)
       this.init(exercise)
-      await clock.runDelay(exercise)
-      await clock.runExercise(exercise)
-      exercise.progress.finished = true
-      clock.onDestroy()
+      this.resume(exercise)
+      await clock.run(exercise)
+      await clock.onDestroy()
     } catch (err) {
-      throw { status: 'stopped' }
+      console.error(err);
+      throw err
     }
   }
-  public async stop(exercise: Exercise) {
+  watchChanges(clock:Clock){
+    // clock.eventsEmitter.subscribe((res)=>{
+    //   console.log(res);
+    //   this.eventsEmitter.emit('general');
+    // })
+  }
+  public async stop(exercise: Exercise,emitEvent = true) {
     exercise.progress.stage.exercise.running = false
-    exercise.progress.stage.delay.running = false
     exercise.progress.stage.exercise.finished = true
+    exercise.progress.stage.delay.running = false
     exercise.progress.stage.delay.finished = true
     exercise.progress.finished = true;
     exercise.progress.initiated = false;
+    this.intervalTimer.isRunning = false
+    if(emitEvent) this.eventsEmitter.emit('stop');
+
     return
+  }
+  public async stopAll() {
+    await this.exerciseServices.exercises.forEach(async (exercise) => {
+      await this.stop(exercise,false)
+    })
+    this.eventsEmitter.emit('stop')
+    return
+  }
+  public init(exercise:Exercise){
+    exercise.progress.initiated = true
+    this.intervalTimer.isRunning = true
+    this.eventsEmitter.emit('init')
   }
   public pause(exercise: Exercise) {
     exercise.progress.stage.delay.running = false
     exercise.progress.stage.exercise.running = false
     this.intervalTimer.isRunning = false
+    this.eventsEmitter.emit('pause')
+
   }
   public resume(exercise: Exercise) {
     exercise.progress.stage.delay.running = true
     exercise.progress.stage.exercise.running = true
     this.intervalTimer.isRunning = true
-  }
-  public init(exercise: Exercise) {
-    exercise.progress.initiated = true
+    this.eventsEmitter.emit('resume')
+
   }
   public async refresh(exercises: Array<Exercise>) {
     this.intervalTimer = {
-      value: 0,
       isRunning: false,
-      isRunningDelay: false,
-      isRunningExercise: false,
+      stages: {
+        delay: {
+          isRunning: false,
+          isFinished: false
+        },
+        exercise: {
+          isRunning: false,
+          isFinished: false
+        },
+      },
       isFinished: false,
       isRefreshing: false
     }
-    return await exercises.map((exercise) => new Exercise(exercise.name, exercise.duration, exercise.delay))
+    let newExercises = await exercises.map((exercise) => new Exercise(exercise.name, exercise.duration, exercise.delay))
+    this.eventsEmitter.emit('refresh')
+    return newExercises
   }
   public async rebuild(exercise) {
-    return await new Exercise(exercise.name, exercise.duration, exercise.delay)
+    let rebuildExercise = await new Exercise(exercise.name, exercise.duration, exercise.delay)
+    this.eventsEmitter.emit('rebuild')
+    return rebuildExercise
   }
 }
