@@ -38,4 +38,7 @@ export class ExercisesService {
   public replace(exercises:Array<Exercise>,passBy: 'ref' | 'value' = 'ref' ){
     if(Array.isArray(exercises)) this._exercises = [...exercises]
   }
+  public hasExercises(){
+    return this.exercises.length > 0
+  }
 }

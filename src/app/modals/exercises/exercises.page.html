@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Exercises</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content scrollY="false">
+  <div class="container">
+    <ion-list class="container__form">
+      <ion-list-header>Add exercises(Enter to add)</ion-list-header>
+      <form [formGroup]="exercisesForm">
+        <ion-item *ngIf="exercisesForm.get('name') as name">
+          <ion-label color="primary" class="ion-text-capitalize">Name</ion-label>
+          <ion-input tabindex="1" formControlName="name" type="text" clearInput="true" (keyup.enter)="onInput($event)">
+          </ion-input>
+        </ion-item>
+        <ion-item *ngIf="exercisesForm.get('duration') as duration">
+          <ion-label color="primary" class="ion-text-capitalize">Duration</ion-label>
+          <ion-input pattern="[0-9]*" tabindex="2" formControlName="duration" type="number" inputmode="numeric"
+            clearInput="true" (keyup.enter)="onInput($event)"></ion-input>
+        </ion-item>
+        <ion-item *ngIf="exercisesForm.get('delay') as delay">
+          <ion-label color="primary" class="ion-text-capitalize">Delay</ion-label>
+          <ion-input pattern="[0-9]*" tabindex="3" formControlName="delay" type="number" inputmode="numeric"
+            clearInput="true" (keyup.enter)="onInput($event)"></ion-input>
+        </ion-item>
+      </form>
+    </ion-list>
+    <div class="container__list">
+      <app-list></app-list>
+    </div>
+  </div>
+</ion-content>

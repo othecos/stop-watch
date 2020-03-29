@@ -10,20 +10,24 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { MenuComponent } from './components/menu/menu.component';
-
+import { ExercisesPage } from './modals/exercises/exercises.page';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [MenuComponent],
+  declarations: [AppComponent,ExercisesPage],
+  entryComponents: [MenuComponent,ExercisesPage],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    ReactiveFormsModule,
     ComponentsModule,
     AppRoutingModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    Keyboard
   ],
   bootstrap: [AppComponent]
 })

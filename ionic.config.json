@@ -1,7 +1,8 @@
 {
   "name": "stop-watch-othecos",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

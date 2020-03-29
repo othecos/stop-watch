@@ -4,8 +4,8 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Interval Training</ion-title>
-    <ion-buttons slot="end">
-      <ion-button *ngIf="allowButtons(exerciseQueue)" color="light" shape="round" size="large" (click)="onRefresh()">
+    <ion-buttons slot="end" *ngIf="buttonsController.restart.show">
+      <ion-button  color="light" shape="round" size="large"  [disabled]="buttonsController.restart.disabled" (click)="onRefresh()">
         <ion-icon color="dark" name="refresh"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -20,52 +20,76 @@
     </ion-toolbar>
   </ion-header>
   <div id="container">
-    <ion-slides  #slides *ngIf="this.exerciseQueue.length > 0; else noExercise"  >
-      <ion-slide *ngFor="let slide of this.exerciseQueue; index as i " class="full"  >
-        <div class="flex">
-          <div class="capitalize big-text" [ngClass]="getTextClass()">{{this.clockerService.intervalTimer.value}}</div>
-          <h1 class="capitalize ">{{slide.name}}</h1>
-          <h1 class="capitalize ">{{ (i+1) + "/" + (this.exerciseQueue.length)}}</h1>
-        </div>
-      </ion-slide>
-    </ion-slides>
+    <ng-container *ngIf="exercisesService.exercises.length > 0; else noExercise">
+      <ion-slides  #slides   >
+        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full"  >
+          <div class="flex">
+            <div class="capitalize big-text" [ngClass]="getTextClass()">{{this.clockerService.intervalTimer.value}}</div>
+            <h1 class="capitalize ">{{slide.name}}</h1>
+            <h1 class="capitalize ">{{ (i+1) + "/" + (exercisesService.exercises.length)}}</h1>
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </ng-container>
     <ng-template #noExercise>
       <div>
         <div class="flex">
           <div class="message ion-padding-vertical">
-            <h2 class="capitalize ">Vamos começar!</h2>
-            <p class="capitalize ">Adicione exércicios no menu lateral</p>
+            <h2 class="capitalize ">Let's start</h2>
+            <p class="capitalize ">Click on the <b><ion-icon name="barbell"></ion-icon></b> to add exercises</p>
           </div>
-          <ion-button color="dark" shape="round" size="large"  (click)="openSideMenu()" class="ion-hide-lg-up">
-            <ion-icon color="light" name="rocket"></ion-icon>
-          </ion-button>
         </div>
       </div>
     </ng-template>
+    <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show" >
+      <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled "  (click)="goPrevious()">
+        <ion-icon color="light" name="play-skip-back"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show" >
+      <ion-fab-button color="dark" [disabled]="buttonsController.next.disabled" (click)="goNext()">
+        <ion-icon color="light" name="play-skip-forward"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </div>
 </ion-content>
+<div>
+  
+</div>
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="buttonsController.clear.show">
+  <ion-fab-button color="danger" [disabled]="buttonsController.clear.disabled"  (click)="onClearExerciseList()">
+      <ion-icon  size="large"  color="light" name="close"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-fab vertical="bottom" horizontal="start" slot="fixed" *ngIf="buttonsController.exerciseModal.show">
+  <ion-fab-button color="dark" [disabled]="buttonsController.exerciseModal.disabled"  (click)="onOpenModalExercise()">
+    <ion-icon color="light" name="barbell"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
 <ion-footer>
-  <ion-row class=" ion-padding-vertical ion-align-items-center ion-justify-content-center">
+  
+  <ion-row class=" ion-padding-vertical ion-align-items-end ion-justify-content-center">
 
-    <ion-button color="dark" shape="round" size="large" [disabled]="previousButton.disabled || !allowButtons(exerciseQueue) "  (click)="goPrevious()">
-      <ion-icon color="light" name="play-skip-back"></ion-icon>
-    </ion-button>
+    
     <ng-container *ngIf="!clockerService.intervalTimer.isFinished; else isFinished">
-      <ion-button *ngIf="clockerService.intervalTimer.isRunning" [disabled]="!allowButtons(exerciseQueue)" color="dark" shape="round" size="large" (click)="onPause()" >
+      <ion-button *ngIf="buttonsController.pause.show" [disabled]="buttonsController.pause.disabled" color="dark" shape="round" size="large" (click)="onPause()" >
         <ion-icon color="danger" name="pause"></ion-icon>
       </ion-button>
-      <ion-button *ngIf="!clockerService.intervalTimer.isRunning" [disabled]="!allowButtons(exerciseQueue)" color="dark" shape="round" size="large"  (click)="onPlay()">
+      <ion-button *ngIf="buttonsController.play.show" [disabled]="buttonsController.play.disabled" color="dark" shape="round" size="large"  (click)="onPlay()">
         <ion-icon color="light" name="play"></ion-icon>
+      </ion-button>
+      <ion-button  color="light" shape="round" size="large"  [disabled]="buttonsController.restart.disabled" (click)="onRefresh()">
+        <ion-icon color="dark" name="refresh"></ion-icon>
       </ion-button>
     </ng-container>
     <ng-template #isFinished>
-      <ion-button color="light" shape="round" size="large" (click)="onRefresh()">
+      <ion-button *ngIf="buttonsController.restart.show" color="light" shape="round" size="large"  [disabled]="buttonsController.restart.disabled" (click)="onRefresh()">
         <ion-icon color="dark" name="refresh"></ion-icon>
       </ion-button>
+      
     </ng-template>
-    <ion-button color="dark" shape="round" size="large" [disabled]="nextButton.disabled || !allowButtons(exerciseQueue)" (click)="goNext()">
-      <ion-icon color="light" name="play-skip-forward"></ion-icon>
-    </ion-button>
+
     
   </ion-row>
+  
 </ion-footer>

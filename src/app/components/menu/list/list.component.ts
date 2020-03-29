@@ -4,6 +4,7 @@ import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercise
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { MenuController } from '@ionic/angular';
 import { EventsService } from 'src/app/services/events/events.service';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
 
 @Component({
   selector: 'app-list',
@@ -11,42 +12,33 @@ import { EventsService } from 'src/app/services/events/events.service';
   styleUrls: ['./list.component.scss'],
 })
 export class ListComponent implements OnInit {
-  exercisesForm: FormGroup;
-  items: FormArray;
   constructor(
     public exercisesService:ExercisesService,
     public menu:MenuController,
-    public eventsService:EventsService
+    public eventsService:EventsService,
+    public keyboard:Keyboard
   ) {
-    this.exercisesForm = new FormGroup({
-      name:   new FormControl('Pull Ups!',null),
-      duration: new FormControl(60,[Validators.min(0)]),
-      delay: new FormControl(10,Validators.min(0))
-    });
-    console.log(this.exercisesForm.controls);
-    
    }
 
-  ngOnInit() {}
+  ngOnInit() {
 
-  onInput(event:KeyboardEvent){
-    if(event.which == 13){
-      this.onAddExercise()
-    }
   }
-  onAddExercise(){
-    if(this.exercisesForm.valid){
-      let exercise:ExerciseInterface = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
-      this.exercisesService.add(exercise)
-      console.log(this.exercisesForm);
-    }
-  }
-  onDelete(exercise){
-    this.exercisesService.remove(exercise)
-  }
+
   async onPlay(){
     await this.menu.get('menu')
     await this.menu.close('menu')
     this.eventsService.menuEvent.emit('close')
   }
+  getExerciseLength(){
+
+  }
+  printExerciseListSize(){
+    return this.exercisesService.hasExercises() ? this.exercisesService.exercises.length + ' exercise(s)' : ''
+  }
+  onDeleteExercise(exercise:Exercise){
+    console.log(exercise);
+    
+    this.exercisesService.remove(exercise)
+  }
 }
+

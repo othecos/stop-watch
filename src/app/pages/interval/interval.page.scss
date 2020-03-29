@@ -20,7 +20,7 @@ ion-menu-button {
   }
   .big-text{
     width: 100%;
-    font-size:  calc(10em + 10vw);
+    font-size:  calc(8em + 8vw);
     transition: all .5s;
   }
   #container p {
@@ -49,4 +49,7 @@ ion-menu-button {
   .delay{
     color: red;
     transition: all .5s;
+  }
+  .ion-padding-vertical{
+      padding: 8px 0;
   }

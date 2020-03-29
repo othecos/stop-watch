@@ -9,7 +9,6 @@ import { ExercisesService } from '../exercises/exercises.service';
 })
 export class ClockerService {
 
-  queue: Array<Exercise> = []
   queueEmmiter: EventEmitter<void> = new EventEmitter()
 
   private _intervalTimer: ClockerInterface = {
@@ -29,11 +28,6 @@ export class ClockerService {
   constructor(
     private exerciseServices: ExercisesService
   ) {
-    this.exerciseServices.onExerciseChanged.subscribe((exercises) => {
-      console.log(exercises);
-      this.queue = [...exercises]
-      this.queueEmmiter.emit()
-    })
   }
 
   public async play(exercise: Exercise) {
