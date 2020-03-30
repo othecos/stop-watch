@@ -1,23 +1,25 @@
-<ion-header >
+<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Interval Training</ion-title>
-    <ion-buttons slot="end" *ngIf="buttonsController.exerciseModal.show" #exerciseModal [ngClass]="{'blink': buttonsController.exerciseModal.animate}">
-      <ion-button  color="light" shape="round" size="large"  [disabled]="buttonsController.exerciseModal.disabled" (click)="onOpenModalExercise()">
+    <ion-title [ngClass]="getAnimationClasses()">{{getTitle()}}</ion-title>
+    <ion-buttons slot="end" *ngIf="buttonsController.exerciseModal.show" #exerciseModal
+      [ngClass]="{'blink': buttonsController.exerciseModal.animate}">
+      <ion-button color="light" shape="round" size="large" [disabled]="buttonsController.exerciseModal.disabled"
+        (click)="onOpenModalExercise()">
         <ion-icon color="dark" name="barbell"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  
+
 </ion-header>
 
 <ion-content>
   <div id="container">
     <ng-container *ngIf="exercisesService.exercises.length > 0; else noExercise">
-      <ion-slides  #slides   >
-        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full"  >
+      <ion-slides #slides>
+        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full">
           <div class="flex">
             <div class="capitalize big-text" [ngClass]="getAnimationClasses(slide)">{{slide.counter}}</div>
             <h1 class="capitalize ">{{slide.name}}</h1>
@@ -31,54 +33,48 @@
         <div class="flex">
           <div class="message ion-padding-vertical">
             <h2 class="capitalize ">Let's start</h2>
-            <p class="capitalize ">Click on the <b><ion-icon name="barbell"></ion-icon></b> to add exercises</p>
+            <p class="capitalize ">Click on the <b>
+                <ion-icon name="barbell"></ion-icon>
+              </b> to add exercises</p>
           </div>
         </div>
       </div>
     </ng-template>
-    <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show" >
-      <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled "  (click)="goPrevious()">
+    <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show">
+      <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled " (click)="goPrevious()">
         <ion-icon color="light" name="play-skip-back"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show" >
+    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show">
       <ion-fab-button color="dark" [disabled]="buttonsController.next.disabled" (click)="goNext()">
         <ion-icon color="light" name="play-skip-forward"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </div>
-  <ion-fab vertical="top" horizontal="center" slot="fixed" *ngIf="buttonsController.clear.show">
-    <ion-fab-button color="danger" [disabled]="buttonsController.clear.disabled"  (click)="onClearExerciseList()">
-        <ion-icon  size="large"  color="light" name="close"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-  <!-- <ion-fab vertical="center" horizontal="center" slot="fixed" *ngIf="buttonsController.exerciseModal.show">
-    <ion-fab-button color="dark" [disabled]="buttonsController.exerciseModal.disabled"  (click)="onOpenModalExercise()">
-      <ion-icon color="light" name="barbell"></ion-icon>
-    </ion-fab-button>
-  </ion-fab> -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="buttonsController.restart.show">
-    <ion-fab-button color="dark" shape="round" size="large"  [disabled]="buttonsController.restart.disabled" (click)="onRefresh()">
-      <ion-icon color="light" name="refresh"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
 <div>
-  
+
 </div>
 
 <ion-footer>
-  
+
   <ion-row class=" ion-padding-vertical ion-align-items-end ion-justify-content-center">
-      <ion-button *ngIf="buttonsController.pause.show" [disabled]="buttonsController.pause.disabled" color="dark" shape="round" size="large" (click)="onPause()" >
-        <ion-icon color="danger" name="pause"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="buttonsController.play.show" [disabled]="buttonsController.play.disabled" color="dark" shape="round" size="large"  (click)="onPlay()">
-        <ion-icon color="light" name="play"></ion-icon>
-      </ion-button>
-      <ion-button *ngIf="buttonsController.stop.show" [disabled]="buttonsController.stop.disabled" color="dark" shape="round" size="large"  (click)="onStop()">
-        <ion-icon color="light" name="stop"></ion-icon>
-      </ion-button>
+    <ion-button *ngIf="buttonsController.restart.show" color="dark" shape="round" size="large"
+      [disabled]="buttonsController.restart.disabled" (click)="onRefresh()">
+      <ion-icon color="light" name="refresh"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="buttonsController.pause.show" [disabled]="buttonsController.pause.disabled" color="dark"
+      shape="round" size="large" (click)="onPause()">
+      <ion-icon color="danger" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="buttonsController.play.show" [disabled]="buttonsController.play.disabled" color="dark"
+      shape="round" size="large" (click)="onPlay()">
+      <ion-icon color="light" name="play"></ion-icon>
+    </ion-button>
+    <ion-button *ngIf="buttonsController.stop.show" [disabled]="buttonsController.stop.disabled" color="dark"
+      shape="round" size="large" (click)="onStop()">
+      <ion-icon color="light" name="stop"></ion-icon>
+    </ion-button>
   </ion-row>
-  
+
 </ion-footer>

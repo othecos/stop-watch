@@ -11,3 +11,17 @@
       overflow-y: auto;
     }
   }
+  ion-menu.md ion-content {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    --padding-top: 20px;
+    --padding-bottom: 20px;
+  }
+  .header{
+    position: sticky;
+    top:  calc( 0px -  calc(var(--padding-top)));
+    z-index: 3;
+  }
+  .list{
+    z-index: 2;
+  }

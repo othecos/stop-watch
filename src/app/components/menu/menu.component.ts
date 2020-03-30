@@ -47,5 +47,4 @@ export class MenuComponent implements OnInit {
     console.log(currentPage)
 
   }
-  return 
 }

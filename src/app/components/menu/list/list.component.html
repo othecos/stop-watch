@@ -1,12 +1,15 @@
 <ion-list >
-    <ion-list-header >
+    <ion-list-header class="header" >
       <ion-item lines="none" style="width: 100%;">
         <ion-label>
-          Exercises 
+          Exercises <span *ngIf=" exercisesService.hasExercises(0)"> - <b >{{exercisesService.exercises.length}}</b></span>
         </ion-label>
         <ion-button (click)="onToggleReorder()" [disabled]="disabledReorder()"> 
           <span>Reorder : <b>{{isReordering ? 'ON' : 'OFF'}}</b></span>
           <span *ngIf="false">Confirm</span>
+        </ion-button>
+        <ion-button color="danger" fill="clear" shape="round" (click)="onClearExerciseList()" [disabled]="!exercisesService.hasExercises(0)"> 
+         <ion-icon name="close" ></ion-icon>
         </ion-button>
       </ion-item>
       <ion-buttons slot="end" class="ion-hide-lg-up" (click)="onPlay()">
@@ -30,7 +33,7 @@
       </ion-item>
     </ng-container>
     <ng-template #hasExercise>
-      <ion-reorder-group (ionItemReorder)="onReorder($event)" [disabled]="!isReordering">
+      <ion-reorder-group (ionItemReorder)="onReorder($event)" [disabled]="!isReordering" class="list">
         <ion-item  *ngFor="let exercise of exercisesService.exercises; index as i" lines="none" [ngStyle]="{'text-decoration': exercise.progress.finished ?  'line-through' : 'initial'}">
           <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
           <ion-reorder slot="start"></ion-reorder>

@@ -10,8 +10,6 @@ export class StorageService {
   public save(key:string,value: any):void{
     try{
       localStorage.setItem(key, JSON.stringify(value));
-      console.log(localStorage);
-      
     }
     catch{
       throw {error: 'Failed to set ${key} to the local storage'}

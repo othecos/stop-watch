@@ -5,6 +5,7 @@ import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { MenuController, IonReorderGroup } from '@ionic/angular';
 import { EventsService } from 'src/app/services/events/events.service';
 import { ClockerService } from 'src/app/services/clocker/clocker.service';
+import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
 
 @Component({
   selector: 'app-list',
@@ -22,7 +23,8 @@ export class ListComponent implements OnInit {
     public exercisesService:ExercisesService,
     public menu:MenuController,
     public eventsService:EventsService,
-    public clockerService:ClockerService
+    public clockerService:ClockerService,
+    public utils:IonicUtilsService
   ) {
    }
 
@@ -56,6 +58,12 @@ export class ListComponent implements OnInit {
     if(ev.detail){
       ev.detail.complete(this.exercisesService.exercises);
     }
+  }
+  public async onClearExerciseList() {
+    await this.utils.presentAlertConfirm('Clear', 'Clear exercise list?', async () => {
+      await this.clockerService.stopAll()
+      this.exercisesService.clear()
+    })
   }
 }
 

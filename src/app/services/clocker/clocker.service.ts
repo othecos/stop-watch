@@ -44,7 +44,7 @@ export class ClockerService {
   ) {
   }
 
-  public async play(exercise: Exercise) {
+  public async play(exercise: Exercise,lastOne = false) {
     this.eventsEmitter.emit('play')
     try {
       let clock = new Clock(this.audioService)
@@ -54,6 +54,10 @@ export class ClockerService {
       this.resume(exercise)
       await clock.run(exercise)
       await clock.onDestroy()
+      if(lastOne) {
+        this.intervalTimer.isInitiated = false
+        this.intervalTimer.isFinished = true
+      }
     } catch (err) {
       console.error(err);
       throw err
@@ -81,11 +85,14 @@ export class ClockerService {
     await this.exerciseServices.exercises.forEach(async (exercise) => {
       await this.stop(exercise, false)
     })
+    this.intervalTimer.isInitiated = false
+    this.intervalTimer.isFinished = true
     this.eventsEmitter.emit('stop')
     return
   }
   public init(exercise: Exercise) {
     exercise.progress.initiated = true
+    this.intervalTimer.isInitiated = true
     this.intervalTimer.isRunning = true
     this.eventsEmitter.emit('init')
   }

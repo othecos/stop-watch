@@ -1,13 +1,14 @@
 import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { Exercise } from './exercises.models';
 import { StorageService } from '../storage/storage.service';
+import { IonicUtilsService } from '../utils/ionic-utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExercisesService {
 
-  public eventEmitter: EventEmitter<{ eventName: 'add' | 'remove' | 'replace' | 'clear', element: Array<Exercise> }> = new EventEmitter()
+  public eventEmitter: EventEmitter<{ eventName: 'add' | 'remove' | 'replace' | 'clear' | 'load', element: Array<Exercise> }> = new EventEmitter()
 
   private _exercises: Array<Exercise> = [];
 
@@ -15,9 +16,9 @@ export class ExercisesService {
     return this._exercises;
   }
   onExerciseChanged: EventEmitter<Array<Exercise>> = new EventEmitter()
-  constructor(private browserStorage:StorageService) { 
-    this.onExerciseChanged.subscribe((event)=>{
-      this.browserStorage.save('exercises',this.exercises)
+  constructor(private browserStorage:StorageService,private utils:IonicUtilsService) { 
+    this.eventEmitter.subscribe((event)=>{
+      if(event.eventName != 'load') this.browserStorage.save('exercises',this.exercises)
     })
     this.loadStorageExercise()
   }
@@ -44,6 +45,7 @@ export class ExercisesService {
     if (exercise) {
       this.exercises.push(exercise)
       this.onExerciseChanged.emit(this.exercises)
+      this.utils.presentToast(`Added <b>${exercise.name}</b> exercise`,1000,'top', 'success')
     }
     if (emitEvent) this.eventEmitter.emit({ eventName: 'add', element: [exercise] })
   }
@@ -52,6 +54,8 @@ export class ExercisesService {
       let findIndex = this.exercises.findIndex((ex) =>ex.id == exercise.id)
       if (findIndex != -1) {
         await this.exercises.splice(findIndex, 1);
+
+        this.utils.presentToast(`Removed <b>${exercise.name}</b> exercise`,1000,'bottom', 'danger')
         this.onExerciseChanged.emit(this.exercises);
         this.eventEmitter.emit({ eventName: 'remove', element: [exercise] })
       }
@@ -61,6 +65,7 @@ export class ExercisesService {
   public clear() {
     this._exercises = []
     this.eventEmitter.emit({ eventName: 'clear', element: [] })
+    this.utils.presentToast(`Clear exercise list`,1000)
   }
   public replace(exercises: Array<Exercise>, passBy: 'ref' | 'value' = 'ref') {
     if (Array.isArray(exercises)) this._exercises = [...exercises]
@@ -79,7 +84,8 @@ export class ExercisesService {
     const exercises:Array<Exercise> =  this.browserStorage.load('exercises')
     console.log(exercises);
     if(exercises){
-      if (Array.isArray(exercises)) this._exercises = [...exercises]
+      if (Array.isArray(exercises)) this._exercises = [...exercises];
+      this.eventEmitter.emit({eventName: 'load', element: this._exercises})
     }
   }
 

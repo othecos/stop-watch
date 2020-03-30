@@ -8,20 +8,20 @@
 </ion-header>
 
 <ion-content>
-    <ion-list class="container__form">
+  <ion-list class="container__form">
+    <form [formGroup]="exercisesForm" (ngSubmit)="onInput()">
       <ion-list-header>
         <ion-item lines="none" style="width: 100%;">
           <ion-label>
-            Add exercises(Enter to add)
+            Add exercises
           </ion-label>
-          <ion-button slot="end" (click)="onInput()">
+          <ion-button slot="end" type="submit">
             <ion-icon slot="icon-only" name="add"></ion-icon>
           </ion-button>
       </ion-item> </ion-list-header>
-      <form [formGroup]="exercisesForm">
         <ion-item *ngIf="exercisesForm.get('name') as name">
           <ion-label color="primary" class="ion-text-capitalize">Name</ion-label>
-          <ion-input tabindex="1" autocorrect="true" formControlName="name" type="text" clearInput="true" (keyup.enter)="onInput($event)">
+          <ion-input tabindex="1" autocomplete="true" autocorrect="on" autocapitalize="on" formControlName="name" type="text" clearInput="true" (keyup.enter)="onInput($event)">
           </ion-input>
         </ion-item>
         <ion-item *ngIf="exercisesForm.get('duration') as duration">

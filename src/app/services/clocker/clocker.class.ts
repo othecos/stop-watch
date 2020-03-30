@@ -52,9 +52,10 @@ export class Clock {
     }
     async run(exercise) {
         this.timer.isRunning = true
+        this.timer.stages.delay.isInitiated = true
         await this.runDelay(exercise)
+        this.timer.stages.exercise.isInitiated = true
         await this.runExercise(exercise)
-        this.timer.isRunning = false
     }
     async runDelay(exercise: Exercise) {
         return new Promise((resolve, reject) => {
@@ -71,7 +72,6 @@ export class Clock {
                 // }else if(exercise.counter == 0){
                 //     this.audioService.stop('count-down')
                 // }
-                console.log(exercise)
 
                 if (exercise.progress.stage.delay.running) {
                     if (exercise.counter > 0) {
@@ -148,8 +148,6 @@ export class Clock {
         catch{ return '' }
     }
     setRunning(type: 'delay' | 'exercise') {
-        // this.timer.isRunning = true
-        // console.log("Running", this.timer.isRunning);
         this.eventsEmitter.emit('running')
         switch (type) {
             case 'delay':
@@ -161,24 +159,23 @@ export class Clock {
         }
     }
     setFinished(type: 'delay' | 'exercise', counter?: Subscription) {
-        this.timer.isFinished = true;
-        // this.eventsEmitter.emit('running')
         switch (type) {
             case 'delay':
+                this.timer.stages.delay.isInitiated = false
                 this.timer.stages.delay.isRunning = false
                 this.timer.stages.delay.isFinished = true
                 break;
             case 'exercise':
+                this.timer.stages.exercise.isInitiated = false
                 this.timer.stages.exercise.isRunning = false
                 this.timer.stages.exercise.isFinished = true
+                this.timer.isFinished = true
+                this.timer.isRunning = false
                 break;
         }
         if (counter) counter.unsubscribe()
     }
     setPaused(type: 'delay' | 'exercise') {
-        // this.timer.isRunning = false
-        console.log(this.counters);
-        // this.eventsEmitter.emit('running')
         switch (type) {
             case 'delay':
                 this.timer.stages.exercise.isRunning = false
