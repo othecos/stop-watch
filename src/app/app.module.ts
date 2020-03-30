@@ -12,7 +12,6 @@ import { ComponentsModule } from './components/components.module';
 import { MenuComponent } from './components/menu/menu.component';
 import { ExercisesPage } from './modals/exercises/exercises.page';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Keyboard } from '@ionic-native/keyboard/ngx';
 @NgModule({
   declarations: [AppComponent,ExercisesPage],
   entryComponents: [MenuComponent,ExercisesPage],
@@ -27,7 +26,6 @@ import { Keyboard } from '@ionic-native/keyboard/ngx';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    Keyboard
   ],
   bootstrap: [AppComponent]
 })

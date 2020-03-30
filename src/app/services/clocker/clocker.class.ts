@@ -2,32 +2,41 @@ import { timer, Subscription } from 'rxjs'
 import { Exercise } from '../exercises/exercises.models'
 import * as uuid from 'uuid';
 import { EventEmitter } from '@angular/core';
+import { AudioService } from '../audio/audio.service';
 export interface ClockerInterface {
     stages: {
         delay: {
             isRunning: boolean
-            isFinished: boolean
+            isInitiated: boolean,
+            isFinished: boolean,
+
         },
         exercise: {
             isRunning: boolean
-            isFinished: boolean
+            isFinished: boolean,
+            isInitiated: boolean,
         },
     }
     isRunning: boolean,
+    isInitiated: boolean,
     isFinished: boolean,
     isRefreshing: boolean,
 }
 export class Clock {
     timer: ClockerInterface = {
         isRunning: false,
+        isInitiated: false,
         stages: {
             delay: {
                 isRunning: false,
-                isFinished: false
+                isFinished: false,
+                isInitiated: false,
+
             },
             exercise: {
                 isRunning: false,
-                isFinished: false
+                isFinished: false,
+                isInitiated: false,
             },
         },
         isFinished: false,
@@ -37,8 +46,8 @@ export class Clock {
 
     runningExercises: Array<Exercise> = []
 
-    public eventsEmitter:EventEmitter<'running'> = new EventEmitter()
-    constructor() {
+    public eventsEmitter: EventEmitter<'running'> = new EventEmitter()
+    constructor(private audioService: AudioService) {
 
     }
     async run(exercise) {
@@ -52,15 +61,21 @@ export class Clock {
             if (this.isAlreadyRunning(exercise)) reject({ counter: this.findCounterId(exercise), message: 'Exercise already running' })
 
             exercise.counter = JSON.parse(JSON.stringify(exercise.delay))
-
+            exercise.progress.stage.delay.initiated = true
             let id = this.generateClockId()
             let firsTimeRunning = true
+            this.setRunning('delay')
             let counter = timer(1000, 1000).subscribe((timer) => {
+                // if(exercise.counter == 10){
+                //     this.audioService.play('count-down')
+                // }else if(exercise.counter == 0){
+                //     this.audioService.stop('count-down')
+                // }
+                console.log(exercise)
 
                 if (exercise.progress.stage.delay.running) {
-                    this.setRunning('delay')
-                    if ( exercise.counter > 0) {
-                         exercise.counter--
+                    if (exercise.counter > 0) {
+                        exercise.counter--
                     } else {
                         this.setFinished('delay', counter)
                         resolve({ counter: id, message: 'Regular Stop' })
@@ -69,7 +84,7 @@ export class Clock {
                     this.setFinished('delay', counter)
                     reject({ counter: id, message: 'Force stop' })
                 } else {
-                    this.setPaused('delay')
+                    // this.setPaused('delay')
                 }
                 if (firsTimeRunning) {
                     this.counters.push({ id, counter, exercise })
@@ -84,13 +99,14 @@ export class Clock {
         return new Promise((resolve, reject) => {
             if (this.isAlreadyRunning(exercise)) reject({ counter: this.findCounterId(exercise), message: 'Exercise already running' })
             exercise.counter = JSON.parse(JSON.stringify(exercise.duration))
+            exercise.progress.stage.exercise.initiated = true
             let id = this.generateClockId()
             let firsTimeRunning = true
-            let counter = timer(1000, 50).subscribe((timer) => {
+            this.setRunning('exercise')
+            let counter = timer(1000, 1000).subscribe((timer) => {
                 if (exercise.progress.stage.exercise.running) {
-                    this.setRunning('exercise')
-                    if ( exercise.counter > 0) {
-                         exercise.counter--
+                    if (exercise.counter > 0) {
+                        exercise.counter--
                     } else {
                         this.setFinished('exercise', counter)
                         resolve({ counter: id, message: 'Regular Stop' })
@@ -99,7 +115,7 @@ export class Clock {
                     this.setFinished('exercise', counter)
                     reject({ counter: id, message: 'Force stop' })
                 } else {
-                    this.setPaused('exercise')
+                    // this.setPaused('exercise')
                 }
                 if (firsTimeRunning) {
                     this.counters.push({ id, counter, exercise })

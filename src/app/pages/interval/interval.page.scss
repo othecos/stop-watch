@@ -53,3 +53,7 @@ ion-menu-button {
   .ion-padding-vertical{
       padding: 8px 0;
   }
+
+  .blink{
+    animation:  bounce 2s ease infinite;
+  }

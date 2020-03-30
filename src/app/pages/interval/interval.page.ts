@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
-import { IonSlides, MenuController, ModalController } from '@ionic/angular';
+import { IonSlides, MenuController, ModalController, AlertController } from '@ionic/angular';
 import { Exercise } from 'src/app/services/exercises/exercises.models';
 import { ActivatedRoute } from '@angular/router';
 import { ClockerService } from 'src/app/services/clocker/clocker.service';
@@ -7,6 +7,8 @@ import { Utils } from 'src/app/classes/utils';
 import { ExercisesPage } from 'src/app/modals/exercises/exercises.page';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { Subscription } from 'rxjs';
+import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
+import { AudioService } from 'src/app/services/audio/audio.service';
 
 @Component({
   selector: 'app-interval',
@@ -46,11 +48,12 @@ export class IntervalPage implements OnInit, OnDestroy {
     },
     clear: {
       disabled: true,
-      show: true,
+      show: false,
     },
     exerciseModal: {
       disabled: false,
       show: true,
+      animate: true,
     }
   }
 
@@ -60,7 +63,10 @@ export class IntervalPage implements OnInit, OnDestroy {
     private clockerService: ClockerService,
     private exercisesService: ExercisesService,
     private menu: MenuController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController:AlertController,
+    private utils:IonicUtilsService,
+    private audioService:AudioService
   ) {
   }
   ngOnInit() {
@@ -69,16 +75,20 @@ export class IntervalPage implements OnInit, OnDestroy {
   async ngAfterViewInit() {
 
     await this.checkNavigationButtonState()
-    let exerciseSubscription = this.exercisesService.eventEmitter.subscribe((event: 'add' | 'remove' | 'replace' | 'clear') => {
-      console.log("Exercise subs", event);
-
-
+    let exerciseSubscription = this.exercisesService.eventEmitter.subscribe((event:{
+      eventName: "add" | "remove" | "replace" | "clear";
+      element: Array<Exercise>;
+  }) => {
       if (this.slides) {
         this.slides.lockSwipes(true)
       }
-      switch (event) {
-        case 'add':
+      console.log(event.eventName,event.element);
+      
+      switch (event.eventName) {
         case 'remove':
+          if(event.element && event.element.length > 0 ) this.clockerService.stop(event.element[0])
+          break;
+        case 'add':
         case 'replace':
         case 'clear':
           this.fixIonBug()
@@ -88,8 +98,6 @@ export class IntervalPage implements OnInit, OnDestroy {
     })
     this.subscriptions.push(exerciseSubscription)
     let clockerSubscription = this.clockerService.eventsEmitter.subscribe(async (event) => {
-      console.log("Clocker subs", event);
-
       switch (event) {
         case "stop":
         case "pause":
@@ -107,8 +115,6 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   public async onPlay() {
     let currentElementIndex = await this.getCurrentExerciseIndex()
-    console.log(this.exercisesService.exercises,this.exercisesService.exercises[currentElementIndex]);
-    
     if (currentElementIndex != -1) {
       this.clockerService.resume(this.exercisesService.exercises[currentElementIndex])
     } else {
@@ -116,7 +122,10 @@ export class IntervalPage implements OnInit, OnDestroy {
     }
   }
   public async onPause() {
+
     let currentElementIndex = await this.getCurrentExerciseIndex()
+    console.log(currentElementIndex);
+    
     if (currentElementIndex != -1) {
       this.clockerService.pause(this.exercisesService.exercises[currentElementIndex])
     }
@@ -134,11 +143,14 @@ export class IntervalPage implements OnInit, OnDestroy {
     await this.goTo(0)
   }
   public async onOpenModalExercise() {
+    this.buttonsController.exerciseModal.animate = false
     await this.presentModal()
   }
   public async onClearExerciseList() {
+   await this.utils.presentAlertConfirm('Clear', 'Clear exercise list?',async()=>{
     await this.clockerService.stopAll()
     this.exercisesService.clear()
+   })
   }
 
   public async goPrevious() {
@@ -182,18 +194,23 @@ export class IntervalPage implements OnInit, OnDestroy {
     }
   }
 
-  public getTextClass(exercise:Exercise) {
+  public getAnimationClasses(exercise:Exercise) {
+    let classes = []
     if(exercise){
+      if(exercise.progress.stage.delay.running && exercise.counter < 5){
+        classes.push('blink')
+      }
       if (exercise.progress.initiated) {
-        if(exercise.progress.stage.exercise.running){
-          return 'exercise'
-        }else if(exercise.progress.stage.delay.running){
-          return 'delay'
+        if(exercise.progress.stage.exercise.running && !exercise.progress.stage.exercise.finished){
+          classes.push('exercise')
+        } 
+        if(exercise.progress.stage.delay.running && !exercise.progress.stage.delay.finished){
+          classes.push('delay')
         }
-      } else {
-        return ''
       }
     }
+    
+    return classes
   }
   private async presentModal() {
     const modal = await this.modalController.create({
@@ -290,8 +307,8 @@ export class IntervalPage implements OnInit, OnDestroy {
     this.buttonsController.restart.show = this.exercisesService.hasExercises();
 
     //Clear
-    this.buttonsController.clear.disabled = !this.exercisesService.hasExercises();
-    this.buttonsController.clear.show = !this.clockerService.intervalTimer.isRunning;;
+    this.buttonsController.clear.disabled = this.clockerService.intervalTimer.isRunning;;
+    this.buttonsController.clear.show = this.exercisesService.hasExercises();
 
     //ExerciseModal
     this.buttonsController.exerciseModal.disabled = this.clockerService.intervalTimer.isRunning;

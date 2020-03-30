@@ -1,6 +1,8 @@
 export interface ExerciseStatesInterface {
     running: boolean
-    finished: boolean
+    finished: boolean,
+    initiated: boolean,
+
 }
 export interface ExerciseInterface {
     id: string;
@@ -50,11 +52,13 @@ export class Exercise implements ExerciseInterface {
             stage: {
                 delay: {
                     running: false,
-                    finished: false
+                    finished: false,
+                    initiated: false
                 },
                 exercise: {
                     running: false,
-                    finished: false
+                    finished: false,
+                    initiated: false
                 }
             }
         }
