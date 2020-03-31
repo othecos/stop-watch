@@ -4,32 +4,28 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'interval',
+    redirectTo: 'router/interval',
     pathMatch: 'full'
   },
   {
-    path: 'interval',
+    path: 'router/interval',
     loadChildren: () => import('./pages/interval/interval.module').then( m => m.IntervalPageModule)
   },
   {
-    path: 'donate',
+    path: 'router/donate',
     loadChildren: () => import('./pages/donate/donate.module').then( m => m.DonatePageModule)
   },
   {
-    path: 'count-down',
+    path: 'router/count-down',
     loadChildren: () => import('./pages/count-down/count-down.module').then( m => m.CountDownPageModule)
   },
   {
-    path: 'count-up',
+    path: 'router/count-up',
     loadChildren: () => import('./pages/count-up/count-up.module').then( m => m.CountUpPageModule)
   },
   {
     path: '**',
-    redirectTo: 'interval',
-  },
-  {
-    path: 'timer',
-    loadChildren: () => import('./modals/timer/timer.module').then( m => m.TimerPageModule)
+    redirectTo: '/router/interval',
   }
 ];
 

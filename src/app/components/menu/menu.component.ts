@@ -19,27 +19,24 @@ export class MenuComponent implements OnInit {
   constructor(
     private router: Router,
     private pagesServices: PagesService,
+    private activatedRoute:ActivatedRoute
   ) {
     this.appPages = this.pagesServices.appPages
   }
   ngOnInit() {
-    this.setSelectedIndex(this.router.url)
-    let subscription = this.router.events.subscribe((routerEvent:RouterEvent) => {
-      const path = window.location.pathname.split('/')[1]
-      if (path !== undefined) {
-         this.setSelectedIndex(path)
-      }
-      this.showExerciseList = Utils.removeSpecialCharacter(path) == 'interval'
+    this.pagesServices.event.subscribe((event)=>{
+      this.checkVisibility()
     })
+  }
+  checkVisibility(){
+    this.showExerciseList = this.isPageActive('interval')
+    console.log(this.pagesServices.getActivePage());
     
   }
-
-  private setSelectedIndex(path:string){
-    this.selectedIndex = this.appPages.findIndex(page => Utils.removeSpecialCharacter(page.url.toLowerCase()) === path.toLowerCase());
-    return this.selectedIndex
-  }
-  isListVisible(){
-    return this.showExerciseList
+  isPageActive(URL){
+    try{
+      return this.pagesServices.getActivePage().url.includes(URL) 
+    }catch{return false}
   }
   getCurrentPage(path){
     if(!path) path = window.location.pathname.split('/')[1]
