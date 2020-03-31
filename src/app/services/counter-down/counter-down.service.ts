@@ -12,11 +12,11 @@ export class CounterDownService {
   public isRunning: boolean = false
   public isInitiated: boolean = false
   public isFinished: boolean = false
-  private cyclePeriod: number = 25
+  private cyclePeriod: number = 80
   private subs: Subscription
 
    hours: number = 0
-   min: number = 45
+   min: number = 0
    sec: number = 0
    ms: number = 0
    startTime: number

@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-title [ngClass]="getAnimationClasses(null)">{{getTitle()}}</ion-title>
     <ion-buttons slot="end" *ngIf="buttonsController.exerciseModal.show" #exerciseModal
-      [ngClass]="{'blink': buttonsController.exerciseModal.animate}">
+      [ngClass]="{'bounce': buttonsController.exerciseModal.animate}">
       <ion-button color="light" shape="round" size="large" [disabled]="buttonsController.exerciseModal.disabled"
         (click)="onOpenModalExercise()">
         <ion-icon color="dark" name="barbell"></ion-icon>
@@ -21,6 +21,7 @@
       <ion-slides #slides>
         <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full" (ionSlideNextEnd)="goNext()" (ionSlideNextEnd)="goPrevious()">
           <div class="flex">
+            <ion-button *ngIf="isDelayRunning(slide.counter)" (click)="onJumpToExercise()" color="dark" class="blink" >Jump to exercise</ion-button>
             <div class="capitalize big-text" [ngClass]="getAnimationClasses(slide)">{{slide.counter}}</div>
             <h1 class="capitalize ">{{slide.name}}</h1>
             <h1 class="capitalize ">{{ (i+1) + "/" + (exercisesService.exercises.length)}}</h1>

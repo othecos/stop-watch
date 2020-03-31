@@ -55,7 +55,11 @@ ion-menu-button {
   }
 
   .blink{
+    animation:  blink 1s ease infinite;
+  }
+  .bounce{
     animation:  bounce 1s ease infinite;
+
   }
 ion-slides{
   height: 100%;

@@ -143,10 +143,15 @@ export class ClockerService {
     this.eventsEmitter.emit('refresh')
     return newExercises
   }
-  public async rebuild(exercise) {
+  public async rebuild(exercise:Exercise) {
     let rebuildExercise = await new Exercise(exercise.name, exercise.duration, exercise.delay)
     this.eventsEmitter.emit('rebuild')
     return rebuildExercise
+  }
+  public async skipDelay(exercise:Exercise){
+    if(this.intervalTimer.stages.delay.isInitiated && !this.intervalTimer.stages.delay.isFinished){
+      exercise.counter = 3
+    }
   }
 
 }

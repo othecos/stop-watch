@@ -11,7 +11,7 @@ export class CounterUpService {
   public isRunning:boolean = false
   public isInitiated:boolean = false
   public isFinished:boolean = false
-  private cyclePeriod:number = 25
+  private cyclePeriod:number = 80
   private subs:Subscription
   constructor() { 
     this.timer = new Date(Date.now()).setHours(0,0,0,0)

@@ -37,7 +37,7 @@ export class PagesService {
     })
   }
   private updateCurrentRoute() {
-    let currentChild = this.activatedRoute.snapshot.children.find((child) => { return child.routeConfig.path })
+    let currentChild = this.activatedRoute.snapshot.children.find((child) => { return !Utils.isEmpty(child.routeConfig.path) })
     if (currentChild) {
       let path = currentChild.routeConfig.path
       this.currentPath = path.substr(path.lastIndexOf(this.folderPath + "/") + this.folderPath.length)

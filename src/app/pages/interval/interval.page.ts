@@ -197,7 +197,7 @@ export class IntervalPage implements OnInit, OnDestroy {
     }
     
     if (this.clockerService.intervalTimer.isRunning && exercise.counter <= 5) {
-      classes.push('blink')
+      classes.push('bounce')
     }
     if (this.clockerService.intervalTimer.isInitiated && !this.clockerService.intervalTimer.isFinished) {
       if (this.clockerService.intervalTimer.stages.exercise.isInitiated && !this.clockerService.intervalTimer.stages.exercise.isFinished) {
@@ -342,5 +342,18 @@ export class IntervalPage implements OnInit, OnDestroy {
     } else {
       return false
     }
+  }
+  async onJumpToExercise(){
+    if(this.clockerService.intervalTimer.stages.delay.isInitiated && !this.clockerService.intervalTimer.stages.delay.isFinished){
+      let currentElementIndex = await this.getCurrentExerciseIndex()
+      console.log(currentElementIndex);
+      
+      if(currentElementIndex != -1){
+        this.clockerService.skipDelay(this.exercisesService.exercises[currentElementIndex])
+      }
+    }
+  }
+  isDelayRunning(counter){
+    return this.clockerService.intervalTimer.stages.delay.isInitiated && !this.clockerService.intervalTimer.stages.delay.isFinished && counter > 5
   }
 }
