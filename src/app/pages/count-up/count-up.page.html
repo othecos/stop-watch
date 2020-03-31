@@ -11,7 +11,7 @@
 
 <ion-content>
   <div class="center">
-    {{this.counter.timer |date: 'HH:mm:ss:SS'}}
+    {{this.counter.timer | date: 'HH:mm:ss:SS'}}
   </div>
   <!-- <ion-fab vertical="center" horizontal="end">
     <ion-fab-button color="dark">
@@ -22,7 +22,7 @@
 <ion-footer>
 
   <ion-row class=" ion-padding-vertical ion-align-items-end ion-justify-content-center">
-    <ion-button  color="dark" shape="round" size="large" (click)="onRestart()" *ngIf="this.counter.isRunning" >
+    <ion-button *ngIf="this.counter.isRunning"  color="dark" shape="round" size="large" (click)="onRestart()"  >
       <ion-icon color="light" name="refresh"></ion-icon>
     </ion-button>
     <ion-button  color="dark"  shape="round" size="large" (click)="onPause()" [disabled]="!this.counter.isRunning">

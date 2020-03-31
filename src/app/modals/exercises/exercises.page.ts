@@ -22,7 +22,8 @@ export class ExercisesPage implements OnInit {
     this.exercisesForm = new FormGroup({
       name:   new FormControl('Pull Ups!',null),
       duration: new FormControl(60,[Validators.min(0)]),
-      delay: new FormControl(10,Validators.min(0))
+      delay: new FormControl(10,Validators.min(0)),
+      // sets: new FormControl(5,Validators.min(0))
     });
     console.log(this.exercisesForm.controls);
     

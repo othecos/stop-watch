@@ -19,7 +19,7 @@
   <div id="container">
     <ng-container *ngIf="exercisesService.exercises.length > 0; else noExercise">
       <ion-slides #slides>
-        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full">
+        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full" (ionSlideNextEnd)="goNext()" (ionSlideNextEnd)="goPrevious()">
           <div class="flex">
             <div class="capitalize big-text" [ngClass]="getAnimationClasses(slide)">{{slide.counter}}</div>
             <h1 class="capitalize ">{{slide.name}}</h1>

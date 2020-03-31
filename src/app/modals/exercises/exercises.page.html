@@ -16,7 +16,7 @@
             Add exercises
           </ion-label>
           <ion-button slot="end" type="submit">
-            <ion-icon slot="icon-only" name="add"></ion-icon>
+            <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
           </ion-button>
       </ion-item> </ion-list-header>
         <ion-item *ngIf="exercisesForm.get('name') as name">
@@ -34,6 +34,11 @@
           <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="delay" type="number" inputmode="numeric"
             clearInput="true" (keyup.enter)="onInput()"></ion-input>
         </ion-item>
+        <!-- <ion-item *ngIf="exercisesForm.get('sets') as delay">
+          <ion-label color="primary" class="ion-text-capitalize">Sets</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="sets" type="number" inputmode="numeric"
+            clearInput="true" (keyup.enter)="onInput()"></ion-input>
+        </ion-item> -->
       </form>
     </ion-list>
       <app-list></app-list>

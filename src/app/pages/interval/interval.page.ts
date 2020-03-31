@@ -74,9 +74,7 @@ export class IntervalPage implements OnInit, OnDestroy {
       eventName: "add" | "remove" | "replace" | "clear" | 'load';
       element: Array<Exercise>;
     }) => {
-      if (this.slides) {
-        this.slides.lockSwipes(true)
-      }
+      
       switch (event.eventName) {
         case 'remove':
           if (event.element && event.element.length > 0) this.clockerService.stop(event.element[0])
@@ -162,6 +160,8 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   }
   public async goNext() {
+    console.log('hi');
+    
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slideNext()
@@ -178,6 +178,8 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   }
   public async goTo(index) {
+    console.log('Hi');
+    
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slideTo(index)
@@ -288,7 +290,7 @@ export class IntervalPage implements OnInit, OnDestroy {
     this.buttonsController.previous.show = this.exercisesService.hasExercises()
     this.buttonsController.next.show = this.exercisesService.hasExercises()
   }
-  private updateButtonController() {
+  private async updateButtonController() {
 
     //Play
     this.buttonsController.play.disabled = !this.exercisesService.hasExercises()
@@ -313,6 +315,7 @@ export class IntervalPage implements OnInit, OnDestroy {
 
     //Next
     //Previous
+    await this.lockSlides()
     this.checkNavigationButtonState()
   }
   getTitle() {
@@ -328,5 +331,16 @@ export class IntervalPage implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe())
+  }
+  private async lockSlides(counter = 0) {
+    if (this.slides) {
+      await this.slides.lockSwipes(true)
+      return true
+    } else if (counter < 3) {
+      await Utils.sleep(200)
+      return this.lockSlides(++counter)
+    } else {
+      return false
+    }
   }
 }
