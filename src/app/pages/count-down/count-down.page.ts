@@ -11,7 +11,7 @@ import { TimerPage } from 'src/app/modals/timer/timer.page';
 export class CountDownPage {
 
   constructor(
-    private counter:CounterDownService,
+    public counter:CounterDownService,
     private modalController:ModalController
   ) { 
   }

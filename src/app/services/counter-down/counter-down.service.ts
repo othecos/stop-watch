@@ -19,6 +19,7 @@ export class CounterDownService {
    min: number = 45
    sec: number = 0
    ms: number = 0
+   startTime: number
   constructor(
     private storage:StorageService
 
@@ -31,6 +32,7 @@ export class CounterDownService {
     this.sec = sec
     this.ms = ms
     this.timer = new Date(Date.now()).setHours(hours, min, sec, ms)
+    this.startTime = new Date(Date.now()).setHours(hours, min, sec, ms)
     this.saveVariables()
   }
   public start() {
@@ -45,8 +47,7 @@ export class CounterDownService {
   }
   public pause() {
     this.isRunning = false
-    console.log(this.timer);
-
+    this.startTime = new Date(Date.now()).setHours(this.hours, this.min, this.sec, this.ms)
   }
   public resume() {
     this.isRunning = true;
@@ -65,16 +66,16 @@ export class CounterDownService {
   }
   public initCounter() {
     if (!this.subs || this.subs.closed) {
-      let startTime = new Date(Date.now()).setHours(this.hours, this.min, this.sec, this.ms)
+      this.startTime = new Date(Date.now()).setHours(this.hours, this.min, this.sec, this.ms)
       let timeLapsed = 0
       this.subs = timer(0, this.cyclePeriod).subscribe(() => {
         if (this.isRunning) {
-          if (this.timer > 0) {
-            timeLapsed += this.cyclePeriod
-            this.timer = startTime - timeLapsed;
+          if (this.timerEnd()) {
+            this.stop()
           }
           else {
-            this.stop()
+            timeLapsed += this.cyclePeriod
+            this.timer = this.startTime - timeLapsed;
           }
         }
         if (this.isFinished) {
@@ -97,6 +98,8 @@ export class CounterDownService {
     this.ms = this.storage.load('ms')
     this.timer = new Date(Date.now()).setHours(this.hours, this.min, this.sec, this.ms)
   }
-  
+  timerEnd(){
+    return new Date(this.timer).getMilliseconds() - this.cyclePeriod <= 0 && new Date(this.timer).getSeconds() == 0 && new Date(this.timer).getMinutes() == 0 && new Date(this.timer).getHours() == 0
+  }
  
 }

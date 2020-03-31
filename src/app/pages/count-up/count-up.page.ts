@@ -16,7 +16,7 @@ export class CountUpPage implements OnInit {
   public title: string;
   constructor(
     private activatedRoute: ActivatedRoute,
-    private counter:CounterUpService
+    public counter:CounterUpService
     ) {
    }
   ngOnInit() {

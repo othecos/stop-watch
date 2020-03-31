@@ -29,7 +29,7 @@ export class TimerPage implements OnInit {
 
   ngOnInit() {}
 
-  onSubmit(event:KeyboardEvent){
+  onSubmit(){
     if(this.timerForm.valid){
       this.onDismiss()
     }

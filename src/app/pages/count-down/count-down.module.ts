@@ -7,13 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { CountDownPageRoutingModule } from './count-down-routing.module';
 
 import { CountDownPage } from './count-down.page';
+import { TimerPage } from 'src/app/modals/timer/timer.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CountDownPageRoutingModule
+    CountDownPageRoutingModule,
   ],
   declarations: [CountDownPage]
 })

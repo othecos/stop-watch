@@ -12,7 +12,7 @@
 <ion-content>
   <div class="center">{{this.counter.timer |date: 'HH:mm:ss:SS'}}</div>
   <ion-fab vertical="top" horizontal="end">
-    <ion-fab-button color="dark" (click)="onSetTime()">
+    <ion-fab-button color="dark" (click)="onSetTime()" [disabled]="this.counter.isInitiated">
       <ion-icon name="alarm"></ion-icon>
     </ion-fab-button>
   </ion-fab>
@@ -29,7 +29,7 @@
     <ion-button  color="dark"  shape="round" size="large" (click)="onPlay()" *ngIf="!this.counter.isRunning">
       <ion-icon color="light" name="play"></ion-icon>
     </ion-button>
-    <ion-button  color="dark" shape="round" size="large" (click)="onStop()" [disabled]="!this.counter.isRunning">
+    <ion-button  color="dark" shape="round" size="large" (click)="onStop()" [disabled]="!this.counter.isInitiated">
       <ion-icon color="light" name="stop"></ion-icon>
     </ion-button>
   </ion-row>

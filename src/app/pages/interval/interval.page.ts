@@ -60,7 +60,7 @@ export class IntervalPage implements OnInit, OnDestroy {
   stayOpen = true;
   constructor(
     private clockerService: ClockerService,
-    private exercisesService: ExercisesService,
+    public exercisesService: ExercisesService,
     private menu: MenuController,
     private modalController: ModalController,
     private alertController: AlertController,

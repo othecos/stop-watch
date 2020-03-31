@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title [ngClass]="getAnimationClasses()">{{getTitle()}}</ion-title>
+    <ion-title [ngClass]="getAnimationClasses(null)">{{getTitle()}}</ion-title>
     <ion-buttons slot="end" *ngIf="buttonsController.exerciseModal.show" #exerciseModal
       [ngClass]="{'blink': buttonsController.exerciseModal.animate}">
       <ion-button color="light" shape="round" size="large" [disabled]="buttonsController.exerciseModal.disabled"

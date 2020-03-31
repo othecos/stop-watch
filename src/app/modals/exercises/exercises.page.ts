@@ -30,10 +30,8 @@ export class ExercisesPage implements OnInit {
 
   ngOnInit() {}
 
-  onInput(event:KeyboardEvent){
-    // if(event.which == 13){
+  onInput(){
       this.onAddExercise()
-    // }
   }
   onAddExercise(){
     if(this.exercisesForm.valid){
