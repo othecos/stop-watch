@@ -1,15 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CounterDownService } from 'src/app/services/counter-down/counter-down.service';
+import { ModalController } from '@ionic/angular';
+import { TimerPage } from 'src/app/modals/timer/timer.page';
 
 @Component({
   selector: 'app-count-down',
   templateUrl: './count-down.page.html',
   styleUrls: ['./count-down.page.scss'],
 })
-export class CountDownPage implements OnInit {
+export class CountDownPage {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(
+    private counter:CounterDownService,
+    private modalController:ModalController
+  ) { 
+  }
+  async onSetTime(){
+    console.log('Set Time');
+    await this.presentModal()
+  }
+  onPlay(){
+    this.counter.start()
+  }
+  onPause(){
+    this.counter.pause()
+  }
+  onStop(){
+    this.counter.stop()
+  }
+  onRestart(){
+    this.counter.restart()
+  }
+  private async presentModal() {
+    const modal = await this.modalController.create({
+      component: TimerPage,
+      swipeToClose: true
+    });
+    modal.onDidDismiss().then((response)=>{
+      console.log(response);
+      
+    })
+    return await modal.present();
   }
 
 }

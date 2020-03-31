@@ -9,9 +9,9 @@ import { Pages } from './pages.models';
 })
 export class PagesService {
   public appPages = [
-    new Pages('Interval Training','/interval','alarm'),
-    new Pages('Count-down Training','/count-down','chevron-down-circle'),
-    new Pages('Count-Up Training','/count-up','chevron-up-circle'),
+    new Pages('Interval','/interval','alarm'),
+    new Pages('Count-down','/count-down','chevron-down-circle'),
+    new Pages('Count-Up','/count-up','chevron-up-circle'),
     new Pages('Donate: )','/donate','happy'),
   ];
  

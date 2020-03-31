@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Set Timer</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="container__form">
+    <form [formGroup]="timerForm" (ngSubmit)="onSubmit()">
+      <ion-list-header>
+        <ion-item lines="none" style="width: 100%;">
+          <ion-label>
+            Timer parameters
+          </ion-label>
+          <ion-button slot="end" type="submit">
+            <ion-icon slot="icon-only" name="checkmark"></ion-icon>
+          </ion-button>
+      </ion-item> 
+    </ion-list-header>
+        <ion-item *ngIf="timerForm.get('hours') as name">
+          <ion-label color="primary" class="ion-text-capitalize">Hour</ion-label>
+          <ion-input tabindex="1" autocomplete="true" autocorrect="on" autocapitalize="on" formControlName="hours" type="number" clearInput="true"  >
+          </ion-input>
+        </ion-item>
+        <ion-item *ngIf="timerForm.get('min') as duration">
+          <ion-label color="primary" class="ion-text-capitalize">Minutes</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="2" formControlName="min" type="number" inputmode="numeric"
+            clearInput="true" ></ion-input>
+        </ion-item>
+        <ion-item *ngIf="timerForm.get('sec') as delay">
+          <ion-label color="primary" class="ion-text-capitalize">Seconds</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="sec" type="number" inputmode="numeric"
+            clearInput="true" ></ion-input>
+        </ion-item>
+        <ion-item *ngIf="timerForm.get('ms') as delay">
+          <ion-label color="primary" class="ion-text-capitalize">Milliseconds</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="ms" type="number" inputmode="numeric"
+            clearInput="true" ></ion-input>
+        </ion-item>
+      </form>
+    </ion-list>
+</ion-content>

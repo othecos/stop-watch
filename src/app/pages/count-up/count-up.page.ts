@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ClockerService } from 'src/app/services/clocker/clocker.service';
 import { PagesService } from 'src/app/services/pages/pages.service';
 import { MenuController, IonSlides } from '@ionic/angular';
+import { CounterUpService } from 'src/app/services/counter-up/counter-up.service';
 
 @Component({
   selector: 'app-count-up',
@@ -15,6 +16,7 @@ export class CountUpPage implements OnInit {
   public title: string;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private counter:CounterUpService
     ) {
    }
   ngOnInit() {
@@ -24,6 +26,18 @@ export class CountUpPage implements OnInit {
       console.log(response);
     })
    
+  }
+  onPlay(){
+    this.counter.start()
+  }
+  onPause(){
+    this.counter.pause()
+  }
+  onStop(){
+    this.counter.stop()
+  }
+  onRestart(){
+    this.counter.restart()
   }
 
 }

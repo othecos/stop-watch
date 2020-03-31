@@ -1,0 +1,12 @@
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    font-size: 3em;
+    @media all and (min-width: 992px){
+        font-size: 4em;
+
+    }
+}

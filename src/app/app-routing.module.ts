@@ -26,6 +26,10 @@ const routes: Routes = [
   {
     path: '**',
     redirectTo: 'interval',
+  },
+  {
+    path: 'timer',
+    loadChildren: () => import('./modals/timer/timer.module').then( m => m.TimerPageModule)
   }
 ];
 

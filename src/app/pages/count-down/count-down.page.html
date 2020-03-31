@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
+<ion-header >
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Count Down</ion-title>
+   
   </ion-toolbar>
   
 </ion-header>
 
 <ion-content>
-
+  <div class="center">{{this.counter.timer |date: 'HH:mm:ss:SS'}}</div>
+  <ion-fab vertical="top" horizontal="end">
+    <ion-fab-button color="dark" (click)="onSetTime()">
+      <ion-icon name="alarm"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+<ion-footer>
+
+  <ion-row class=" ion-padding-vertical ion-align-items-end ion-justify-content-center">
+    <ion-button  color="dark" shape="round" size="large" (click)="onRestart()" *ngIf="this.counter.isRunning" >
+      <ion-icon color="light" name="refresh"></ion-icon>
+    </ion-button>
+    <ion-button  color="dark"  shape="round" size="large" (click)="onPause()" [disabled]="!this.counter.isRunning">
+      <ion-icon color="danger" name="pause"></ion-icon>
+    </ion-button>
+    <ion-button  color="dark"  shape="round" size="large" (click)="onPlay()" *ngIf="!this.counter.isRunning">
+      <ion-icon color="light" name="play"></ion-icon>
+    </ion-button>
+    <ion-button  color="dark" shape="round" size="large" (click)="onStop()" [disabled]="!this.counter.isRunning">
+      <ion-icon color="light" name="stop"></ion-icon>
+    </ion-button>
+  </ion-row>
+
+</ion-footer>
