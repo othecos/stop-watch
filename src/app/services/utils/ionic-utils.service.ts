@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, PopoverController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class IonicUtilsService {
-
+  currentPopover
   constructor(
     private alertController:AlertController,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public popoverController: PopoverController
   ) { }
   async presentAlertConfirm(header = 'Confirm',message = 'Message <strong>text</strong>!!!',confirmFunction: () => void) {
     const alert = await this.alertController.create({
@@ -64,5 +65,23 @@ export class IonicUtilsService {
       ]
     });
     toast.present();
+  }
+
+  async presentPopover(ev: any,componentRef:any) {
+    console.log(ev,componentRef);
+    
+    const popover = await this.popoverController.create({
+      component: componentRef,
+      event: ev,
+      translucent: true,
+
+    });
+    this.currentPopover = popover
+    return await popover.present();
+  }
+  dismissPopover() {
+    if (this.currentPopover) {
+      this.currentPopover.dismiss().then(() => { this.currentPopover = null; });
+    }
   }
 }

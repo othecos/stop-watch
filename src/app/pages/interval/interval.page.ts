@@ -7,6 +7,8 @@ import { ExercisesPage } from 'src/app/modals/exercises/exercises.page';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { Subscription } from 'rxjs';
 import { AudioService } from 'src/app/services/audio/audio.service';
+import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
+import { VolumeComponent } from 'src/app/popovers/volume/volume.component';
 
 @Component({
   selector: 'app-interval',
@@ -57,11 +59,13 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   stayOpen = true;
   enableDancing = false;
+  playFireworks = false;
   constructor(
     private clockerService: ClockerService,
     public exercisesService: ExercisesService,
     private modalController: ModalController,
-    public audioService:AudioService
+    public audioService:AudioService,
+    public utils:IonicUtilsService,
   ) {
   }
   async ngOnInit() {
@@ -84,6 +88,11 @@ export class IntervalPage implements OnInit, OnDestroy {
       
       switch (event) {
         case 'dancing':
+          this.playFireworks = true
+        
+          setTimeout(() => {
+              this.playFireworks = false
+          }, 6000);
           break;
         case "stop":
         case "pause":
@@ -336,7 +345,11 @@ export class IntervalPage implements OnInit, OnDestroy {
       return false
     }
   }
+  async onChangeVolume($event){
+    await this.utils.presentPopover($event,VolumeComponent)
+  }
   onToggleMuted(){
+
     if(this.audioService.isMuted){
       this.audioService.unMute()
     }else{

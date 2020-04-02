@@ -6,6 +6,7 @@ export class AudioService {
 
   audio:Map<string,HTMLAudioElement> = new Map()
   isMuted: boolean = false
+  volume: number = 0.05
   constructor(
 
   ) {
@@ -16,11 +17,16 @@ export class AudioService {
     this.audio.set('next',new Audio("assets/sounds/next.mp3"))
     this.audio.set('success',new Audio("assets/sounds/the_next_episode.mp3"))
     this.audio.set('half-way',new Audio("assets/sounds/beep_twice.mp3"))
+    this.audio.set('clap',new Audio("assets/sounds/clapping.mp3"))
+    this.audio.set('fireworks',new Audio("assets/sounds/fireworks.mp3"))
   }
-  play(name) {
+  play(name, volume = this.volume) {
+    if(volume > 1) throw 'Volume should be between [ 0, 1 ]';
+
     let aud = this.audio.get(name)
     if(aud){
       aud.load()
+      aud.volume = volume
       aud.play()
     }
   }
@@ -46,6 +52,16 @@ export class AudioService {
       iterator[1].muted = false
     }
     this.isMuted = false
+  }
+  setVolume(volume){
+    if(volume > 1) throw 'Volume should be between [ 0, 1 ]';
+
+    for (const iterator of this.audio) {
+      iterator[1].volume = volume
+    }
+    this.volume = volume
+    console.log(this.volume);
+    
   }
   // makeCallAgain(aud){
   //   t

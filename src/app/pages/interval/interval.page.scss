@@ -1,75 +1,125 @@
-
 ion-menu-button {
-    color: var(--ion-color-primary);
-  }
-  ion-title{
-    text-transform: capitalize;
-  }
-  
-  #container {
-    height: 100%;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #container strong {
-    line-height: 26px;
-  
-  }
-  .big-text{
-    width: 100%;
-    font-size:  calc(8em + 8vw);
-    transition: all .5s;
-  }
-  #container p {
-    font-size: 16px;
-    line-height: 22px;
-    color: #8c8c8c;
-    margin: 0;
-  }
-  ion-slide.full{
-    width: var(--ion-slide-width) !important
-  }
-  #container a {
-    text-decoration: none;
-  }
-  
-  ion-content ion-toolbar {
-    --background: transparent;
-  }
-  ion-fab{
-    flex-direction: row;
-  }
-  .exercise{
+  color: var(--ion-color-primary);
+}
+
+ion-title {
+  text-transform: capitalize;
+}
+
+#container {
+  height         : 100%;
+  text-align     : center;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+}
+
+#container strong {
+  line-height: 26px;
+
+}
+
+.big-text {
+  width     : 100%;
+  font-size : calc(8em + 8vw);
+  transition: all .5s;
+}
+
+#container p {
+  font-size  : 16px;
+  line-height: 22px;
+  color      : #8c8c8c;
+  margin     : 0;
+}
+
+ion-slide.full {
+  width: var(--ion-slide-width) !important
+}
+
+#container a {
+  text-decoration: none;
+}
+
+ion-content ion-toolbar {
+  --background: transparent;
+}
+
+ion-fab {
+  flex-direction: row;
+}
+
+.exercise {
+  color     : green;
+  transition: all .5s;
+}
+
+.delay {
+  color     : red;
+  transition: all .5s;
+}
+
+.ion-padding-vertical {
+  padding: 8px 0;
+}
+
+.blink {
+  animation: blink 1s ease infinite;
+}
+
+.bounce {
+  animation: bounce 1s ease infinite;
+}
+
+.flex {
+  width: 100%;
+}
+
+.dancing-up {
+  animation: bounce-higher 1s ease infinite;
+}
+
+.dancing-side {
+  animation: bounce-side 3s ease infinite;
+}
+
+ion-slides {
+  height: 100%;
+  width : 100%;
+}
+
+.firework {
+  position: absolute;
+  height  : 100%;
+  width   : 100%;
+
+  .congrats {
     color: green;
-    transition: all .5s;
+    text-align: center;
+    animation: slide-top 5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+    ;
   }
-  .delay{
-    color: red;
-    transition: all .5s;
-  }
-  .ion-padding-vertical{
-      padding: 8px 0;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100vh);
+    transform        : translateY(100vh);
   }
 
-  .blink{
-    animation:  blink 1s ease infinite;
+  100% {
+    -webkit-transform: translateY(0);
+    transform        : translateY(0);
   }
-  .bounce{
-    animation:  bounce 1s ease infinite;
+}
+
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(100vh);
+    transform        : translateY(100vh);
   }
-  .flex{
-    width: 100%;
+
+  100% {
+    -webkit-transform: translateY(0);
+    transform        : translateY(0);
   }
-  .dancing-up{
-    animation:  bounce-higher 1s ease infinite;
-  }
-  .dancing-side{
-    animation:  bounce-side 3s ease infinite;
-  }
-ion-slides{
-  height: 100%;
-  width: 100%;
 }

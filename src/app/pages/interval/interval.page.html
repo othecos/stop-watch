@@ -16,6 +16,13 @@
 </ion-header>
 
 <ion-content>
+  <div class="firework" *ngIf="playFireworks">
+    <div class="before"></div>
+    <div class="after"></div>
+    <div class="congrats">
+     <h1> You nailed it!</h1>
+    </div>
+  </div>
   <div id="container">
     <ng-container *ngIf="exercisesService.exercises.length > 0; else noExercise">
       <ion-slides #slides>
@@ -42,7 +49,7 @@
       </div>
     </ng-template>
     <ion-fab vertical="top" horizontal="end">
-      <ion-fab-button color="dark" (click)="onToggleMuted()">
+      <ion-fab-button color="dark" (click)="onChangeVolume($event)">
         <ion-icon *ngIf="audioService?.isMuted" color="light" name="volume-mute"></ion-icon>
         <ion-icon *ngIf="!audioService?.isMuted" color="light" name="volume-high"></ion-icon>
       </ion-fab-button>

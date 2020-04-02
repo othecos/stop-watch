@@ -13,9 +13,10 @@ import { MenuComponent } from './components/menu/menu.component';
 import { ExercisesPage } from './modals/exercises/exercises.page';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TimerPage } from './modals/timer/timer.page';
+import { VolumeComponent } from './popovers/volume/volume.component';
 @NgModule({
   declarations: [AppComponent,ExercisesPage,TimerPage],
-  entryComponents: [MenuComponent,ExercisesPage,TimerPage],
+  entryComponents: [MenuComponent,ExercisesPage,TimerPage,VolumeComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
