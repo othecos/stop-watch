@@ -56,8 +56,7 @@ export class ClockerService {
       if(lastOne) {
         this.intervalTimer.isInitiated = false
         this.intervalTimer.isFinished = true
-        // this.audioService.play('success')
-        // this.eventsEmitter.emit('dancing')
+        this.eventsEmitter.emit('dancing')
       }
     } catch (err) {
       console.error(err);
