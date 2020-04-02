@@ -108,10 +108,8 @@ export class Clock {
             let counter = timer(1000, 1000).subscribe((timer) => {
               
                 if (exercise.progress.stage.exercise.running) {
-                    if(exercise.counter <= 10 && exercise.counter > 0){
+                    if( exercise.counter > 0){
                         this.audioService.play('beep')
-                    }else if(exercise.duration / exercise.counter == 2){
-                        this.audioService.play('half-way')
                     }
                     else if(exercise.counter < 1){
                         this.audioService.play('notification')

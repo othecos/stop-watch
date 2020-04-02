@@ -41,6 +41,12 @@
         </div>
       </div>
     </ng-template>
+    <ion-fab vertical="top" horizontal="end">
+      <ion-fab-button color="dark" (click)="onToggleMuted()">
+        <ion-icon *ngIf="audioService?.isMuted" color="light" name="volume-mute"></ion-icon>
+        <ion-icon *ngIf="!audioService?.isMuted" color="light" name="volume-high"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
     <ion-fab [ngClass]="{'dancing-up': enableDancing}" vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show">
       <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled " (click)="goPrevious()">
         <ion-icon color="light" name="play-skip-back"></ion-icon>

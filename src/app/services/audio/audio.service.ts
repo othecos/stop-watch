@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class AudioService {
 
   audio:Map<string,HTMLAudioElement> = new Map()
+  isMuted: boolean = false
   constructor(
 
   ) {
@@ -22,7 +23,6 @@ export class AudioService {
       aud.load()
       aud.play()
     }
-   
   }
   stop(name){
     let audio = this.audio.get(name)
@@ -34,7 +34,22 @@ export class AudioService {
   stopAll(){
 
   }
-  // start2(){
+  mute(){
+    for (const iterator of this.audio) {
+      iterator[1].muted = true
+    }
+    this.isMuted = true
+  }
+  
+  unMute(){
+    for (const iterator of this.audio) {
+      iterator[1].muted = false
+    }
+    this.isMuted = false
+  }
+  // makeCallAgain(aud){
+  //   t
+  // }  // start2(){
   //   let audio = new Audio();
   //   audio.src = "assets/sounds/star-wars.mp3";
   //   audio.load();

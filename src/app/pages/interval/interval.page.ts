@@ -6,6 +6,7 @@ import { Utils } from 'src/app/classes/utils';
 import { ExercisesPage } from 'src/app/modals/exercises/exercises.page';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { Subscription } from 'rxjs';
+import { AudioService } from 'src/app/services/audio/audio.service';
 
 @Component({
   selector: 'app-interval',
@@ -60,6 +61,7 @@ export class IntervalPage implements OnInit, OnDestroy {
     private clockerService: ClockerService,
     public exercisesService: ExercisesService,
     private modalController: ModalController,
+    public audioService:AudioService
   ) {
   }
   async ngOnInit() {
@@ -332,6 +334,13 @@ export class IntervalPage implements OnInit, OnDestroy {
       return this.lockSlides(++counter)
     } else {
       return false
+    }
+  }
+  onToggleMuted(){
+    if(this.audioService.isMuted){
+      this.audioService.unMute()
+    }else{
+      this.audioService.mute()
     }
   }
   async onJumpToExercise(){

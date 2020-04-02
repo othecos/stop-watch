@@ -17,7 +17,7 @@ export class MenuComponent implements OnInit {
   appPages: Array<Pages> = []
   showExerciseList: boolean = false
   constructor(
-    private pagesServices: PagesService,
+    public pagesServices: PagesService,
   ) {
     this.appPages = this.pagesServices.appPages
   }
