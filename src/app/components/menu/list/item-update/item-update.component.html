@@ -1,0 +1,29 @@
+<form [formGroup]="exercisesForm" >
+  <ion-list lines="none"> 
+    <ion-item lines="none">
+      <ion-list lines="none">
+        <ion-item *ngIf="exercisesForm.get('name') as name" lines="none">
+          <ion-label color="primary" position="fixed" class="ion-text-capitalize">Name</ion-label>
+          <ion-input tabindex="1" autocomplete="true" autocorrect="on" autocapitalize="on" formControlName="name" type="text" clearInput="true" (keyup.enter)="onFinishEdition()" >
+          </ion-input>
+        </ion-item>
+        <ion-item *ngIf="exercisesForm.get('duration') as duration" lines="none">
+          <ion-label color="primary" position="fixed" class="ion-text-capitalize">Duration</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="2" formControlName="duration" type="number" inputmode="numeric"
+            clearInput="true" (keyup.enter)="onFinishEdition()" ></ion-input>
+        </ion-item>
+        <ion-item *ngIf="exercisesForm.get('delay') as delay" lines="none">
+          <ion-label color="primary" position="fixed" class="ion-text-capitalize">Delay</ion-label>
+          <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="delay" type="number" inputmode="numeric"
+            clearInput="true" (keyup.enter)="onFinishEdition()" ></ion-input>
+        </ion-item>
+      </ion-list>
+      <ion-button fill="clear" (click)="onCancelEdition()">
+        <ion-icon color="danger" name="close"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="onFinishEdition()">
+        <ion-icon color="success" name="checkmark"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</form>

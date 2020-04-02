@@ -29,8 +29,6 @@ export class CounterUpService {
   }
   public pause(){
     this.isRunning = false
-    console.log(this.timer);
-    
   }
   public resume(){
     this.isRunning = true;
@@ -40,7 +38,6 @@ export class CounterUpService {
     this.isRunning = false
     this.isInitiated = false;
     this.isFinished = true;
-    console.count('Stoped')
   }
   public async restart(){
     this.stop()
@@ -58,7 +55,6 @@ export class CounterUpService {
         }
         if(this.isFinished){
           this.subs.unsubscribe()
-          console.count("Closed")
         }
       })
     }

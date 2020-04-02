@@ -6,6 +6,9 @@ import { IonicModule } from '@ionic/angular';
 import { MenuComponent } from './menu/menu.component';
 import { ListComponent } from './menu/list/list.component';
 import { RouterModule } from '@angular/router';
+import { ItemSkeletonComponent } from './menu/list/item-skeleton/item-skeleton.component';
+import { ItemUpdateComponent } from './menu/list/item-update/item-update.component';
+import { ItemComponent } from './menu/list/item/item.component';
 
 @NgModule({
   imports: [
@@ -13,8 +16,9 @@ import { RouterModule } from '@angular/router';
     FormsModule,
     IonicModule,
     RouterModule,
+    ReactiveFormsModule
   ],
-  declarations: [MenuComponent,ListComponent],
-  exports: [MenuComponent,ListComponent]
+  declarations: [MenuComponent,ListComponent,ItemSkeletonComponent,ItemUpdateComponent,ItemComponent],
+  exports: [MenuComponent,ListComponent,ItemSkeletonComponent,ItemUpdateComponent,ItemComponent,ReactiveFormsModule]
 })
 export class ComponentsModule {}

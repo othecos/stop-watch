@@ -54,13 +54,11 @@ export class IonicUtilsService {
           icon: 'star',
           text: 'Favorite',
           handler: () => {
-            console.log('Favorite clicked');
           }
         }, {
           text: 'Done',
           role: 'cancel',
           handler: () => {
-            console.log('Cancel clicked');
           }
         }
       ]

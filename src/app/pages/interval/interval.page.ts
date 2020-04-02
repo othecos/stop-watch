@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { IonSlides, ModalController } from '@ionic/angular';
-import { Exercise } from 'src/app/services/exercises/exercises.models';
+import { Exercise, ExerciseEvents } from 'src/app/services/exercises/exercises.models';
 import { ClockerService } from 'src/app/services/clocker/clocker.service';
 import { Utils } from 'src/app/classes/utils';
 import { ExercisesPage } from 'src/app/modals/exercises/exercises.page';
@@ -65,26 +65,20 @@ export class IntervalPage implements OnInit, OnDestroy {
   async ngOnInit() {
     await this.updateButtonController()
     let exerciseSubscription = this.exercisesService.eventEmitter.subscribe((event: {
-      eventName: "add" | "remove" | "replace" | "clear" | 'load';
+      eventName: ExerciseEvents;
       element: Array<Exercise>;
     }) => {
-      
       switch (event.eventName) {
         case 'remove':
           if (event.element && event.element.length > 0) this.clockerService.stop(event.element[0])
           break;
-        case 'add':
-        case 'replace':
-        case 'clear':
-        case 'load':
+        default:
           this.fixIonBug()
           this.updateButtonController()
-        default:
       }
     })
     this.subscriptions.push(exerciseSubscription)
     let clockerSubscription = this.clockerService.eventsEmitter.subscribe(async (event) => {
-      console.log(event);
       
       switch (event) {
         case 'dancing':
@@ -119,7 +113,6 @@ export class IntervalPage implements OnInit, OnDestroy {
   public async onPause() {
 
     let currentElementIndex = await this.getCurrentExerciseIndex()
-    console.log(currentElementIndex);
 
     if (currentElementIndex != -1) {
       this.clockerService.pause(this.exercisesService.exercises[currentElementIndex])
@@ -159,8 +152,6 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   }
   public async goNext() {
-    console.log('hi');
-    
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slideNext()
@@ -177,8 +168,6 @@ export class IntervalPage implements OnInit, OnDestroy {
 
   }
   public async goTo(index) {
-    console.log('Hi');
-    
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slideTo(index)
@@ -348,8 +337,6 @@ export class IntervalPage implements OnInit, OnDestroy {
   async onJumpToExercise(){
     if(this.clockerService.intervalTimer.stages.delay.isInitiated && !this.clockerService.intervalTimer.stages.delay.isFinished){
       let currentElementIndex = await this.getCurrentExerciseIndex()
-      console.log(currentElementIndex);
-      
       if(currentElementIndex != -1){
         this.clockerService.skipDelay(this.exercisesService.exercises[currentElementIndex])
       }

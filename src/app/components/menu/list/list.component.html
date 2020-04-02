@@ -19,37 +19,14 @@
       </ion-buttons>
     </ion-list-header>
     <ng-container *ngIf="!exercisesService.exercises || !exercisesService.hasExercises();else hasExercise ">
-      <ion-item >
-        <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
-        <ion-label>
-          <ion-text color="primary">
-            <h2>No exercise 😔 ( Squat )</h2>
-          </ion-text>
-          <ion-note >
-            <p> ⏰ ( Duration ) </p>
-            <p> 😫 ( Delay )</p>
-          </ion-note>
-        </ion-label>
-      </ion-item>
+        <app-item-skeleton [isReordering]="isReordering"></app-item-skeleton>
     </ng-container>
     <ng-template #hasExercise>
       <ion-reorder-group (ionItemReorder)="onReorder($event)" [disabled]="!isReordering" class="list">
-        <ion-item  *ngFor="let exercise of exercisesService.exercises; index as i" lines="none" [ngStyle]="{'text-decoration': exercise.progress.stage.exercise.finished ?  'line-through' : 'initial'}">
-          <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
-          <ion-reorder slot="start"></ion-reorder>
-          <ion-label>
-            <ion-text color="primary">
-              <h2><b>{{i+1}} - </b>{{ exercise.name }}</h2>
-            </ion-text>
-            <ion-note >
-              <p>Duration: {{exercise.duration ? exercise.duration : 0 }}s </p>
-              <p>Delay: {{exercise.delay? exercise.delay : 0}}s</p>
-            </ion-note>
-          </ion-label>
-         <ion-button shape="round" fill="clear" (click)="onDeleteExercise(exercise)" [disabled]="this.clockerService.intervalTimer.isRunning">
-           <ion-icon slot="icon-only" color="danger"  name="trash" ></ion-icon>
-          </ion-button> 
-        </ion-item>
+        <ng-container  *ngFor="let exercise of exercisesService.exercises; index as i"  >
+            <app-item-update *ngIf="exercise.controller.isEditing" [exercise]="exercise"  (onFinish)="onUpdateExercise($event)" (onCancel)="onDisableEditionMode(exercise)"></app-item-update>
+            <app-item *ngIf="!exercise.controller.isEditing" [isReordering]="isReordering" [exercise]="exercise" [index]="i" (onEdit)="onEnableEditionMode(exercise)" (onDelete)="onDeleteExercise(exercise)"></app-item>
+        </ng-container>
       </ion-reorder-group>
     </ng-template>
    

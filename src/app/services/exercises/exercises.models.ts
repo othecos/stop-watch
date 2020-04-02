@@ -1,3 +1,4 @@
+export type ExerciseEvents = 'add' | 'remove' | 'replace' | 'clear' | 'load' | 'updated'
 export interface ExerciseStatesInterface {
     running: boolean
     finished: boolean,
@@ -9,6 +10,9 @@ export interface ExerciseInterface {
     duration: number
     name: string;
     delay: number;
+    controller:{
+        isEditing: boolean
+    }
     progress?: {
         initiated: boolean
         lastProgress: number
@@ -24,10 +28,33 @@ export interface ExerciseInterface {
 }
 
 export class Exercise implements ExerciseInterface {
-    id: string;
-    duration: number = 60;
-    name: string = ''
-    delay: number = 0;
+    readonly id: string;
+    
+    
+    private _duration: number = 60;
+    private _name: string = '';
+    private _delay: number = 0;
+
+    public get duration(): number {
+        return this._duration;
+    }
+    public set duration(value: number) {
+        if(value < 1) return;
+        this._duration = value;
+    }
+    public get name(): string {
+        return this._name;
+    }
+    public set name(value: string) {
+        this._name = value;
+    }
+    public get delay(): number {
+        return this._delay;
+    }
+    public set delay(value: number) {
+        if(value < 1) return;
+        this._delay = value;
+    }
     progress?: {
         initiated: boolean
         lastProgress: number
@@ -37,14 +64,20 @@ export class Exercise implements ExerciseInterface {
             exercise: ExerciseStatesInterface
         }
     }
+    controller:{
+        isEditing: boolean
+    }
     counter: number = 0;
     generateId?: () => string = () => { return `exercise_${Math.random()}` }
     constructor(name, duration = 30, delay = 0) {
         this.id = this.generateId();
-        this.duration = duration;
-        this.name = name;
-        this.delay = delay;
+        this._duration = duration;
+        this._name = name;
+        this._delay = delay;
         this.counter = delay;
+        this.controller = {
+            isEditing: false
+        }
         this.progress = {
             initiated: false,
             lastProgress: 0,

@@ -17,9 +17,7 @@ export class StorageService {
   }
   public load(key:string):any{
     try{
-      console.log(localStorage);
       return JSON.parse(localStorage.getItem(key))
-
     }
     catch{
       throw {error: 'Failed to get ${key} from the local storage'}

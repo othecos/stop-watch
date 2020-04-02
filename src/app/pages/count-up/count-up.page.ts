@@ -23,7 +23,6 @@ export class CountUpPage implements OnInit {
     this.title = this.activatedRoute.snapshot.paramMap.get('id');
     this.activatedRoute.paramMap.subscribe((response)=>{
       this.title = response.get('id')
-      console.log(response);
     })
    
   }

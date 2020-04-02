@@ -1,0 +1,22 @@
+<ion-item [ngStyle]="{'text-decoration': exercise.progress.stage.exercise.finished ?  'line-through' : 'initial'}"
+  lines="none">
+  <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
+  <ion-reorder slot="start"></ion-reorder>
+  <ion-label>
+    <ion-text color="primary">
+      <h2><b>{{index+1}} - </b>{{ exercise.name }}</h2>
+    </ion-text>
+    <ion-note>
+      <p>Duration: {{exercise.duration ? exercise.duration : 0 }}s </p>
+      <p>Delay: {{exercise.delay? exercise.delay : 0}}s</p>
+    </ion-note>
+  </ion-label>
+  <ion-button shape="round" fill="clear" (click)="onEditExercise(exercise)"
+    [disabled]="this.clockerService.intervalTimer.isRunning">
+    <ion-icon slot="icon-only" color="danger" name="create"></ion-icon>
+  </ion-button>
+  <ion-button shape="round" fill="clear" (click)="onDeleteExercise(exercise)"
+    [disabled]="this.clockerService.intervalTimer.isRunning">
+    <ion-icon slot="icon-only" color="danger" name="trash"></ion-icon>
+  </ion-button>
+</ion-item>

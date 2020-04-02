@@ -49,7 +49,6 @@ export class ClockerService {
     try {
       let clock = new Clock(this.audioService)
       this.intervalTimer = clock.timer;
-      this.watchChanges(clock)
       this.init(exercise)
       this.resume(exercise)
       await clock.run(exercise)
@@ -64,12 +63,6 @@ export class ClockerService {
       console.error(err);
       throw err
     }
-  }
-  watchChanges(clock: Clock) {
-    // clock.eventsEmitter.subscribe((res)=>{
-    //   console.log(res);
-    //   this.eventsEmitter.emit('general');
-    // })
   }
   public async stop(exercise: Exercise, emitEvent = true) {
     exercise.progress.stage.exercise.running = false

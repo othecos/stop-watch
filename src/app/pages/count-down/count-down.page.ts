@@ -16,7 +16,6 @@ export class CountDownPage {
   ) { 
   }
   async onSetTime(){
-    console.log('Set Time');
     await this.presentModal()
   }
   onPlay(){
@@ -37,7 +36,6 @@ export class CountDownPage {
       swipeToClose: true
     });
     modal.onDidDismiss().then((response)=>{
-      console.log(response);
       
     })
     return await modal.present();

@@ -17,8 +17,6 @@ export class AudioService {
     this.audio.set('half-way',new Audio("assets/sounds/beep_twice.mp3"))
   }
   play(name) {
-    console.log(this.audio,name);
-    
     let aud = this.audio.get(name)
     if(aud){
       aud.load()

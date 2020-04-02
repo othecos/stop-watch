@@ -57,7 +57,6 @@ export class CounterDownService {
     this.isRunning = false
     this.isInitiated = false;
     this.isFinished = true;
-    console.count('Stoped')
   }
   public async restart() {
     this.stop()
@@ -80,7 +79,6 @@ export class CounterDownService {
         }
         if (this.isFinished) {
           this.subs.unsubscribe()
-          console.count("Closed")
         }
       })
     }

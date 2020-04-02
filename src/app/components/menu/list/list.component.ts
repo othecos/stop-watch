@@ -18,7 +18,6 @@ export class ListComponent implements OnInit {
   
   //Class Variable
   isReordering:boolean = false
-
   constructor(
     public exercisesService:ExercisesService,
     public menu:MenuController,
@@ -64,6 +63,24 @@ export class ListComponent implements OnInit {
       await this.clockerService.stopAll()
       this.exercisesService.clear()
     })
+  }
+  onUpdateExercise(exercise){
+    if(!this.clockerService.intervalTimer.isRunning){
+      this.setEditionMode(exercise,false)
+      this.exercisesService.update(exercise)
+    }
+    
+  }
+  onEnableEditionMode(exercise){
+    this.setEditionMode(exercise,true)
+  }
+  onDisableEditionMode(exercise){
+    this.setEditionMode(exercise,false)
+  }
+  setEditionMode(exercise,value:boolean){
+    if(exercise){
+      exercise.controller.isEditing = value
+    }
   }
 }
 

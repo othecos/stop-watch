@@ -4,6 +4,7 @@ import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { EventsService } from 'src/app/services/events/events.service';
 import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercises.models';
+import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
 
 @Component({
   selector: 'app-exercises',
@@ -12,21 +13,19 @@ import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercise
 })
 export class ExercisesPage implements OnInit {
   exercisesForm: FormGroup;
-  items: FormArray;
   constructor(
     public exercisesService:ExercisesService,
     public menu:MenuController,
     public eventsService:EventsService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public utils:IonicUtilsService
   ) {
     this.exercisesForm = new FormGroup({
       name:   new FormControl('Pull Ups!',null),
-      duration: new FormControl(60,[Validators.min(0)]),
-      delay: new FormControl(10,Validators.min(0)),
+      duration: new FormControl(60,[Validators.min(1)]),
+      delay: new FormControl(10,Validators.min(1)),
       // sets: new FormControl(5,Validators.min(0))
     });
-    console.log(this.exercisesForm.controls);
-    
    }
 
   ngOnInit() {}
@@ -36,9 +35,10 @@ export class ExercisesPage implements OnInit {
   }
   onAddExercise(){
     if(this.exercisesForm.valid){
-      let exercise:ExerciseInterface = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
+      let exercise:Exercise = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
       this.exercisesService.add(exercise)
-      console.log(this.exercisesForm);
+    }else{
+      this.utils.presentToast('Invalid values, duration and delay should be higher than 0',3000,'middle','danger')
     }
   }
   onDelete(exercise){
