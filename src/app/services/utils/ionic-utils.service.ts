@@ -38,8 +38,7 @@ export class IonicUtilsService {
       message,
       duration,
       position,
-      color,
-      keyboardClose: true
+      color
     });
     toast.present();
   }

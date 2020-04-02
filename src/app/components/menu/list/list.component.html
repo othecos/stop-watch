@@ -19,7 +19,7 @@
       </ion-buttons>
     </ion-list-header>
     <ng-container *ngIf="!exercisesService.exercises || !exercisesService.hasExercises();else hasExercise ">
-      <ion-item>
+      <ion-item >
         <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
         <ion-label>
           <ion-text color="primary">
@@ -34,7 +34,7 @@
     </ng-container>
     <ng-template #hasExercise>
       <ion-reorder-group (ionItemReorder)="onReorder($event)" [disabled]="!isReordering" class="list">
-        <ion-item  *ngFor="let exercise of exercisesService.exercises; index as i" lines="none" [ngStyle]="{'text-decoration': exercise.progress.finished ?  'line-through' : 'initial'}">
+        <ion-item  *ngFor="let exercise of exercisesService.exercises; index as i" lines="none" [ngStyle]="{'text-decoration': exercise.progress.stage.exercise.finished ?  'line-through' : 'initial'}">
           <ion-icon slot="start" name="barbell" *ngIf="!isReordering"></ion-icon>
           <ion-reorder slot="start"></ion-reorder>
           <ion-label>

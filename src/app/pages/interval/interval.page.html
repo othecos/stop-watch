@@ -41,12 +41,12 @@
         </div>
       </div>
     </ng-template>
-    <ion-fab vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show">
+    <ion-fab [ngClass]="{'dancing-up': enableDancing}" vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show">
       <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled " (click)="goPrevious()">
         <ion-icon color="light" name="play-skip-back"></ion-icon>
       </ion-fab-button>
     </ion-fab>
-    <ion-fab vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show">
+    <ion-fab [ngClass]="{'dancing-up': enableDancing}" vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show">
       <ion-fab-button color="dark" [disabled]="buttonsController.next.disabled" (click)="goNext()">
         <ion-icon color="light" name="play-skip-forward"></ion-icon>
       </ion-fab-button>

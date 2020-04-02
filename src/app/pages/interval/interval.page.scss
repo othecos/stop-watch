@@ -59,8 +59,17 @@ ion-menu-button {
   }
   .bounce{
     animation:  bounce 1s ease infinite;
-
+  }
+  .flex{
+    width: 100%;
+  }
+  .dancing-up{
+    animation:  bounce-higher 1s ease infinite;
+  }
+  .dancing-side{
+    animation:  bounce-side 3s ease infinite;
   }
 ion-slides{
   height: 100%;
+  width: 100%;
 }

@@ -10,7 +10,7 @@ import { AudioService } from '../audio/audio.service';
 })
 export class ClockerService {
 
-  public eventsEmitter: EventEmitter<'stop' | 'play' | 'pause' | 'init' | 'resume' | 'refresh' | 'rebuild' | 'general'> = new EventEmitter()
+  public eventsEmitter: EventEmitter< 'dancing' | 'stop' | 'play' | 'pause' | 'init' | 'resume' | 'refresh' | 'rebuild' | 'general'> = new EventEmitter()
   private _intervalTimer: ClockerInterface = {
     stages: {
       delay: {
@@ -57,6 +57,8 @@ export class ClockerService {
       if(lastOne) {
         this.intervalTimer.isInitiated = false
         this.intervalTimer.isFinished = true
+        // this.audioService.play('success')
+        // this.eventsEmitter.emit('dancing')
       }
     } catch (err) {
       console.error(err);
@@ -106,6 +108,7 @@ export class ClockerService {
     exercise.progress.stage.exercise.running = false
     this.intervalTimer.isRunning = false
     this.eventsEmitter.emit('pause')
+    this.audioService.play('pause')
 
   }
   public resume(exercise: Exercise) {
@@ -118,6 +121,7 @@ export class ClockerService {
     exercise.progress.stage.exercise.running = true
     this.intervalTimer.isRunning = true
     this.eventsEmitter.emit('resume')
+    this.audioService.play('resume')
 
   }
   public async refresh(exercises: Array<Exercise>) {

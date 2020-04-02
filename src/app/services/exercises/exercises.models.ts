@@ -44,7 +44,7 @@ export class Exercise implements ExerciseInterface {
         this.duration = duration;
         this.name = name;
         this.delay = delay;
-        this.counter = 0
+        this.counter = delay;
         this.progress = {
             initiated: false,
             lastProgress: 0,

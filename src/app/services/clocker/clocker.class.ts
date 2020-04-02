@@ -67,13 +67,15 @@ export class Clock {
             let firsTimeRunning = true
             this.setRunning('delay')
             let counter = timer(1000, 1000).subscribe((timer) => {
-                // if(exercise.counter == 10){
-                //     this.audioService.play('count-down')
-                // }else if(exercise.counter == 0){
-                //     this.audioService.stop('count-down')
-                // }
+               
 
                 if (exercise.progress.stage.delay.running) {
+                    if(exercise.counter <= 10 && exercise.counter > 0){
+                        this.audioService.play('beep')
+                    }
+                    else if(exercise.counter < 1){
+                        this.audioService.play('notification')
+                    }
                     if (exercise.counter > 0) {
                         exercise.counter--
                     } else {
@@ -104,14 +106,25 @@ export class Clock {
             let firsTimeRunning = true
             this.setRunning('exercise')
             let counter = timer(1000, 1000).subscribe((timer) => {
+              
                 if (exercise.progress.stage.exercise.running) {
+                    if(exercise.counter <= 10 && exercise.counter > 0){
+                        this.audioService.play('beep')
+                    }else if(exercise.duration / exercise.counter == 2){
+                        this.audioService.play('half-way')
+                    }
+                    else if(exercise.counter < 1){
+                        this.audioService.play('notification')
+                    }
                     if (exercise.counter > 0) {
                         exercise.counter--
                     } else {
+                      
                         this.setFinished('exercise', counter)
                         resolve({ counter: id, message: 'Regular Stop' })
                     }
                 } else if (exercise.progress.stage.exercise.finished) {
+                  
                     this.setFinished('exercise', counter)
                     reject({ counter: id, message: 'Force stop' })
                 } else {
@@ -161,11 +174,13 @@ export class Clock {
     setFinished(type: 'delay' | 'exercise', counter?: Subscription) {
         switch (type) {
             case 'delay':
+                this.audioService.play('next')
                 this.timer.stages.delay.isInitiated = false
                 this.timer.stages.delay.isRunning = false
                 this.timer.stages.delay.isFinished = true
                 break;
             case 'exercise':
+                this.audioService.play('next')
                 this.timer.stages.exercise.isInitiated = false
                 this.timer.stages.exercise.isRunning = false
                 this.timer.stages.exercise.isFinished = true
