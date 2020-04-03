@@ -28,3 +28,13 @@
 :root{
     --ion-slide-width: 100% ;
   }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --image-filter: grayscale(50%);
+    }
+
+    img:not([src*=".svg"]) {
+      filter: var(--image-filter);
+    }
+  }

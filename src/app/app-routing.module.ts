@@ -4,7 +4,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'router/interval',
+    redirectTo: 'router/home',
     pathMatch: 'full'
   },
   {
@@ -24,8 +24,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/count-up/count-up.module').then( m => m.CountUpPageModule)
   },
   {
+    path: 'router/home',
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+  },
+  {
     path: '**',
-    redirectTo: '/router/interval',
+    redirectTo: '/router/home',
   }
 ];
 

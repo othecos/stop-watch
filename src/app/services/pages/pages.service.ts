@@ -17,10 +17,11 @@ export class PagesService {
   folderPath = 'router'
 
   public appPages = [
+    new Pages('Home', `${this.folderPath}/home`, 'home'),
     new Pages('Interval', `${this.folderPath}/interval`, 'alarm'),
     new Pages('Count-down', `${this.folderPath}/count-down`, 'chevron-down-circle'),
     new Pages('Count-Up', `${this.folderPath}/count-up`, 'chevron-up-circle'),
-    new Pages('Donate: )', `${this.folderPath}/donate`, 'happy'),
+    new Pages('Donate 😁', `${this.folderPath}/donate`, 'happy'),
   ];
 
   constructor(
@@ -49,5 +50,10 @@ export class PagesService {
   private setSelectedIndex(path: string) {
     this.selectedIndex = this.appPages.findIndex(page => page.url.toLowerCase().includes( path.toLowerCase()))
     return this.selectedIndex
+  }
+  getRoute(name:string){
+    let page = this.appPages.find((page)=> page.title.toLowerCase().includes(name.toLowerCase()))
+    if(page) return `/${page.url}`
+    else return ''
   }
 }
