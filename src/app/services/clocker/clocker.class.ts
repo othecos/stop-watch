@@ -70,11 +70,11 @@ export class Clock {
                
 
                 if (exercise.progress.stage.delay.running) {
-                    if(exercise.counter <= 10 && exercise.counter > 0){
+                    if(exercise.counter <= 5 && exercise.counter > 0){
                         this.audioService.play('beep')
                     }
                     else if(exercise.counter < 1){
-                        this.audioService.play('notification')
+                        // this.audioService.play('next')
                     }
                     if (exercise.counter > 0) {
                         exercise.counter--
@@ -106,13 +106,16 @@ export class Clock {
             let firsTimeRunning = true
             this.setRunning('exercise')
             let counter = timer(1000, 1000).subscribe((timer) => {
-              
+                
                 if (exercise.progress.stage.exercise.running) {
-                    if( exercise.counter > 0){
+                    if( (exercise.counter-1) % 10 == 0 && (exercise.counter-1) > 5){
+                        this.audioService.play('half-way')
+                    }
+                    if( exercise.counter <= 5 && exercise.counter > 0){
                         this.audioService.play('beep')
                     }
                     else if(exercise.counter < 1){
-                        this.audioService.play('notification')
+                        // this.audioService.play('next')
                     }
                     if (exercise.counter > 0) {
                         exercise.counter--

@@ -8,7 +8,7 @@ import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { Subscription } from 'rxjs';
 import { AudioService } from 'src/app/services/audio/audio.service';
 import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
-import { VolumeComponent } from 'src/app/popovers/volume/volume.component';
+import { VolumeComponent } from 'src/app/components/popovers/volume/volume.component';
 
 @Component({
   selector: 'app-interval',
@@ -109,10 +109,10 @@ export class IntervalPage implements OnInit, OnDestroy {
   }
   async ngAfterViewInit() {
 
-
   }
 
   public async onPlay() {
+    
     let currentElementIndex = await this.getCurrentExerciseIndex()
     if (currentElementIndex != -1) {
       this.clockerService.resume(this.exercisesService.exercises[currentElementIndex])
@@ -233,6 +233,7 @@ export class IntervalPage implements OnInit, OnDestroy {
   }
 
   private async initRoutine(indexToBegin) {
+    this.audioService.initExerciseSounds()
     await this.playNextExercise(this.exercisesService.exercises[indexToBegin], indexToBegin)
   }
   private async playNextExercise(exercise: Exercise, index: number) {
@@ -366,5 +367,8 @@ export class IntervalPage implements OnInit, OnDestroy {
   }
   isDelayRunning(counter){
     return this.clockerService.intervalTimer.stages.delay.isInitiated && this.clockerService.intervalTimer.stages.delay.isRunning && !this.clockerService.intervalTimer.stages.delay.isFinished && counter > 5
+  }
+  onDestroy(){
+    this.audioService.finishExerciseSounds()
   }
 }
