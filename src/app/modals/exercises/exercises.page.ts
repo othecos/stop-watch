@@ -3,8 +3,9 @@ import { ModalController, MenuController } from '@ionic/angular';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { ExercisesService } from 'src/app/services/exercises/exercises.service';
 import { EventsService } from 'src/app/services/events/events.service';
-import { ExerciseInterface, Exercise } from 'src/app/services/exercises/exercises.models';
+import { ExerciseInterface, Exercise, ExerciseListItem } from 'src/app/services/exercises/exercises.models';
 import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
+import { Utils } from 'src/app/classes/utils';
 
 @Component({
   selector: 'app-exercises',
@@ -13,6 +14,8 @@ import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
 })
 export class ExercisesPage implements OnInit {
   exercisesForm: FormGroup;
+  exerciseList:Array<ExerciseListItem>
+  exerciseListVisible:boolean = false
   constructor(
     public exercisesService:ExercisesService,
     public menu:MenuController,
@@ -28,7 +31,11 @@ export class ExercisesPage implements OnInit {
     });
    }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.exercisesService.list);
+    this.exerciseList =  []
+    console.log(this.exercisesService.getGroupedList())
+  }
 
   onInput(){
       this.onAddExercise()
@@ -37,6 +44,7 @@ export class ExercisesPage implements OnInit {
     if(this.exercisesForm.valid){
       let exercise:Exercise = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
       this.exercisesService.add(exercise)
+      this.exerciseListVisible = false
     }else{
       this.utils.presentToast('Invalid values, duration and delay should be higher than 0',3000,'middle','danger')
     }
@@ -54,6 +62,20 @@ export class ExercisesPage implements OnInit {
       'dismissed': true
     });
   }
-
+  onSearch(event){
+    this.exerciseList = this.exercisesService.searchForExercises(event.target.value)
+    if(event.target.value == '') this.exerciseListVisible = false
+    else this.exerciseListVisible = true
+  }
+  onFocus($event){
+    this.exerciseList = this.exercisesService.searchForExercises($event.target.value)
+    this.exerciseListVisible = true
+  }
+  onBlur(event){
+  }
+  onSelectedExercise(exercise){
+    this.exercisesForm.get('name').setValue(Utils.capitalize(exercise.name))
+    this.exerciseListVisible = false
+  }
 }
 

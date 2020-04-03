@@ -19,10 +19,21 @@
             Save
           </ion-button>
       </ion-item> </ion-list-header>
-        <ion-item *ngIf="exercisesForm.get('name') as name">
-          <ion-label color="primary" class="ion-text-capitalize">Name</ion-label>
-          <ion-input tabindex="1" autocomplete="true" autocorrect="on" autocapitalize="on" formControlName="name" type="text" clearInput="true" (keyup.enter)="onInput()">
-          </ion-input>
+     
+        <ion-item *ngIf="exercisesForm.get('name') as name" class="autocomplete">
+            <ion-searchbar
+              (ionInput)="onSearch($event)"
+              (ionFocus)="onFocus($event)"
+              (ionBlur)="onBlur($event)"
+              debounce=500
+              placeholder="Name"
+              formControlName="name"
+              >
+            </ion-searchbar>
+           
+          <!-- <ion-label color="primary" class="ion-text-capitalize">Name</ion-label>
+          <ion-input tabindex="1" autocomplete="true" autocorrect="on" autocapitalize="on"  type="search" clearInput="true" (keyup.enter)="onInput()">
+          </ion-input> -->
         </ion-item>
         <ion-item *ngIf="exercisesForm.get('duration') as duration">
           <ion-label color="primary" class="ion-text-capitalize">Duration</ion-label>
@@ -37,5 +48,18 @@
 
       </form>
     </ion-list>
-      <app-list></app-list>
+    <ion-list *ngIf="exerciseListVisible">
+      <ion-list-header>
+        Exercise list
+      </ion-list-header>
+      <ion-item *ngIf="exerciseList.length == 0">
+        <ion-label > Not found</ion-label>
+      </ion-item>
+      <ion-item *ngFor="let item of exerciseList" button (click)="onSelectedExercise(item)" style="text-transform: capitalize;" >
+        <ion-icon slot="start" name="barbell"></ion-icon>
+        <ion-label > {{item.name}}</ion-label>
+       <ion-note slot="end">{{item.group}}</ion-note>
+      </ion-item>
+    </ion-list>
+      <app-list *ngIf="!exerciseListVisible"></app-list>
 </ion-content>

@@ -1,4 +1,8 @@
 export type ExerciseEvents = 'add' | 'remove' | 'replace' | 'clear' | 'load' | 'updated'
+export interface ExerciseListItem {
+    name: string
+    group: string
+}
 export interface ExerciseStatesInterface {
     running: boolean
     finished: boolean,
@@ -26,7 +30,14 @@ export interface ExerciseInterface {
     generateId?: () => string;
 
 }
-
+export class ExerciseList{
+    items:Array<ExerciseListItem>
+    constructor(exercises:Array<ExerciseListItem>){
+        this.items = exercises.map((exercise)=>{
+            return Object.freeze(exercise)
+        })
+    }
+}
 export class Exercise implements ExerciseInterface {
     readonly id: string;
     

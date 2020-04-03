@@ -15,3 +15,11 @@
         flex: 1;
     }
 }
+.autocomplete{
+    ion-list{
+        // display: none;
+        &.show{
+            display: initial;
+        }
+    }
+}

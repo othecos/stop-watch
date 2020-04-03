@@ -1,7 +1,9 @@
-import { Injectable, EventEmitter, OnInit } from '@angular/core';
-import { Exercise, ExerciseEvents } from './exercises.models';
+import { Injectable, EventEmitter } from '@angular/core';
+import { Exercise, ExerciseEvents, ExerciseListItem, ExerciseList } from './exercises.models';
 import { StorageService } from '../storage/storage.service';
 import { IonicUtilsService } from '../utils/ionic-utils.service';
+import { exerciseList } from './exercises.data';
+import { Utils } from 'src/app/classes/utils';
 
 
 @Injectable({
@@ -16,6 +18,8 @@ export class ExercisesService {
   public get exercises(): Array<Exercise> {
     return this._exercises;
   }
+
+  list:ExerciseList = new ExerciseList(exerciseList)
   constructor(private browserStorage: StorageService, private utils: IonicUtilsService) {
     this.eventEmitter.subscribe((event) => {
       if (event.eventName != 'load') this.saveStorage()
@@ -99,8 +103,23 @@ export class ExercisesService {
       this.eventEmitter.emit({ eventName: 'load', element: this._exercises })
     }
   }
-  saveStorage() {
+  private saveStorage() {
     this.browserStorage.save('exercises', this.exercises)
   }
-
+  public getList():ExerciseList{
+    return this.list
+  }
+  getGroupedList(){
+    return Utils.groupBy(this.list.items,'group')
+  }
+  public searchForExercises(name:string){
+    try{
+      if(Utils.isEmptyString(name)) return []
+      return this.list.items.filter((exercise,index)=>{
+        return exercise.name.toLowerCase().indexOf(name.toLowerCase()) > -1
+      }).filter((v,i)=> i < 70)
+    }catch(err){
+      return []
+    }
+  }
 }

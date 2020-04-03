@@ -36,4 +36,23 @@ export class Utils {
       return obj
     }
   }
+  static isEmptyString(value: string) {
+    if (typeof value == 'string') {
+      return value == '' || value == null
+    } else {
+      throw 'Not a string'
+    }
+  }
+  static capitalize(string) {
+    return string.replace(/(?:^|\s)\S/g, (a) => { return a.toUpperCase(); });
+
+  }
+
+  static groupBy(array,field){
+    return array.reduce((r, a) => {
+      r[a[field]] = [...r[a[field]] || [], a];
+      return r;
+     }, {});
+  }
+
 }

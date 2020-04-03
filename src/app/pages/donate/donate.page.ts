@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-donate',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DonatePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
   }
