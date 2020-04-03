@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ExercisesPageRoutingModule } from './exercises-routing.module';
 
 import { ExercisesPage } from './exercises.page';
-import { ListComponent } from 'src/app/components/menu/list/list.component';
+import { MenuListComponent } from 'src/app/components/menu/list/list.component';
 import { ComponentsModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -18,6 +18,6 @@ import { ComponentsModule } from 'src/app/components/components.module';
     ComponentsModule,
     ExercisesPageRoutingModule,
   ],
-  entryComponents: [ListComponent],
+  entryComponents: [MenuListComponent],
 })
 export class ExercisesPageModule {}

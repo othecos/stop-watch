@@ -8,11 +8,11 @@ import { ClockerService } from 'src/app/services/clocker/clocker.service';
 import { IonicUtilsService } from 'src/app/services/utils/ionic-utils.service';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-menu-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
 })
-export class ListComponent implements OnInit {
+export class MenuListComponent implements OnInit {
   //Component Variables 
   @ViewChild (IonReorderGroup,{static:false}) reorderGroup: IonReorderGroup;
   

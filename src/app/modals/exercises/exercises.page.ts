@@ -73,7 +73,7 @@ export class ExercisesPage implements OnInit {
   }
   onBlur(event){
   }
-  onSelectedExercise(exercise){
+  onSelected(exercise){
     this.exercisesForm.get('name').setValue(Utils.capitalize(exercise.name))
     this.exerciseListVisible = false
   }

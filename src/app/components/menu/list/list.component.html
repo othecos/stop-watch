@@ -19,13 +19,13 @@
       </ion-buttons>
     </ion-list-header>
     <ng-container *ngIf="!exercisesService.exercises || !exercisesService.hasExercises();else hasExercise ">
-        <app-item-skeleton [isReordering]="isReordering"></app-item-skeleton>
+        <app-menu-item-skeleton [isReordering]="isReordering"></app-menu-item-skeleton>
     </ng-container>
     <ng-template #hasExercise>
       <ion-reorder-group (ionItemReorder)="onReorder($event)" [disabled]="!isReordering" class="list">
         <ng-container  *ngFor="let exercise of exercisesService.exercises; index as i"  >
-            <app-item-update *ngIf="exercise.controller.isEditing" [exercise]="exercise"  (onFinish)="onUpdateExercise($event)" (onCancel)="onDisableEditionMode(exercise)"></app-item-update>
-            <app-item *ngIf="!exercise.controller.isEditing" [isReordering]="isReordering" [exercise]="exercise" [index]="i" (onEdit)="onEnableEditionMode(exercise)" (onDelete)="onDeleteExercise(exercise)"></app-item>
+            <app-menu-item-update *ngIf="exercise.controller.isEditing" [exercise]="exercise"  (onFinish)="onUpdateExercise($event)" (onCancel)="onDisableEditionMode(exercise)"></app-menu-item-update>
+            <app-menu-item *ngIf="!exercise.controller.isEditing" [isReordering]="isReordering" [exercise]="exercise" [index]="i" (onEdit)="onEnableEditionMode(exercise)" (onDelete)="onDeleteExercise(exercise)"></app-menu-item>
         </ng-container>
       </ion-reorder-group>
     </ng-template>

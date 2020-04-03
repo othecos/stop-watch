@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ExercisesPage } from './exercises.page';
 import { ComponentsModule } from 'src/app/components/components.module';
-import { ListComponent } from 'src/app/components/menu/list/list.component';
+import { MenuListComponent } from 'src/app/components/menu/list/list.component';
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes),ComponentsModule],
-  entryComponents: [ListComponent],
+  entryComponents: [MenuListComponent],
   exports: [RouterModule],
 })
 export class ExercisesPageRoutingModule {}

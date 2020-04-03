@@ -3,11 +3,11 @@ import { ClockerService } from 'src/app/services/clocker/clocker.service';
 import { Exercise } from 'src/app/services/exercises/exercises.models';
 
 @Component({
-  selector: 'app-item',
+  selector: 'app-menu-item',
   templateUrl: './item.component.html',
   styleUrls: ['./item.component.scss'],
 })
-export class ItemComponent implements OnInit {
+export class MenuItemComponent implements OnInit {
   //Events
   @Output('onDelete') onDeleteEvent: EventEmitter<Exercise> = new EventEmitter()
   @Output('onEdit') onEditEvent: EventEmitter<Exercise> = new EventEmitter()

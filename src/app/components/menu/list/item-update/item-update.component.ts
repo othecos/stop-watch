@@ -5,11 +5,11 @@ import { Exercise } from 'src/app/services/exercises/exercises.models';
 import { Utils } from 'src/app/classes/utils';
 
 @Component({
-  selector: 'app-item-update',
+  selector: 'app-menu-item-update',
   templateUrl: './item-update.component.html',
   styleUrls: ['./item-update.component.scss'],
 })
-export class ItemUpdateComponent implements OnInit {
+export class MenuItemUpdateComponent implements OnInit {
 
   //Events
   @Output('onFinish') onFinishEvent: EventEmitter<{name:string,duration:number,delay:number}> = new EventEmitter()
