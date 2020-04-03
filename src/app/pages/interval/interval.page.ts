@@ -368,7 +368,4 @@ export class IntervalPage implements OnInit, OnDestroy {
   isDelayRunning(counter){
     return this.clockerService.intervalTimer.stages.delay.isInitiated && this.clockerService.intervalTimer.stages.delay.isRunning && !this.clockerService.intervalTimer.stages.delay.isFinished && counter > 5
   }
-  onDestroy(){
-    this.audioService.finishExerciseSounds()
-  }
 }
