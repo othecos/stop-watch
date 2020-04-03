@@ -60,8 +60,6 @@ export class AudioService {
       iterator[1].volume = volume
     }
     this.volume = volume
-    console.log(this.volume);
-    
   }
   // makeCallAgain(aud){
   //   t

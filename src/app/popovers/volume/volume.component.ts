@@ -21,7 +21,6 @@ export class VolumeComponent implements OnInit {
       this.volume= (this.audioService.volume * 100)
   }
   onChangeVolume($event){
-    console.log($event,$event.target.value);
     let volume = (parseFloat($event.target.value) / 100)
     if(volume <= 1 && volume >= 0){
       this.audioService.setVolume(volume)
