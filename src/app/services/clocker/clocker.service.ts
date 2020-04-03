@@ -96,11 +96,11 @@ export class ClockerService {
     // }else if(exercise.progress.stage.exercise.initiated && !exercise.progress.stage.exercise.finished ){
     //   exercise.progress.stage.exercise.running = false
     // }
+    this.audioService.play('pause')
     exercise.progress.stage.delay.running = false
     exercise.progress.stage.exercise.running = false
     this.intervalTimer.isRunning = false
     this.eventsEmitter.emit('pause')
-    this.audioService.play('pause')
 
   }
   public resume(exercise: Exercise) {

@@ -26,7 +26,7 @@
   <div id="container">
     <ng-container *ngIf="exercisesService.exercises.length > 0; else noExercise">
       <ion-slides #slides>
-        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full" (ionSlideNextEnd)="goNext()" (ionSlideNextEnd)="goPrevious()">
+        <ion-slide *ngFor="let slide of exercisesService.exercises; index as i " class="full" (ionSlideNextEnd)="onNext()" (ionSlideNextEnd)="onPrevious()">
           <div class="flex">
             <ion-button *ngIf="isDelayRunning(slide.counter)" (click)="onJumpToExercise()" color="dark" class="blink" >Jump to exercise</ion-button>
             <div class="capitalize big-text" [ngClass]="getAnimationClasses(slide)">{{slide.counter}}</div>
@@ -55,12 +55,12 @@
       </ion-fab-button>
     </ion-fab>
     <ion-fab [ngClass]="{'dancing-up': enableDancing}" vertical="center" horizontal="start" slot="fixed" *ngIf="buttonsController.previous.show">
-      <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled " (click)="goPrevious()">
+      <ion-fab-button color="dark" [disabled]="buttonsController.previous.disabled " (click)="onPrevious()">
         <ion-icon color="light" name="play-skip-back"></ion-icon>
       </ion-fab-button>
     </ion-fab>
     <ion-fab [ngClass]="{'dancing-up': enableDancing}" vertical="center" horizontal="end" slot="fixed" *ngIf="buttonsController.next.show">
-      <ion-fab-button color="dark" [disabled]="buttonsController.next.disabled" (click)="goNext()">
+      <ion-fab-button color="dark" [disabled]="buttonsController.next.disabled" (click)="onNext()">
         <ion-icon color="light" name="play-skip-forward"></ion-icon>
       </ion-fab-button>
     </ion-fab>

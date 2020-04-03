@@ -67,15 +67,8 @@ export class Clock {
             let firsTimeRunning = true
             this.setRunning('delay')
             let counter = timer(1000, 1000).subscribe((timer) => {
-               
-
                 if (exercise.progress.stage.delay.running) {
-                    if(exercise.counter <= 5 && exercise.counter > 0){
-                        this.audioService.play('beep')
-                    }
-                    else if(exercise.counter < 1){
-                        // this.audioService.play('next')
-                    }
+                    this.playDelaySounds(exercise.counter-1)
                     if (exercise.counter > 0) {
                         exercise.counter--
                     } else {
@@ -108,19 +101,10 @@ export class Clock {
             let counter = timer(1000, 1000).subscribe((timer) => {
                 
                 if (exercise.progress.stage.exercise.running) {
-                    if( (exercise.counter-1) % 10 == 0 && (exercise.counter-1) > 5){
-                        this.audioService.play('half-way')
-                    }
-                    if( exercise.counter <= 5 && exercise.counter > 0){
-                        this.audioService.play('beep')
-                    }
-                    else if(exercise.counter < 1){
-                        // this.audioService.play('next')
-                    }
+                    this.playExerciseSounds(exercise.counter-1)
                     if (exercise.counter > 0) {
                         exercise.counter--
                     } else {
-                      
                         this.setFinished('exercise', counter)
                         resolve({ counter: id, message: 'Regular Stop' })
                     }
@@ -199,6 +183,21 @@ export class Clock {
             case 'exercise':
                 this.timer.stages.exercise.isRunning = false
                 break;
+        }
+    }
+    playDelaySounds(counter:number){
+        if(counter <= 5 && counter >= 0){
+            this.audioService.play('beep')
+        }
+    }
+    playExerciseSounds(counter:number){
+        console.log(counter);
+        
+        if( (counter) % 10 == 0 && (counter) > 9){
+            this.audioService.play('half-way')
+        }
+        if( counter <= 5 && counter >= 0){
+            this.audioService.play('beep')
         }
     }
 }

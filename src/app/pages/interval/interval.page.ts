@@ -145,9 +145,27 @@ export class IntervalPage implements OnInit, OnDestroy {
     this.buttonsController.exerciseModal.animate = false
     await this.presentModal()
   }
+  async onChangeVolume($event){
+    await this.utils.presentPopover($event,VolumeComponent)
+  }
+  async onToggleMuted(){
 
+    if(this.audioService.isMuted){
+      this.audioService.unMute()
+    }else{
+      this.audioService.mute()
+    }
+  }
+  async onJumpToExercise(){
+    if(this.clockerService.intervalTimer.stages.delay.isInitiated && !this.clockerService.intervalTimer.stages.delay.isFinished){
+      let currentElementIndex = await this.getCurrentExerciseIndex()
+      if(currentElementIndex != -1){
+        this.clockerService.skipDelay(this.exercisesService.exercises[currentElementIndex])
+      }
+    }
+  }
 
-  public async goPrevious() {
+  public async onPrevious() {
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slidePrev()
@@ -162,7 +180,7 @@ export class IntervalPage implements OnInit, OnDestroy {
     }
 
   }
-  public async goNext() {
+  public async onNext() {
     if (this.slides) {
       await this.slides.lockSwipes(false)
       await this.slides.slideNext()
@@ -334,6 +352,8 @@ export class IntervalPage implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.subscriptions.forEach((subs) => subs.unsubscribe())
+    this.onStop()
+
   }
   private async lockSlides(counter = 0) {
     if (this.slides) {
@@ -346,25 +366,7 @@ export class IntervalPage implements OnInit, OnDestroy {
       return false
     }
   }
-  async onChangeVolume($event){
-    await this.utils.presentPopover($event,VolumeComponent)
-  }
-  onToggleMuted(){
-
-    if(this.audioService.isMuted){
-      this.audioService.unMute()
-    }else{
-      this.audioService.mute()
-    }
-  }
-  async onJumpToExercise(){
-    if(this.clockerService.intervalTimer.stages.delay.isInitiated && !this.clockerService.intervalTimer.stages.delay.isFinished){
-      let currentElementIndex = await this.getCurrentExerciseIndex()
-      if(currentElementIndex != -1){
-        this.clockerService.skipDelay(this.exercisesService.exercises[currentElementIndex])
-      }
-    }
-  }
+ 
   isDelayRunning(counter){
     return this.clockerService.intervalTimer.stages.delay.isInitiated && this.clockerService.intervalTimer.stages.delay.isRunning && !this.clockerService.intervalTimer.stages.delay.isFinished && counter > 5
   }
