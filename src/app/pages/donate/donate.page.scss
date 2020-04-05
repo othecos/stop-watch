@@ -8,9 +8,22 @@
     text-align: center;
     padding: 10px;
     img{
-        max-width: 100%;
-        height: auto;
-    animation: slide-top 4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+        height: 32px;
+        width: auto;
 
     }
+}
+ion-row{
+    animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+
+    justify-content: center;
+    ion-button{
+        margin: 0.2rem .2rem;
+    }
+    page-break-after: always; /* New syntax */
+   ion-avatar{
+       margin-left: .2rem;
+       height: 32px;
+       width: 32px;
+   }
 }

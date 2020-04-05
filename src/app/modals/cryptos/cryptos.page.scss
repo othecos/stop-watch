@@ -1,0 +1,41 @@
+.wallet{
+    background: white;
+    padding: 10px;
+    border-radius: 20px;
+    height: 300px;
+    max-height: 60%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    animation: slide-top 1s 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+    img{
+        max-width: 100%;
+        height: auto;
+        max-height: 80%;
+        animation: slide-top 1s 2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+    }
+    &__address{
+        cursor: copy;
+        color: #1e2023;
+        word-break: break-all;
+        animation: slide-top 1s 3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+    }
+
+}
+.thanks{
+    animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+    text-align: center;
+}
+.title{
+    text-align: center;
+    animation: slide-top 1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;;
+    margin-bottom: auto;
+}
+.grid{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}

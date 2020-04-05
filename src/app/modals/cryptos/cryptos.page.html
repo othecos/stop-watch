@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{crypto?.label}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onDismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="grid">
+    <h3 class="title"> Just scan this QR code OR copy the address below! :)</h3>
+    <div class="thanks" *ngIf="showThanks">
+      <h2>Thank you soo much! ❤️ </h2>
+    </div>
+    <div class="wallet">
+      <img [src]="crypto?.QR_CODE" alt="Crypto QR_CODE">
+      <div class="wallet__address"  (click)="onAddressClicked(crypto?.wallet_address)">{{crypto?.wallet_address}}</div>
+    </div>
+  </div>
+ 
+</ion-content>

@@ -39,7 +39,8 @@ export class IonicUtilsService {
       message,
       duration,
       position,
-      color
+      color,
+      cssClass: ['ion-text-center','ion-text-wrap']
     });
     toast.present();
   }

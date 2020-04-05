@@ -48,11 +48,26 @@ export class Utils {
 
   }
 
-  static groupBy(array,field){
+  static groupBy(array, field) {
     return array.reduce((r, a) => {
       r[a[field]] = [...r[a[field]] || [], a];
       return r;
-     }, {});
+    }, {});
   }
+  static copyToClipboard(str) {
+    try {
+      const el = document.createElement('textarea');
+      el.value = str;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+      return true
 
+    }
+    catch{
+      return false
+    }
+
+  }
 }

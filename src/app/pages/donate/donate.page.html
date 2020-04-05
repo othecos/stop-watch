@@ -5,19 +5,31 @@
     </ion-buttons>
     <ion-title>Donate</ion-title>
   </ion-toolbar>
-  
+
 </ion-header>
 
 <ion-content>
 
   <div class="container">
-    <h1> 
-      Hey, we are working to get this page done
+    <h1>
+      Hey, we are still working to get donations by Paypal 
       <ion-icon name="build"></ion-icon>
     </h1>
-    <h3> For now you can help me donating Bitcoins! <b style="color: orange">₿</b>😁</h3>
-      <img src="assets/img/my_bitcoin_wallet.jpeg" alt="Bitcoin QRCode">
+    <h3> For now you can help us donating CryptoCoins! <b style="color: orange">₿</b>😁</h3>
+    <ion-row>
+      <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments" (click)="onCryptoClicked(payment)">
+          <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
+            <ion-icon slot="end" [name]="payment.icon.url"></ion-icon>
+          </ng-container>
+          <ng-template #img>
+            <ion-avatar>
+              <img [src]="payment.icon.url">
+            </ion-avatar>
+          </ng-template>
+
+      </ion-button>
+    </ion-row>
   </div>
- 
+
 
 </ion-content>

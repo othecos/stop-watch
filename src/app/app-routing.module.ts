@@ -16,6 +16,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/donate/donate.module').then( m => m.DonatePageModule)
   },
   {
+    path: 'router/donate/:id',
+    loadChildren: () => import('./modals/cryptos/cryptos.module').then( m => m.CryptosPageModule)
+  },
+  {
     path: 'router/count-down',
     loadChildren: () => import('./pages/count-down/count-down.module').then( m => m.CountDownPageModule)
   },
