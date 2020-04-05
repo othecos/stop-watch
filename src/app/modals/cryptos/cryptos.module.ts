@@ -15,6 +15,6 @@ import { CryptosPage } from './cryptos.page';
     IonicModule,
     CryptosPageRoutingModule
   ],
-  declarations: [CryptosPage]
+  declarations: []
 })
 export class CryptosPageModule {}
