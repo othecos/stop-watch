@@ -75,6 +75,7 @@ export class ExercisesPage implements OnInit {
   }
   onSelected(exercise){
     this.exercisesForm.get('name').setValue(Utils.capitalize(exercise.name))
+
     this.exerciseListVisible = false
   }
 }

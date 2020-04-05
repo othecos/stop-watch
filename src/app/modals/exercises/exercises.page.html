@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Add Exercises</ion-title>
-    <ion-buttons slot="end">
+    <ion-buttons slot="start">
       <ion-button (click)="onDismiss()">Close</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -22,7 +22,7 @@
       </ion-list-header>
       <ion-item *ngIf="exercisesForm.get('name') as name" class="autocomplete">
         <ion-searchbar (ionInput)="onSearch($event)" (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)"
-          debounce=500 placeholder="Name" formControlName="name">
+          debounce=500 placeholder="Name" formControlName="name" (keyup.enter)="onInput()">
         </ion-searchbar>
       </ion-item>
       <ion-item *ngIf="exercisesForm.get('duration') as duration">

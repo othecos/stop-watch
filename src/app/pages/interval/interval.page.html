@@ -48,7 +48,7 @@
         </div>
       </div>
     </ng-template>
-    <ion-fab vertical="top" horizontal="end">
+    <ion-fab vertical="top" horizontal="start">
       <ion-fab-button color="dark" (click)="onChangeVolume($event)">
         <ion-icon *ngIf="audioService?.isMuted" color="light" name="volume-mute"></ion-icon>
         <ion-icon *ngIf="!audioService?.isMuted" color="light" name="volume-high"></ion-icon>
