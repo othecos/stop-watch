@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <ion-buttons slot="start" [ngClass]="{'blink-sm': animateMenuButton}" (click)="onMenuButtonClicked()">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home</ion-title>
@@ -13,7 +13,7 @@
     <ion-slide>
         <img src="assets/img/transparent/yoga_girl.png"/>
         <h2>Welcome to <b>Stop Watch Training</b></h2>
-        <p>This <b>App</b>  a tool where you can improve your workouts with some features</p>
+        <p>We build this app to serve as a <b>tool</b> to improve your <b>workouts</b> </p>
         <ion-button fill="clear" (click)="slide.slideNext()">Click or swipe next <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
       </ion-slide>
 
@@ -47,7 +47,7 @@
         <b>Donations</b> are how you can help us to keep updating and improving this app to help you achieve your BEST result ever
       </p>
       <ion-row class="ion-justify-content-center ion-align-items-center ion-hide-lg-up" (click)="onOpenMenu()"   >
-        <ion-button fill="clear" >Check all pages <ion-icon slot="end" name="document"></ion-icon></ion-button>
+        <ion-button fill="clear" class="app-hide-sm-down">Check all pages <ion-icon slot="end" name="document"></ion-icon></ion-button>
       </ion-row>
       <ion-row class="ion-justify-content-center ion-align-items-center">
         <ion-button routerDirection="back" [routerLink]="getRoute('donate')"  fill="clear">Donate <ion-icon slot="end" name="happy"></ion-icon></ion-button>

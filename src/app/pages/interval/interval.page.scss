@@ -22,6 +22,9 @@ ion-title {
 .big-text {
   width     : 100%;
   font-size : calc(8em + 8vw);
+  @media all and (max-width: 568px) {
+    font-size : calc(6em + 6vw);
+  }
   transition: all .5s;
 }
 
