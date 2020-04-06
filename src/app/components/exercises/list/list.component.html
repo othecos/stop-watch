@@ -5,5 +5,5 @@
   <ion-item *ngIf="list.length == 0">
     <ion-label > Not found</ion-label>
   </ion-item>
-  <app-exercises-item *ngFor="let item of list" [item]="item" (onSelectedItem)="onSelectedExercise($event)"></app-exercises-item>
+  <app-exercises-item *ngFor="let item of list" [item]="item" (selectedItemEvent)="onSelectedExercise($event)"></app-exercises-item>
 </ion-list>

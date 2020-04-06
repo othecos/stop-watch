@@ -16,27 +16,27 @@ export class CountUpPage implements OnInit {
   public title: string;
   constructor(
     private activatedRoute: ActivatedRoute,
-    public counter:CounterUpService
+    public counter: CounterUpService
     ) {
    }
   ngOnInit() {
     this.title = this.activatedRoute.snapshot.paramMap.get('id');
-    this.activatedRoute.paramMap.subscribe((response)=>{
-      this.title = response.get('id')
-    })
-   
+    this.activatedRoute.paramMap.subscribe((response) => {
+      this.title = response.get('id');
+    });
+
   }
-  onPlay(){
-    this.counter.start()
+  onPlay() {
+    this.counter.start();
   }
-  onPause(){
-    this.counter.pause()
+  onPause() {
+    this.counter.pause();
   }
-  onStop(){
-    this.counter.stop()
+  onStop() {
+    this.counter.stop();
   }
-  onRestart(){
-    this.counter.restart()
+  onRestart() {
+    this.counter.restart();
   }
 
 }

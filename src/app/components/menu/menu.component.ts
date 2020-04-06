@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PagesService } from 'src/app/services/pages/pages.service';
-import { FormBuilder } from '@angular/forms';
-import { MenuController } from '@ionic/angular';
 import { Pages } from 'src/app/services/pages/pages.models';
-import { Utils } from 'src/app/classes/utils';
-import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -14,24 +10,24 @@ import { ActivatedRoute, Router, RouterEvent } from '@angular/router';
 export class MenuComponent implements OnInit {
   public selectedIndex = 0;
 
-  appPages: Array<Pages> = []
-  showExerciseList: boolean = false
+  appPages: Array<Pages> = [];
+  showExerciseList = false;
   constructor(
     public pagesServices: PagesService,
   ) {
-    this.appPages = this.pagesServices.appPages
+    this.appPages = this.pagesServices.appPages;
   }
   ngOnInit() {
-    this.pagesServices.event.subscribe((event)=>{
-      this.checkVisibility()
-    })
+    this.pagesServices.event.subscribe(() => {
+      this.checkVisibility();
+    });
   }
-  checkVisibility(){
-    this.showExerciseList = this.isPageActive('interval')
+  checkVisibility() {
+    this.showExerciseList = this.isPageActive('interval');
   }
-  isPageActive(URL){
-    try{
-      return this.pagesServices.getActivePage().url.includes(URL) 
-    }catch{return false}
+  isPageActive(URL) {
+    try {
+      return this.pagesServices.getActivePage().url.includes(URL);
+    } catch {return false; }
   }
 }

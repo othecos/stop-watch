@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
@@ -14,7 +14,7 @@ import { ExerciseItemSkeletonComponent } from './item-skeleton/item-skeleton.com
         FormsModule,
         IonicModule,
         RouterModule,
-        ReactiveFormsModule 
+        ReactiveFormsModule
     ],
     declarations: [
         ExerciseListComponent,
@@ -27,4 +27,6 @@ import { ExerciseItemSkeletonComponent } from './item-skeleton/item-skeleton.com
         ExerciseItemSkeletonComponent
     ]
 })
-export class ExercisesComponentsModule {}
+export class ExercisesComponentsModule {
+
+}

@@ -4,47 +4,45 @@ export class Utils {
   }
   static removeSpecialCharacter(dirtyString): string {
     try {
-      return dirtyString.replace(/[/\|&;$%@"<>()+,]/g, "");
-    }
-    catch{
-      return dirtyString
+      return dirtyString.replace(/[/\|&;$%@"<>()+,]/g, '');
+    } catch {
+      return dirtyString;
     }
   }
   static isEmpty(data) {
-    if (typeof (data) == 'number' || typeof (data) == 'boolean') {
+    if (typeof (data) === 'number' || typeof (data) === 'boolean') {
       return false;
     }
-    if (typeof (data) == 'undefined' || data === null) {
+    if (typeof (data) === 'undefined' || data === null) {
       return true;
     }
-    if (typeof (data.length) != 'undefined') {
-      return data.length == 0;
+    if (typeof (data.length) !== 'undefined') {
+      return data.length === 0;
     }
-    var count = 0;
-    for (var i in data) {
+    let count = 0;
+    for (const i in data) {
       if (data.hasOwnProperty(i)) {
         count++;
       }
     }
-    return count == 0;
+    return count === 0;
   }
   static cloneObject(obj: object) {
     try {
-      if (typeof obj == "object") return JSON.parse(JSON.stringify(obj))
-      else return obj
+      if (typeof obj === 'object') { return JSON.parse(JSON.stringify(obj)) ; }  else { return obj; }
     } catch (err) {
-      return obj
+      return obj;
     }
   }
   static isEmptyString(value: string) {
-    if (typeof value == 'string') {
-      return value == '' || value == null
+    if (typeof value === 'string') {
+      return value === '' || value == null;
     } else {
-      throw 'Not a string'
+      throw new Error('Not a string');
     }
   }
-  static capitalize(string) {
-    return string.replace(/(?:^|\s)\S/g, (a) => { return a.toUpperCase(); });
+  static capitalize(text: string ) {
+    return text.replace(/(?:^|\s)\S/g, (a) => a.toUpperCase());
 
   }
 
@@ -62,11 +60,10 @@ export class Utils {
       el.select();
       document.execCommand('copy');
       document.body.removeChild(el);
-      return true
+      return true;
 
-    }
-    catch{
-      return false
+    } catch {
+      return false;
     }
 
   }

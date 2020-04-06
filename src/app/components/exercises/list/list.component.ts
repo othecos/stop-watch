@@ -7,14 +7,14 @@ import { ExerciseListItem } from 'src/app/services/exercises/exercises.models';
   styleUrls: ['./list.component.scss'],
 })
 export class ExerciseListComponent implements OnInit {
-  @Output('onSelected') selectedEvent:EventEmitter<ExerciseListItem> = new EventEmitter()
-  @Input('list') list:Array<ExerciseListItem>
+  @Output() selectedEvent: EventEmitter<ExerciseListItem> = new EventEmitter();
+  @Input() list: Array<ExerciseListItem>;
   constructor(
 
   ) { }
 
   ngOnInit() {}
-  onSelectedExercise(exercise){
-    this.selectedEvent.emit(exercise)
+  onSelectedExercise(exercise) {
+    this.selectedEvent.emit(exercise);
   }
 }

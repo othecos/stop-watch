@@ -14,69 +14,68 @@ import { Utils } from 'src/app/classes/utils';
 })
 export class ExercisesPage implements OnInit {
   exercisesForm: FormGroup;
-  exerciseList:Array<ExerciseListItem>
-  exerciseListVisible:boolean = false
+  exerciseList: Array<ExerciseListItem>;
+  exerciseListVisible = false;
   constructor(
-    public exercisesService:ExercisesService,
-    public menu:MenuController,
-    public eventsService:EventsService,
+    public exercisesService: ExercisesService,
+    public menu: MenuController,
+    public eventsService: EventsService,
     public modalController: ModalController,
-    public utils:IonicUtilsService
+    public utils: IonicUtilsService
   ) {
     this.exercisesForm = new FormGroup({
-      name:   new FormControl('Pull Ups!',null),
-      duration: new FormControl(60,[Validators.min(1)]),
-      delay: new FormControl(10,Validators.min(1)),
-      // sets: new FormControl(5,Validators.min(0))
+      name: new FormControl('Pull Ups!', null),
+      duration: new FormControl(60, [Validators.min(1)]),
+      delay: new FormControl(10, Validators.min(1)),
     });
-   }
+  }
 
   ngOnInit() {
-    console.log(this.exercisesService.list);
-    this.exerciseList =  []
-    console.log(this.exercisesService.getGroupedList())
+    this.exerciseList = [];
   }
 
-  onInput(){
-      this.onAddExercise()
+  onInput() {
+    this.onAddExercise();
   }
-  onAddExercise(){
-    if(this.exercisesForm.valid){
-      let exercise:Exercise = new Exercise(this.exercisesForm.get('name').value,this.exercisesForm.get('duration').value,this.exercisesForm.get('delay').value)
-      this.exercisesService.add(exercise)
-      this.exerciseListVisible = false
-    }else{
-      this.utils.presentToast('Invalid values, duration and delay should be higher than 0',3000,'middle','danger')
+  onAddExercise() {
+    if (this.exercisesForm.valid) {
+      const exercise: Exercise = new Exercise(
+        this.exercisesForm.get('name').value,
+        this.exercisesForm.get('duration').value,
+        this.exercisesForm.get('delay').value);
+      this.exercisesService.add(exercise);
+      this.exerciseListVisible = false;
+    } else {
+      this.utils.presentToast('Invalid values, duration and delay should be higher than 0', 3000, 'middle', 'danger');
     }
   }
-  onDelete(exercise){
-    this.exercisesService.remove(exercise)
+  onDelete(exercise) {
+    this.exercisesService.remove(exercise);
   }
-  async onPlay(){
-    await this.menu.get('menu')
-    await this.menu.close('menu')
-    this.eventsService.menuEvent.emit('close')
+  async onPlay() {
+    await this.menu.get('menu');
+    await this.menu.close('menu');
+    this.eventsService.menuEvent.emit('close');
   }
   onDismiss() {
     this.modalController.dismiss({
-      'dismissed': true
+      dismissed: true
     });
   }
-  onSearch(event){
-    this.exerciseList = this.exercisesService.searchForExercises(event.target.value)
-    if(event.target.value == '') this.exerciseListVisible = false
-    else this.exerciseListVisible = true
+  onSearch(event) {
+    this.exerciseList = this.exercisesService.searchForExercises(event.target.value);
+    if (event.target.value === '') { this.exerciseListVisible = false; } else { this.exerciseListVisible = true; }
   }
-  onFocus($event){
-    this.exerciseList = this.exercisesService.searchForExercises($event.target.value)
-    this.exerciseListVisible = true
+  onFocus($event) {
+    this.exerciseList = this.exercisesService.searchForExercises($event.target.value);
+    this.exerciseListVisible = true;
   }
-  onBlur(event){
+  onBlur(event) {
   }
-  onSelected(exercise){
-    this.exercisesForm.get('name').setValue(Utils.capitalize(exercise.name))
+  onSelected(exercise) {
+    this.exercisesForm.get('name').setValue(Utils.capitalize(exercise.name));
 
-    this.exerciseListVisible = false
+    this.exerciseListVisible = false;
   }
 }
 

@@ -11,33 +11,33 @@ import { TimerPage } from 'src/app/modals/timer/timer.page';
 export class CountDownPage {
 
   constructor(
-    public counter:CounterDownService,
-    private modalController:ModalController
-  ) { 
+    public counter: CounterDownService,
+    private modalController: ModalController
+  ) {
   }
-  async onSetTime(){
-    await this.presentModal()
+  async onSetTime() {
+    await this.presentModal();
   }
-  onPlay(){
-    this.counter.start()
+  onPlay() {
+    this.counter.start();
   }
-  onPause(){
-    this.counter.pause()
+  onPause() {
+    this.counter.pause();
   }
-  onStop(){
-    this.counter.stop()
+  onStop() {
+    this.counter.stop();
   }
-  onRestart(){
-    this.counter.restart()
+  onRestart() {
+    this.counter.restart();
   }
   private async presentModal() {
     const modal = await this.modalController.create({
       component: TimerPage,
       swipeToClose: true
     });
-    modal.onDidDismiss().then((response)=>{
-      
-    })
+    modal.onDidDismiss().then((response) => {
+
+    });
     return await modal.present();
   }
 

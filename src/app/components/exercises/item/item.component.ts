@@ -8,14 +8,14 @@ import { ExerciseListItem } from 'src/app/services/exercises/exercises.models';
 })
 export class ExerciseItemComponent implements OnInit {
 
-  @Output('onSelectedItem') selectedItemEvent:EventEmitter<ExerciseListItem> = new EventEmitter()
+  @Output() selectedItemEvent: EventEmitter<ExerciseListItem> = new EventEmitter();
 
-  @Input('item') item:ExerciseListItem
+  @Input() item: ExerciseListItem;
   constructor() { }
 
-  ngOnInit() {}
-  
-  onSelectedItem(item){
-    this.selectedItemEvent.emit(item)
+  ngOnInit() { }
+
+  onSelectedItem(item) {
+    this.selectedItemEvent.emit(item);
   }
 }
