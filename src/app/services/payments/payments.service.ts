@@ -6,6 +6,7 @@ import { payments } from './payments.data';
   providedIn: 'root'
 })
 export class PaymentsService {
+  // tslint:disable-next-line: variable-name
   private _payments: Array<CryptoPayments> = payments;
   public get payments(): Array<CryptoPayments> {
     return this._payments;

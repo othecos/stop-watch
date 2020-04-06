@@ -1,22 +1,22 @@
-export type ExerciseEvents = 'add' | 'remove' | 'replace' | 'clear' | 'load' | 'updated'
+export type ExerciseEvents = 'add' | 'remove' | 'replace' | 'clear' | 'load' | 'updated';
 export interface ExerciseListItem {
-    name: string
-    group: string
+    name: string;
+    group: string;
 }
 export interface ExerciseStatesInterface {
-    running: boolean
-    finished: boolean,
-    initiated: boolean,
+    running: boolean;
+    finished: boolean;
+    initiated: boolean;
 
 }
 export interface ExerciseInterface {
     id: string;
-    duration: number
+    duration: number;
     name: string;
     delay: number;
-    controller:{
+    controller: {
         isEditing: boolean
-    }
+    };
     progress?: {
         initiated: boolean
         lastProgress: number
@@ -25,32 +25,35 @@ export interface ExerciseInterface {
             delay: ExerciseStatesInterface
             exercise: ExerciseStatesInterface
         }
-    }
+    };
     counter: number;
     generateId?: () => string;
 
 }
-export class ExerciseList{
-    items:Array<ExerciseListItem>
-    constructor(exercises:Array<ExerciseListItem>){
-        this.items = exercises.map((exercise)=>{
-            return Object.freeze(exercise)
-        })
+export class ExerciseList {
+    items: Array<ExerciseListItem>;
+    constructor(exercises: Array<ExerciseListItem>) {
+        this.items = exercises.map((exercise) => {
+            return Object.freeze(exercise);
+        });
     }
 }
 export class Exercise implements ExerciseInterface {
     readonly id: string;
-    
-    
-    private _duration: number = 60;
-    private _name: string = '';
-    private _delay: number = 0;
+
+
+    // tslint:disable-next-line: variable-name
+    private _duration = 60;
+    // tslint:disable-next-line: variable-name
+    private _name = '';
+    // tslint:disable-next-line: variable-name
+    private _delay = 0;
 
     public get duration(): number {
         return this._duration;
     }
     public set duration(value: number) {
-        if(value < 1) return;
+        if (value < 1) { return; }
         this._duration = value;
     }
     public get name(): string {
@@ -63,7 +66,7 @@ export class Exercise implements ExerciseInterface {
         return this._delay;
     }
     public set delay(value: number) {
-        if(value < 1) return;
+        if (value < 1) { return; }
         this._delay = value;
     }
     progress?: {
@@ -74,12 +77,12 @@ export class Exercise implements ExerciseInterface {
             delay: ExerciseStatesInterface
             exercise: ExerciseStatesInterface
         }
-    }
-    controller:{
+    };
+    controller: {
         isEditing: boolean
-    }
-    counter: number = 0;
-    generateId?: () => string = () => { return `exercise_${Math.random()}` }
+    };
+    counter = 0;
+    generateId?: () => string = () => `exercise_${Math.random()}`;
     constructor(name, duration = 30, delay = 0) {
         this.id = this.generateId();
         this._duration = duration;
@@ -88,7 +91,7 @@ export class Exercise implements ExerciseInterface {
         this.counter = delay;
         this.controller = {
             isEditing: false
-        }
+        };
         this.progress = {
             initiated: false,
             lastProgress: 0,
@@ -105,6 +108,6 @@ export class Exercise implements ExerciseInterface {
                     initiated: false
                 }
             }
-        }
+        };
     }
 }

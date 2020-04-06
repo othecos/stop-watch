@@ -869,7 +869,7 @@ export const exerciseList = [
     { name: 'v-bar pulldown', group: 'lats' },
     { name: 'v-bar pullup', group: 'lats' },
     { name: 'vertical swing', group: 'hamstrings' },
-    { name: 'walking treadmill',group: 'quadriceps' },
+    { name: 'walking treadmill', group: 'quadriceps' },
     { name: 'weighted ball hyperextension', group: 'lower back' },
     { name: 'weighted ball side bend', group: 'abdominals' },
     { name: 'weighted bench dip', group: 'triceps' },
@@ -898,4 +898,4 @@ export const exerciseList = [
     { name: 'zercher squats', group: 'quadriceps' },
     { name: 'zottman curl', group: 'biceps' },
     { name: 'zottman preacher curl', group: 'biceps' },
-]
+];

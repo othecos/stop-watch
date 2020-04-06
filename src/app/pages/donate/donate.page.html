@@ -15,7 +15,7 @@
       Hey, we are still working to get donations by Paypal 
       <ion-icon name="build"></ion-icon>
     </h1>
-    <h3> For now you can help us donating CryptoCoins! <b style="color: orange">₿</b>😁</h3>
+    <h3> For now you can help us donating CryptoCoins! <strong style="color: orange; font-weight: bold;">₿</strong>😁</h3>
     <ion-row>
       <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments" (click)="onCryptoClicked(payment)">
           <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
@@ -23,7 +23,7 @@
           </ng-container>
           <ng-template #img>
             <ion-avatar>
-              <img [src]="payment.icon.url">
+              <img [src]="payment.icon.url" [alt]="payment.label+'_icon'">
             </ion-avatar>
           </ng-template>
 

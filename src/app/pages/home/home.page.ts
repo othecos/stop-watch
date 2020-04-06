@@ -9,43 +9,43 @@ import { Subscription } from 'rxjs';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit,OnDestroy, AfterViewInit{
-  appPages:Array<Pages>
-  isMenuOpen:boolean = false;
+export class HomePage implements OnInit, OnDestroy, AfterViewInit {
+  appPages: Array<Pages>;
+  isMenuOpen = false;
   animateMenuButton = false;
-  @ViewChild('slide',{static: false}) slide:IonSlides
-  subscription:Array<Subscription> = []
+  @ViewChild('slide', { static: false }) slide: IonSlides;
+  subscription: Array<Subscription> = [];
   constructor(
     private pagesService: PagesService,
     public menuController: MenuController,
-    public splitPaneController:IonSplitPane
+    public splitPaneController: IonSplitPane
   ) {
-    
-   }
+
+  }
 
   async ngOnInit() {
     this.appPages = this.pagesService.appPages;
   }
-  ngAfterViewInit(){
-    this.onLastPage()
+  ngAfterViewInit() {
+    this.onLastPage();
   }
-  getRoute(name){
-    return this.pagesService.getRoute(name)
+  getRoute(name) {
+    return this.pagesService.getRoute(name);
   }
-  onMenuButtonClicked(){
-    this.animateMenuButton =  false
+  onMenuButtonClicked() {
+    this.animateMenuButton = false;
   }
-  onLastPage(){
-   let subs =  this.slide.ionSlideReachEnd.subscribe((isEnd)=>{
+  onLastPage() {
+    const subs = this.slide.ionSlideReachEnd.subscribe((isEnd) => {
       console.log(isEnd);
-      this.animateMenuButton = true
-    })
-    this.subscription.push(subs)
+      this.animateMenuButton = true;
+    });
+    this.subscription.push(subs);
   }
-  async onOpenMenu(){
-    this.menuController.open('menu')
+  async onOpenMenu() {
+    this.menuController.open('menu');
   }
-  ngOnDestroy(){
-    this.subscription.forEach((subs:Subscription)=> subs.unsubscribe())
+  ngOnDestroy() {
+    this.subscription.forEach((subs: Subscription) => subs.unsubscribe());
   }
 }

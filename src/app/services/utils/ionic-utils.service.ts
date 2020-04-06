@@ -5,13 +5,13 @@ import { AlertController, ToastController, PopoverController } from '@ionic/angu
   providedIn: 'root'
 })
 export class IonicUtilsService {
-  currentPopover
+  currentPopover;
   constructor(
-    private alertController:AlertController,
+    private alertController: AlertController,
     public toastController: ToastController,
     public popoverController: PopoverController
   ) { }
-  async presentAlertConfirm(header = 'Confirm',message = 'Message <strong>text</strong>!!!',confirmFunction: () => void) {
+  async presentAlertConfirm(header = 'Confirm', message = 'Message <strong>text</strong>!!!', confirmFunction: () => void) {
     const alert = await this.alertController.create({
       header,
       message,
@@ -25,22 +25,22 @@ export class IonicUtilsService {
         }, {
           text: 'Okay',
           handler: () => {
-            confirmFunction()
+            confirmFunction();
           }
         }
       ]
     });
-    
+
     return await alert.present();
   }
 
-  async presentToast(message = 'Action Done',duration = 2000,position : 'bottom' | 'top' | 'middle' = 'bottom',color = 'light') {
+  async presentToast(message = 'Action Done', duration = 2000, position: 'bottom' | 'top' | 'middle' = 'bottom', color = 'light') {
     const toast = await this.toastController.create({
       message,
       duration,
       position,
       color,
-      cssClass: ['ion-text-center','ion-text-wrap']
+      cssClass: ['ion-text-center', 'ion-text-wrap']
     });
     toast.present();
   }
@@ -68,16 +68,16 @@ export class IonicUtilsService {
     toast.present();
   }
 
-  async presentPopover(ev: any,componentRef:any) {
-    console.log(ev,componentRef);
-    
+  async presentPopover(ev: any, componentRef: any) {
+    console.log(ev, componentRef);
+
     const popover = await this.popoverController.create({
       component: componentRef,
       event: ev,
       translucent: true,
 
     });
-    this.currentPopover = popover
+    this.currentPopover = popover;
     return await popover.present();
   }
   dismissPopover() {

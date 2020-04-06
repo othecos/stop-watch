@@ -11,40 +11,40 @@
 <ion-content  fullscreen class="ion-padding" scroll-y="false">
   <ion-slides pager="true" #slide> 
     <ion-slide>
-        <img src="assets/img/transparent/yoga_girl.png"/>
-        <h2>Welcome to <b>Stop Watch Training</b></h2>
-        <p>We build this app to serve as a <b>tool</b> to improve your <b>workouts</b> </p>
+        <img src="assets/img/transparent/yoga_girl.png" alt="slider-image"/>
+        <h2>Welcome to <strong>Stop Watch Training</strong></h2>
+        <p>We build this app to serve as a <strong>tool</strong> to improve your <strong>workouts</strong> </p>
         <ion-button fill="clear" (click)="slide.slideNext()">Click or swipe next <ion-icon slot="end" name="arrow-forward"></ion-icon></ion-button>
       </ion-slide>
 
     <ion-slide>
-      <img  src="assets/img/transparent/strength_training.png"/>
+      <img  src="assets/img/transparent/strength_training.png" alt="slider-image"/>
       <h2>Interval Training</h2>
-      <p><b>Interval page</b> is an interval timer that you can run your exercise routine, setting exercise <b>duration</b> and <b>delay</b>.</p>
+      <p><strong>Interval page</strong> is an interval timer that you can run your exercise routine, setting exercise <strong>duration</strong> and <strong>delay</strong>.</p>
       <ion-button routerDirection="back" [routerLink]="getRoute('interval')"  fill="clear">Interval training <ion-icon slot="end" name="barbell"></ion-icon></ion-button>
     </ion-slide> 
 
     <ion-slide>
-      <img src="assets/img/dark-mode/dark-clock.png"/>
+      <img src="assets/img/dark-mode/dark-clock.png" alt="slider-image"/>
       <h2>Count-down</h2>
-      <p><b>Count-down page</b> is a regular count down timer, where you set your time and run!</p>
+      <p><strong>Count-down page</strong> is a regular count down timer, where you set your time and run!</p>
       <ion-button routerDirection="back" [routerLink]="getRoute('count-down')"  fill="clear">Count-down <ion-icon slot="end" name="chevron-down-circle"></ion-icon></ion-button>
    
     </ion-slide>
 
     <ion-slide>
-      <img src="assets/img/dark-mode/dark-clock.png"/>
+      <img src="assets/img/dark-mode/dark-clock.png" alt="slider-image"/>
       <h2>Count-Up</h2>
-      <p><b>Count-up page</b>, just like the count down, but the other way around 😂</p>
+      <p><strong>Count-up page</strong>, just like the count down, but the other way around 😂</p>
       <ion-button routerDirection="back" [routerLink]="getRoute('count-up')"  fill="clear">Count-Up <ion-icon slot="end" name="chevron-up-circle"></ion-icon></ion-button>
    
     </ion-slide> 
 
     <ion-slide>
-      <img src="assets/img/transparent/donate.png"/>
+      <img src="assets/img/transparent/donate.png" alt="slider-image"/>
       <h2>Donate</h2>
       <p>If you like the app, don't forget to help us out! <br>
-        <b>Donations</b> are how you can help us to keep updating and improving this app to help you achieve your BEST result ever
+        <strong>Donations</strong> are how you can help us to keep updating and improving this app to help you achieve your BEST result ever
       </p>
       <ion-row class="ion-justify-content-center ion-align-items-center ion-hide-lg-up" (click)="onOpenMenu()"   >
         <ion-button fill="clear" class="app-hide-sm-down">Check all pages <ion-icon slot="end" name="document"></ion-icon></ion-button>
@@ -54,13 +54,4 @@
       </ion-row>
     </ion-slide> 
   </ion-slides>
-  <!-- <ion-list id="inbox-list" class="app-routes">
-    <ion-list-header>Smart Stop-Watch</ion-list-header>
-    <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
-      <ion-item button detail="false" >
-        <ion-icon slot="start" [name]="p.icon"></ion-icon>
-        <ion-label>{{ p.title }}</ion-label>
-      </ion-item>
-    </ion-menu-toggle>
-  </ion-list> -->  
 </ion-content>

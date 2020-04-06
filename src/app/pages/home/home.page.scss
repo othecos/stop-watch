@@ -26,7 +26,7 @@ ion-slides {
     pointer-events: none;
   }
 
-  b {
+  strong {
     font-weight: 500;
   }
 
@@ -37,7 +37,7 @@ ion-slides {
     color: var(--ion-color-step-600, #60646b);
   }
 
-  p b {
+  p strong {
     color: var(--ion-text-color, #000000);
   }
   .blink-sm{

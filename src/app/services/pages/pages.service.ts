@@ -1,7 +1,8 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnDestroy } from '@angular/core';
 import { Pages } from './pages.models';
 import { Router, RouterEvent, ActivatedRoute } from '@angular/router';
 import { Utils } from 'src/app/classes/utils';
+import { Subscription } from 'rxjs';
 
 
 
@@ -9,13 +10,13 @@ import { Utils } from 'src/app/classes/utils';
 @Injectable({
   providedIn: 'root'
 })
-export class PagesService {
+export class PagesService implements OnDestroy {
 
-  selectedIndex: number = 0
-  currentPath: string
-  event: EventEmitter<'changed'> = new EventEmitter()
-  folderPath = 'router'
-
+  selectedIndex = 0;
+  currentPath: string;
+  event: EventEmitter<'changed'> = new EventEmitter();
+  folderPath = 'router';
+  private subscription: Array<Subscription> = [];
   public appPages = [
     new Pages('Home', `${this.folderPath}/home`, 'home'),
     new Pages('Interval', `${this.folderPath}/interval`, 'alarm'),
@@ -28,32 +29,37 @@ export class PagesService {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
-    let subscription = this.router.events.subscribe((routerEvent: RouterEvent) => {
-      this.updateCurrentRoute()
+    const subscription = this.router.events.subscribe((routerEvent: RouterEvent) => {
+      this.updateCurrentRoute();
       if (this.currentPath !== undefined) {
 
-        this.setSelectedIndex(this.currentPath)
-        this.event.emit('changed')
+        this.setSelectedIndex(this.currentPath);
+        this.event.emit('changed');
       }
-    })
+    });
+    this.subscription.push(subscription);
   }
   private updateCurrentRoute() {
-    let currentChild = this.activatedRoute.snapshot.children.find((child) => { return !Utils.isEmpty(child.routeConfig.path) })
+    const currentChild = this.activatedRoute.snapshot.children.find((child) => !Utils.isEmpty(child.routeConfig.path));
     if (currentChild) {
-      let path = currentChild.routeConfig.path
-      this.currentPath = path.substr(path.lastIndexOf(this.folderPath + "/") + this.folderPath.length)
+      const path = currentChild.routeConfig.path;
+      this.currentPath = path.substr(path.lastIndexOf(this.folderPath + '/') + this.folderPath.length);
     }
   }
   public getActivePage() {
-    return this.appPages[this.selectedIndex]
+    return this.appPages[this.selectedIndex];
   }
   private setSelectedIndex(path: string) {
-    this.selectedIndex = this.appPages.findIndex(page => page.url.toLowerCase().includes( path.toLowerCase()))
-    return this.selectedIndex
+    this.selectedIndex = this.appPages.findIndex(page => page.url.toLowerCase().includes( path.toLowerCase()));
+    return this.selectedIndex;
   }
-  getRoute(name:string){
-    let page = this.appPages.find((page)=> page.title.toLowerCase().includes(name.toLowerCase()))
-    if(page) return `/${page.url}`
-    else return ''
+  getRoute(name: string) {
+    const pageFound = this.appPages.find((page) => {
+      return page.title.toLowerCase().includes(name.toLowerCase());
+    });
+    if (pageFound) { return `/${pageFound.url}`; } else { return ''; }
+  }
+  ngOnDestroy() {
+    this.subscription.forEach((sub) => sub.unsubscribe());
   }
 }
