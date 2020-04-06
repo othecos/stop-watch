@@ -34,8 +34,11 @@ export class ExercisesPage implements OnInit {
     this.exerciseList = [];
   }
 
-  onInput() {
-    this.onAddExercise();
+  onInput(value: string) {
+    if (value !== undefined && value !== '') {
+      this.exercisesForm.get('name').setValue(Utils.capitalize(value));
+      this.onAddExercise();
+    }
   }
   onAddExercise() {
     if (this.exercisesForm.valid) {

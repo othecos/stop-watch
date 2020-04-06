@@ -22,7 +22,7 @@
       </ion-list-header>
       <ion-item *ngIf="exercisesForm.get('name') as name" class="autocomplete">
         <ion-searchbar (ionInput)="onSearch($event)" (ionFocus)="onFocus($event)" (ionBlur)="onBlur($event)"
-          debounce=500 placeholder="Name" formControlName="name" (keyup.enter)="onInput()">
+          debounce=500 placeholder="Name" formControlName="name" (keyup.enter)="onInput($event.target.value)">
         </ion-searchbar>
       </ion-item>
       <ion-item *ngIf="exercisesForm.get('duration') as duration">
