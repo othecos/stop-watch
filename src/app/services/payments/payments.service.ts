@@ -11,9 +11,9 @@ export class PaymentsService {
   public get payments(): Array<CryptoPayments> {
     return this._payments;
   }
-  private _mercadoPago: MercadoPagoPayment = mercadoPago;
-  public get mercadoPago(): MercadoPagoPayment {
-    return this._mercadoPago;
+  private _mercadoPagoPayments: Array<MercadoPagoPayment> = mercadoPago;
+  public get mercadoPagoPayments(): Array<MercadoPagoPayment> {
+    return this._mercadoPagoPayments;
   }
   constructor() { 
   }

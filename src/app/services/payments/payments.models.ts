@@ -21,9 +21,10 @@ export class MercadoPagoPayment extends Payment{
         type: 'ionic' | 'img'
         url: string
     };
-    linkToRedirect: string = 'https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=120584160-f389ae45-fe6d-4510-97ae-786c2fd7fe22';
-    constructor(label, iconType: 'ionic'| 'img', iconUrl: string) {
+    linkToRedirect: string;
+    constructor(label, iconType: 'ionic'| 'img',linkToRedirect:string, iconUrl: string) {
         super(label, 'mercado-pago');
+        this.linkToRedirect = linkToRedirect;
         this.icon = {
             type: iconType || 'ionic',
             url : iconUrl && iconType ? iconUrl : 'card'

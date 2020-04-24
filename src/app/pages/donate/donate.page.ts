@@ -14,21 +14,16 @@ import { CryptoPayments } from 'src/app/services/payments/payments.models';
 export class DonatePage implements OnInit {
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     public paymentsServices: PaymentsService,
-    private utils: IonicUtilsService,
     private modalController: ModalController
   ) { }
 
   ngOnInit() {
-    console.log(this.paymentsServices.mercadoPago)
   }
   async onCryptoClicked(crypto: CryptoPayments) {
     await this.presentModal(crypto);
   }
   private async presentModal(value) {
-    console.log(value);
-
     const modal = await this.modalController.create({
       component: CryptosPage,
       swipeToClose: true,
