@@ -21,6 +21,7 @@ export class DonatePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log(this.paymentsServices.mercadoPago)
   }
   async onCryptoClicked(crypto: CryptoPayments) {
     await this.presentModal(crypto);

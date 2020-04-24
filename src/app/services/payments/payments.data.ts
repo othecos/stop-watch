@@ -1,4 +1,4 @@
-import { CryptoPayments } from './payments.models';
+import { CryptoPayments, MercadoPagoPayment } from './payments.models';
 
 export const payments: Array<CryptoPayments> = [
     new CryptoPayments(
@@ -17,3 +17,4 @@ export const payments: Array<CryptoPayments> = [
         'XRP (Ripple)', 'assets/img/payments/xrp.jpeg', 'rB3en761DLCkkxzp3U1SZERZG8B4y5ztR5',
         'img', 'assets/img/coins/ripple.png'),
 ];
+export const mercadoPago: MercadoPagoPayment = new MercadoPagoPayment('Mercado Pago','img','assets/img/payments/agreement.png')

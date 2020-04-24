@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CryptoPayments } from './payments.models';
-import { payments } from './payments.data';
+import { CryptoPayments, MercadoPagoPayment } from './payments.models';
+import { payments, mercadoPago } from './payments.data';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,11 @@ export class PaymentsService {
   public get payments(): Array<CryptoPayments> {
     return this._payments;
   }
-  constructor() { }
+  private _mercadoPago: MercadoPagoPayment = mercadoPago;
+  public get mercadoPago(): MercadoPagoPayment {
+    return this._mercadoPago;
+  }
+  constructor() { 
+  }
 
 }

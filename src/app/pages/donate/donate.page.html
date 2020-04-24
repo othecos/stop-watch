@@ -11,24 +11,40 @@
 <ion-content>
 
   <div class="container">
-    <h1>
-      Hey, we are still working to get donations by Paypal 
-      <ion-icon name="build"></ion-icon>
-    </h1>
-    <h3> For now you can help us donating CryptoCoins! <strong style="color: orange; font-weight: bold;">₿</strong>😁</h3>
+    <h3> Help us donating CryptoCoins! <strong style="color: orange; font-weight: bold;">₿</strong>😁</h3>
     <ion-row>
-      <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments" (click)="onCryptoClicked(payment)">
-          <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
-            <ion-icon slot="end" [name]="payment.icon.url"></ion-icon>
-          </ng-container>
-          <ng-template #img>
-            <ion-avatar>
-              <img [src]="payment.icon.url" [alt]="payment.label+'_icon'">
-            </ion-avatar>
-          </ng-template>
+      <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments"
+        (click)="onCryptoClicked(payment)">
+        <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
+          <ion-icon slot="end" [name]="payment?.icon?.url"></ion-icon>
+        </ng-container>
+        <ng-template #img>
+          <ion-avatar>
+            <img [src]="payment?.icon?.url" [alt]="payment?.label+'_icon'">
+          </ion-avatar>
+        </ng-template>
 
       </ion-button>
     </ion-row>
+    <div *ngIf="paymentsServices.mercadoPago as mercadoPagoPayment">
+      <h3> 
+        <span>If you don't like cryptos, you can donate by Mercado Pago</span>  <img id="mercado-pago" [src]="mercadoPagoPayment?.icon?.url" [alt]="mercadoPagoPayment?.label+'_icon'"></h3>
+      <ion-row>
+        <ion-button
+          [href]="mercadoPagoPayment.linkToRedirect"
+           color="primary" fill="solid" shape="round">
+          <ng-container *ngIf="mercadoPagoPayment?.icon?.type == 'ionic'; else img">
+            <ion-icon slot="end" [name]="mercadoPagoPayment?.icon?.url"></ion-icon>
+          </ng-container>
+          <ng-template #img>
+            <ion-avatar>
+              <img [src]="mercadoPagoPayment?.icon?.url" [alt]="mercadoPagoPayment?.label+'_icon'">
+            </ion-avatar>
+          </ng-template>
+        </ion-button>
+      </ion-row>
+    </div>
+   
   </div>
 
 
