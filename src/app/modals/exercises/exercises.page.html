@@ -28,12 +28,12 @@
       <ion-item *ngIf="exercisesForm.get('duration') as duration">
         <ion-label color="primary" class="ion-text-capitalize">Duration</ion-label>
         <ion-input autocorrect="true" pattern="[0-9]*" tabindex="2" formControlName="duration" type="number"
-          inputmode="numeric" clearInput="true" (keyup.enter)="onInput()"></ion-input>
+          inputmode="numeric" clearInput="true" ></ion-input>
       </ion-item>
       <ion-item *ngIf="exercisesForm.get('delay') as delay">
         <ion-label color="primary" class="ion-text-capitalize">Delay</ion-label>
         <ion-input autocorrect="true" pattern="[0-9]*" tabindex="3" formControlName="delay" type="number"
-          inputmode="numeric" clearInput="true" (keyup.enter)="onInput()"></ion-input>
+          inputmode="numeric" clearInput="true" ></ion-input>
       </ion-item>
     </form>
   </ion-list>
