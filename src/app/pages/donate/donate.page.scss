@@ -2,7 +2,7 @@
     height: 100%;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     flex-direction: column;
     text-align: center;
@@ -31,4 +31,12 @@ ion-row{
     margin-left: .2rem;
     height: 32px;
     width: 32px;
+}
+.mercado-pago{
+    &__title{
+        color: var(--mercado-pago-color-light);
+    }
+    &__button{
+        color: var(--mercado-pago-color-light);
+    }
 }

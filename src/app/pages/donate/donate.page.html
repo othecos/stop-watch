@@ -11,40 +11,38 @@
 <ion-content>
 
   <div class="container">
-    <h3> Help us donating CryptoCoins! <strong style="color: orange; font-weight: bold;">₿</strong>😁</h3>
-    <ion-row>
-      <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments"
-        (click)="onCryptoClicked(payment)">
-        <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
-          <ion-icon slot="end" [name]="payment?.icon?.url"></ion-icon>
-        </ng-container>
-        <ng-template #img>
-          <ion-avatar>
-            <img [src]="payment?.icon?.url" [alt]="payment?.label+'_icon'">
-          </ion-avatar>
-        </ng-template>
-
-      </ion-button>
-    </ion-row>
-    <div *ngIf="paymentsServices.mercadoPagoPayments as mercadoPagoPayments">
-      <h3>
-        <span>If you don't like cryptos, you can donate by Mercado Pago</span> <img id="mercado-pago"
-          src="assets/img/payments/agreement.png" alt="Mercado Pago icon"></h3>
+    <div class="mercado-pago" *ngIf="paymentsServices.mercadoPagoPayments as mercadoPagoPayments">
+      <h1>
+        <span>You can donate by <br>
+          <strong class="mercado-pago__title">Mercado Pago</strong>
+        </span> <img id="mercado-pago"
+          src="assets/img/payments/agreement.png" alt="Mercado Pago icon"></h1>
       <ion-row>
         <ion-button *ngFor="let mercadoPayment of mercadoPagoPayments" [href]="mercadoPayment.linkToRedirect"
-          color="primary" fill="solid" shape="round">
+          color="dark" fill="outline" shape="round">
           {{mercadoPayment.label}}
-          <!-- <ng-container *ngIf="mercadoPayment?.icon?.type == 'ionic'; else img">
-            <ion-icon slot="end" [name]="mercadoPayment?.icon?.url"></ion-icon>
-          </ng-container>
-          <ng-template #img>
-            <ion-avatar>
-              <img [src]="mercadoPayment?.icon?.url" [alt]="mercadoPayment?.label+'_icon'">
-            </ion-avatar>
-          </ng-template> -->
         </ion-button>
       </ion-row>
     </div>
+    <div class="cryptos">
+      <h1> And we accept donations by <br>
+        <strong style="color: orange; font-weight: bold;">CryptoCoins! ₿</strong></h1>
+      <ion-row>
+        <ion-button color="dark" fill="outline" shape="round" *ngFor="let payment of paymentsServices.payments"
+          (click)="onCryptoClicked(payment)">
+          <ng-container *ngIf="payment?.icon?.type == 'ionic'; else img">
+            <ion-icon slot="end" [name]="payment?.icon?.url"></ion-icon>
+          </ng-container>
+          <ng-template #img>
+            <ion-avatar>
+              <img [src]="payment?.icon?.url" [alt]="payment?.label+'_icon'">
+            </ion-avatar>
+          </ng-template>
+  
+        </ion-button>
+      </ion-row>
+    </div>
+   
 
   </div>
 
